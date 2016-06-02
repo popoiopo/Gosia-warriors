@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <script src="d3.min.js"></script>
+        <style>
+            body {
+                font: 14px sans-serif;
+            }
+
+            svg {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: black;
+                shape-rendering: crispEdges;
+            }
+
+            .x.axis text {
+                font: 10px sans-serif;
+            }
+
+            .line {
+                fill: none;
+                stroke-width: 1.5px;
+            }
+
+            .f1 {
+                stroke: steelblue;
+            }
+
+            .f3 {
+                stroke: red;
+            }
+        </style>
+        <title>HAZtech visualisation</title>
+    </head>
+    <body>
+        <center>
+            <div id="f1">
+                <h1>Floor 1 Zone 8a, Hazium concentratie</h1>
+            </div>
+            <div id="f3">
+                <h1>Floor 3 Zone 1, Hazium concentratie</h1>
+            </div>
+        </center>
+    </body>
+    <script>
+        var margin = {top: 30, bottom: 40, left: 40, right: 30};
+        var width = 1000 - margin.left - margin.right;
+        var height = 400 - margin.top - margin.bottom;
+
+        var svg = d3.select("#f1").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+
+        var svg3 = d3.select("#f3").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.right + ")");
+
+        var dateFormat = d3.time.format("%Y-%m-%d %X");
+
+        var x = d3.time.scale()
+            .range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var x3 = d3.time.scale()
+            .range([0, width]);
+
+        var y3 = d3.scale.linear()
+            .range([height, 0]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .ticks(14);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+        var xAxis3 = d3.svg.axis()
+            .scale(x3)
+            .orient("bottom")
+            .ticks(14);
+
+        var yAxis3 = d3.svg.axis()
+            .scale(y3)
+            .orient("left");
+
+        var line = d3.svg.line()
+            .x(function(d) {return x(d.date);})
+            .y(function(d) {return y(d.conc);});
+
+        var line3 = d3.svg.line()
+            .x(function(d) {return x3(d.date);})
+            .y(function(d) {return y3(d.conc);});
+
+        d3.csv("f1z8a-MC2.csv", function(d) {
+            return {
+                date: new Date(dateFormat.parse(d["Date/Time"])),
+                conc: +d[" F_1_Z_8A: Hazium Concentration"]
+            };
+        }, function(error, rows) {
+            if (error) throw error;
+
+            x.domain(d3.extent(rows, function(d) {return d.date;})).nice();
+            y.domain(d3.extent(rows, function(d) {return d.conc;})).nice();
+
+            // Assen toevoegen
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+                // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+                .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-45)" );
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                // Een naam aan de y-as hangen
+                .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 3)
+                    .attr("dy", ".75em")
+                    .style("text-anchor", "end")
+                    .text("Hazium concentratie in ppm");
+
+            // De lijn tekenen
+            svg.append("path")
+                .datum(rows)
+                .attr("class", "line f1")
+                .attr("d", line);
+        });
+
+        d3.csv("f3z1-MC2.csv", function(d) {
+            return {
+                date: new Date(dateFormat.parse(d["Date/Time"])),
+                conc: +d[" F_3_Z_1: Hazium Concentration"]
+            };
+        }, function(error3, rows3) {
+            if (error3) throw error3;
+
+            x3.domain(d3.extent(rows3, function(d) {return d.date;})).nice();
+            y3.domain(d3.extent(rows3, function(d) {return d.conc;})).nice();
+            // console.log(d3.extent(rows3, function(d) {return d.conc;}));
+
+            // Assen toevoegen
+            svg3.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis3)
+                // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+                .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-45)" );
+
+            svg3.append("g")
+                .attr("class", "y axis")
+                .call(yAxis3)
+                // Een naam aan de y-as hangen
+                .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 3)
+                    .attr("dy", ".75em")
+                    .style("text-anchor", "end")
+                    .text("Hazium concentratie in ppm");
+
+            // De lijn tekenen
+            svg3.append("path")
+                .datum(rows3)
+                .attr("class", "line f3")
+                .attr("d", line3);
+        });
+    </script>
+</html>
