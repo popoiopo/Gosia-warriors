@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<style type="text/css">
+		.line {
+		      fill: none;
+		      stroke: steelblue;
+		      stroke-width: 1.5px;
+		}
+
+		.y1, .y2 {
+		      font-weight: bold;
+		      font-size: 14px;
+		}
+
+		.x.label {
+		      font-size: 16px;
+		}
+
+		.axis path,
+		.axis line {
+		      fill: none;
+		      stroke: #000;
+		      shape-rendering: crispEdges;
+		}
+
+		.x.axis path {
+		      display: none;
+		}
+
+		.x.axis {
+		      font-size: 12px;
+		}
+
+		.y.axis {
+		      font-size: 12px;
+		}
+	</style>	
+</head>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+d3.xml("Design.svg", "image/svg+xml", function(error, xml) {
+  if (error) throw error;
+  document.body.appendChild(xml.documentElement)
+
+  floor_one = d3.select("#floor_1")
+  	.on("click", function() {console.log("floor_one")});
+  floor_two = d3.select("#floor_2")
+  	.on("click", function() {console.log("floor_two")});  
+  floor_three = d3.select("#floor_3")
+  	.on("click", function() {console.log("floor_three")});
+  play_day = d3.select("#play_day")
+  	.on("click", function() {console.log("play_day")});
+  clock = d3.select("#clock")
+  	.on("click", function() {console.log("clock")});
+  CO_2 = d3.select("#co2")
+  	.on("click", function() {console.log("CO_2")});
+  hazium = d3.select("#hazium")
+  	.on("click", function() {console.log("hazium")});
+  cooling_state = d3.select("#cooling_state")
+  	.on("click", function() {console.log("cooling_state")});  
+  temp = d3.select("#temp")
+  	.on("click", function() {console.log("temp")});
+  track_all = d3.select("#track_all")
+  	.on("click", function() {console.log("track_all")});
+  track_person = d3.select("#track_person")
+  	.on("click", function() {console.log("track_person")});
+  prox_zones = d3.select("#prox_zones")
+  	.on("click", function() {console.log("prox_zones")});
+  HVAC_zones = d3.select("#HVAC_zones")
+  	.on("click", function() {console.log("HVAC_zones")});  	
+  
+  width_tlg = d3.select("#top_left_svg").attr("width");  
+  console.log(width_tlg);
+  height_tlg = d3.select("#top_left_svg").attr("height");
+  console.log(height_tlg);
+  x_tlg = d3.select("#top_left_svg").attr("x");
+  console.log(x_tlg);
+  y_tlg = d3.select("#top_left_svg").attr("y");
+  console.log(y_tlg);
+
+  width_blg = d3.select("#bottom_left_svg").attr("width");  
+  height_blg = d3.select("#bottom_left_svg").attr("height");
+  x_blg = d3.select("#bottom_left_svg").attr("x");
+  y_blg = d3.select("#bottom_left_svg").attr("y");
+
+  width_brg = d3.select("#bottom_right_svg").attr("width");  
+  height_brg = d3.select("#bottom_right_svg").attr("height");
+  x_brg = d3.select("#bottom_right_svg").attr("x");
+  y_brg = d3.select("#bottom_right_svg").attr("y");
+
+  top_left_graph = d3.select("svg")
+	.append("svg")
+		.attr("x", x_tlg)
+		.attr("y", y_tlg)
+		.attr("height", height_tlg)
+		.attr("width", width_tlg);
+
+  bottom_left_graph = d3.select("svg")
+	.append("svg")
+		.attr("x", x_blg)
+		.attr("y", y_blg)
+		.attr("height", height_blg)
+		.attr("width", width_blg);
+
+  bottom_right_graph = d3.select("svg")
+	.append("svg")
+		.attr("x", x_brg)
+		.attr("y", y_brg)
+		.attr("height", height_brg)
+		.attr("width", width_brg);
+
+	var margin = {top: -10, right: 5, bottom: -10, left: 5}
+	// Set x range
+	var x = d3.time.scale().range([0, width_tlg]);
+
+	// set y range
+	var y = d3.scale.linear().range([height_tlg, 0]);
+
+	// Define the axes
+	var xAxis = d3.svg.axis().scale(x)
+	    .orient("bottom");
+
+	var yAxis = d3.svg.axis().scale(y)
+	    .orient("left");
+
+	// Parse the date / time
+	var formatDate = d3.time.format("%d-%b"),
+	    bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+	// Define the line
+	var line = d3.svg.line()
+	    .x(function(d) { return x(d.date); })
+	    .y(function(d) { return y(d.schiphol_avg); });
+	    
+	var lineSvg = top_left_graph.append("g"); 
+
+	var focus = top_left_graph.append("g") 
+	    .style("display", "none");
+
+	// retrieve data
+	d3.csv("data_sideways.csv", function(error, data) {
+	  if(error) console.log("Error: data not landed.");
+	    
+	    data.forEach(function(d) {
+	        d.date = d3.time.format("%Y%m%d").parse(d.date);
+	        d.schiphol_avg = +d.schiphol_avg;
+	    });
+
+	    // set domain
+	    x.domain(d3.extent(data, function(d) { return d.date; }));
+	    y.domain(d3.extent(data, function(d) { return d.schiphol_avg; }));
+
+	    // Add the line path.
+	    lineSvg.append("path")
+	        .attr("class", "line")
+	        .attr("d", line(data));
+
+	    // Add the X Axis
+	    top_left_graph.append("g")
+	        .attr("class", "x axis")
+	        .attr("transform", "translate(0," + height_tlg + ")")
+	        .call(xAxis);
+
+	    // Add the Y Axis
+	    top_left_graph.append("g")
+	        .attr("class", "y axis")
+	        .call(yAxis);
+
+	    // making title
+	    top_left_graph.append("text")
+	      .attr("class", "x label")
+	      .attr("text-anchor", "end")
+	      .attr("x", width_tlg)
+	      .attr("y", height_tlg + 20)
+	      .style("font-size", "5px")
+	      .text("Time in months of the year 2015")  
+
+	    // making y axis title
+	    top_left_graph.append("g")
+	      .attr("class", "y axis")
+	      .call(yAxis)
+	    .append("text")
+	      .attr("transform", "rotate(-90)")
+	      .attr("y", 6)
+	      .attr("dy", ".71em")
+	      .style("text-anchor", "end")
+	      .style("font-size", '6px')
+	      .text("Average temperature (degrees Celsius)");
+
+	    // making the title
+	    top_left_graph.append("text")
+	      .attr("x", (width_tlg / 2))           
+	      .attr("y", -(margin.top - 5))  
+	      .attr("text-anchor", "middle")  
+	      .style("font-size", "10px") 
+	      .style("text-decoration", "underline")  
+	      .text("Average temperature during the year 2015 in Schiphol");
+
+	    // showing data source
+	    top_left_graph.append("text")
+	      .attr("class", "data_source")
+	      .attr("text-anchor", "begin")
+	      .attr("x", 0)
+	      .attr("y", height_tlg + 15)
+	      .text("Data source: http://projects.knmi.nl/klimatologie/daggegevens/selectie.cgi")
+	      .style("font-size", '5px'); 
+
+	    // credits for interactivity go to: http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
+
+	    // append the x line
+	    focus.append("line")
+	        .attr("class", "x")
+	        .style("stroke", "blue")
+	        .style("stroke-dasharray", "3,3")
+	        .style("opacity", 0.5)
+	        .attr("y1", 0)
+	        .attr("y2", height_tlg);
+
+	    // append the y line
+	    focus.append("line")
+	        .attr("class", "y")
+	        .style("stroke", "blue")
+	        .style("stroke-dasharray", "3,3")
+	        .style("opacity", 0.5)
+	        .attr("x1", width_tlg)
+	        .attr("x2", width_tlg);
+
+	    // append the circle at the intersection
+	    focus.append("circle")
+	        .attr("class", "y")
+	        .style("fill", "red")
+	        .style("stroke", "blue")
+	        .attr("r", 3);
+
+	    // place the value at the intersection
+	    focus.append("text")
+	        .attr("class", "y1")
+	        .attr("dx", 8)
+	        .attr("dy", "-.3em");
+
+	    // place the date at the intersection
+	    focus.append("text")
+	        .attr("class", "y2")
+	        .attr("dx", 8)
+	        .attr("dy", "1em");
+	    
+	    // append the rectangle to capture mouse
+	    top_left_graph.append("rect")
+	        .attr("width", width_tlg)
+	        .attr("height", height_tlg)
+	        .style("fill", "none")
+	        .style("pointer-events", "all")
+	        .on("mouseover", function() { focus.style("display", null); })
+	        .on("mouseout", function() { focus.style("display", "none"); })
+	        .on("mousemove", mousemove);
+
+	    function mousemove() {
+	    var x0 = x.invert(d3.mouse(this)[0]),
+	        i = bisectDate(data, x0, 1),
+	        d0 = data[i - 1],
+	        d1 = data[i],
+	        d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+	    focus.select("circle.y")
+	        .attr("transform",
+	              "translate(" + x(d.date) + "," +
+	                             y(d.schiphol_avg) + ")");
+
+	    focus.select("text.y1")
+	        .attr("transform",
+	              "translate(" + x(d.date) + "," +
+	                             y(d.schiphol_avg) + ")")
+	        .text("Average temperature: " + d.schiphol_avg);
+
+	    focus.select("text.y2")
+	        .attr("transform",
+	              "translate(" + x(d.date) + "," +
+	                             y(d.schiphol_avg) + ")")
+	        .text("Date: " + formatDate(d.date));
+
+	    focus.select(".x")
+	        .attr("transform",
+	              "translate(" + x(d.date) + "," +
+	                             y(d.schiphol_avg) + ")")
+	                   .attr("y2", height_tlg - y(d.schiphol_avg));
+
+	    focus.select(".y")
+	        .attr("transform",
+	              "translate(" + width_tlg * -1 + "," +
+	                             y(d.schiphol_avg) + ")")
+	                   .attr("x2", width_tlg);
+	  }
+/*
+	  top_right_graph.append("rect")
+	  	.attr("x", 0)
+	  	.attr("y", 0)
+	  	.attr("width", 20)
+	  	.attr("height", 20);
+
+	  bottom_left_graph.append("rect")
+	  	.attr("x", 0)
+	  	.attr("y", 0)
+	  	.attr("width", 20)
+	  	.attr("height", 20);
+
+	  bottom_right_graph.append("rect")
+	  	.attr("x", 0)
+	  	.attr("y", 0)
+	  	.attr("width", 20)
+	  	.attr("height", 20);  */
+	});  
+
+	width_trg = d3.select("#top_right_svg").attr("width");  
+	height_trg = d3.select("#top_right_svg").attr("height");
+	x_trg = d3.select("#top_right_svg").attr("x");
+	y_trg = d3.select("#top_right_svg").attr("y");
+
+	top_right_graph = d3.select("svg")
+	.append("svg")
+		.attr("x", x_trg)
+		.attr("y", y_trg)
+		.attr("height", height_trg)
+		.attr("width", width_trg);
+
+	 // define dimensions of chart
+	var margin = {top: 40, right: 30, bottom: 100, left: 100};
+
+
+	 // define format of date data
+	var date_format = d3.time.format("%d-%m-%y %H:%M").parse;
+
+	// define x-scale
+	var x = d3.time.scale()
+	 .range([0, width_trg])
+	 // .domain(xDomain);
+
+	// define y-scale
+	var y = d3.scale.linear()
+	  .range([height_trg, 0])
+	  // .domain(yDomain);
+
+	// date format for tooltip
+	// var tooltip_format = d3.time.format("%a %d %b");
+
+	var color = d3.scale.category10();
+
+	 // define x-axis
+	var xAxis = d3.svg.axis()
+	  .scale(x)
+	  .tickFormat(d3.time.format("%a %d"))
+	  .orient("bottom");
+
+	// define y-axis
+	var yAxis = d3.svg.axis()
+	  .scale(y)
+	  .orient("left")
+	  .outerTickSize(0);
+
+	// define line in line graph
+	var line = d3.svg.line()
+	  .interpolate("basis")
+	  .x(function(d) {  return x(d.date); })
+	  .y(function(d) {  return y(d.Hazium); });
+
+	d3.csv("hazium_data.csv", function(error, data) {
+	  if (error) alert("Error loading data!");
+
+
+	  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Time"; }));
+
+	   // convert data
+	  data.forEach(function(d){
+	    d.Time = date_format(d.Time);
+	    d.F_2_Z_2 = + d.F_2_Z_2;
+	    d.F_1_Z_8A = + d.F_1_Z_8A;
+	    d.F_2_Z_4 = + d.F_2_Z_4;
+	    d.F_3_Z_1 = + d.F_3_Z_1;
+	    //console.log(d.F_2_Z_2, d.F_1_Z_8A, d.F_2_Z_4, d.F_3_Z_1, d.Time )
+	  })
+
+	  var zones = color.domain().map(function(name) {
+	    return {
+	      name: name,
+	      values: data.map(function(d) {
+	        return {date: d.Time, Hazium: +d[name]};
+	      })
+	    };
+	  });
+	 
+	  // get min and max of axis
+	  x.domain(d3.extent(data, function(d) { return d.Time; }));
+	  y.domain( [
+	                d3.min(zones, function(c) { return d3.min(c.values, function(v) { return v.Hazium; }); }),
+	                d3.max(zones, function(c) { return d3.max(c.values, function(v) { return v.Hazium; }); })
+	              ]);
+
+	  // add x-axis
+	  top_right_graph.append("g")
+	    .attr("class", "x axis")
+	    .attr("transform", "translate(0," + height_trg + ")")
+	    .call(xAxis)
+	    .selectAll("text")	
+	            .style("text-anchor", "end")
+	            .attr("dx", "-.8em")
+	            .attr("dy", ".15em")
+	            .attr("transform", function(d) {
+	                return "rotate(-40)" 
+	                });
+
+	  // add y-axis
+	  top_right_graph.append("g")
+	   	.attr("class", "y axis")
+	   	.call(yAxis)
+	    // add y-axis title
+		.append("text")
+	   	.attr("transform", "rotate(-90)")
+	   	.attr("y", 6)
+	   	.attr("dy", ".71em")
+	   	.style("text-anchor", "end")
+	   	.text("Temperature in 0.1 degrees Celsius");
+
+	  var zone = top_right_graph.selectAll(".zone")
+	      .data(zones)
+	    .enter().append("g")
+	      .attr("class", "zone");
+
+	  zone.append("path")
+	      .attr("class", "line")
+	      .attr("d", function(d) {  return line(d.values); })
+	      .style("stroke", function(d) { return color(d.name); });
+
+	  zone.append("text")
+	      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+	      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.Hazium) + ")"; })
+	      .attr("x", 3)
+	      .attr("dy", ".35em")
+	      .text(function(d) { return d.name; });
+	});
+});
+
+</script>
