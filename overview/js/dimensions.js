@@ -1,3 +1,7 @@
+$(".button").click(function() {
+    window.location = this.value;
+});
+
 var margin = {top: 20, bottom: 50, left: 60, right: 20};
 var width = 1100 - margin.left - margin.right;
 var height = 500 - margin.top - margin.bottom;
