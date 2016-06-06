@@ -16,7 +16,7 @@ d3.json("json/general-MC2.json", function(error, data) {
 
     // console.log(new Date(dateFormat.parse("2016-06-01 00:00:05") - new Date().getTimezoneOffset() * 60 * 1000));
     for (var i = 0; i < data.length; i++) {
-        var datetime = new Date(dateFormat.parse(data[i].message["Date/Time"]) - new Date().getTimezoneOffset() * 60 * 1000);
+        var datetime = new Date(dateFormat.parse(data[i].message["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/);
         var timeoffset = data[i].offset;
         loopTempSchedule.push({
             timestamp: datetime,
@@ -118,8 +118,11 @@ d3.json("json/general-MC2.json", function(error, data) {
     // TEST PRINT
     // console.log(eval($("#general-dropdown").val()));
 
+    // console.log(new Date(dateFormat.parse(data[0].message["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/));
     initGeneralChart(eval($("#general-dropdown").val()));
 });
+
+
 
 function initGeneralChart(dataArray) {
     x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
