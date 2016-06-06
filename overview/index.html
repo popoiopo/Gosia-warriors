@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="js/d3.min.js"></script>
+        <script src="js/d3-queue.min.js"></script>
+        <script src="js/jquery-2.2.2.min.js"></script>
+        <title>VAC MC2</title>
+    </head>
+    <body>
+        <header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+            </center>
+        </header>
+        <main>
+            <center>
+                <div id="general-div" class="vis">
+                    <h2>General readings</h2>
+                    <select id="general-dropdown" name="sensors">
+                        <option value="coolScheduleValue" selected>COOL Schedule Value</option>
+                        <option value="deliFanPower">DELI-FAN Power</option>
+                        <option value="drybulbTemperature">Drybulb Temperature</option>
+                        <option value="loopTempSchedule">Loop Temp Schedule</option>
+                        <option value="heatScheduleValue">HEAT Schedule Value</option>
+                        <option value="hvacElectricDemandPower">HVAC Electric Demand Power</option>
+                        <option value="pumpPower">Pump Power</option>
+                        <option value="supplySideInletMassFlowRate">Supply Side Inlet Mass Flow Rate</option>
+                        <option value="supplySideInletTemperature">Supply Side Inlet Temperature</option>
+                        <option value="supplySideOutletTemperature">Supply Side Outlet Temperature</option>
+                        <option value="totalElectricDemandPower">Total Electric Demand Power</option>
+                        <option value="waterHeaterGasRate">Water Heater Gas Rate</option>
+                        <option value="waterHeaterSetpoint">Water Heater Setpoint</option>
+                        <option value="waterHeaterTankTemperature">Water Heater Tank Temperature</option>
+                        <option value="windDirection">Wind Direction</option>
+                        <option value="windSpeed">Wind Speed</option>
+                    </select>
+                    <h3 id="general-vis-info"></h3>
+                </div>
+                <div id="f1-div" class="vis">
+                    <h2>Floor 1 readings</h2>
+                    <div id="f1-dropdowns">
+                        <select id="f1-sensors" name="sensors">
+                            <option value="f1LightsPower" selected>Lights Power</option><!-- niet zone 6-->
+                            <option value="f1EquipmentPower">Equipment Power</option><!-- niet zone 6-->
+                            <option value="f1ThermostatTemp">Thermostat Temp</option><!-- niet zone 6-->
+                            <option value="f1ThermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 6-->
+                            <option value="f1ThermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 6-->
+                            <option value="f1VavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                            <option value="f1VavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="f1BathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="f1VavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 6-->
+                            <option value="f1ReheatCoilPower">REHEAT COIL Power</option><!-- niet zone 6-->
+                            <option value="f1VavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="f1VavSysOutfoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="f1VavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="f1VavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="f1VavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="f1VavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f1VavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="f1VavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f1ReturnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zone 6-->
+                            <option value="f1SupplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zone 6-->
+                            <option value="f1SupplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zone 6-->
+                            <option value="f1MechanicalVentilationMassFlowRate">Mechanical Ventilation Mass Flow Rate</option><!-- alleen zone 1-->
+                        </select>
+                    </div>
+                </div>
+                <div id="f2-div" class="vis">
+                    <h2>Floor 2 readings</h2>
+                    <div id="f2-dropdowns">
+                        <select id="f2-sensors" name="sensors">
+                            <option value="f2LightsPower" selected>Lights Power</option><!-- niet zone 13-->
+                            <option value="f2EquipmentPower">Equipment Power</option><!-- niet zone 13-->
+                            <option value="f2ThermostatTemp">Thermostat Temp</option><!-- niet zone 13-->
+                            <option value="f2ThermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 13-->
+                            <option value="f2ThermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 13-->
+                            <option value="f2VavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="f2BathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="f2VavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 13-->
+                            <option value="f2ReheatCoilPower">REHEAT COIL Power</option><!-- niet zone 13-->
+                            <option value="f2VavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="f2VavSysOutfoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="f2VavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="f2VavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="f2VavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="f2VavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f2VavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="f2VavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f2ReturnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- alleen zones 1-7-->
+                            <option value="f2SupplyInletTemperature">SUPPLY INLET Temperature</option><!-- alleen zones 1-7-->
+                            <option value="f2SupplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- alleen zones 1-7-->
+                            <option value="f2VavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                        </select>
+                    </div>
+                </div>
+                <div id="f3-div" class="vis">
+                    <h2>Floor 3 readings</h2>
+                    <div id="f3-dropdowns">
+                        <select id="f3-sensors" name="sensors">
+                            <option value="f3LightsPower" selected>Lights Power</option><!-- niet zones 4 en 12-->
+                            <option value="f3EquipmentPower">Equipment Power</option><!-- niet zones 4 en 12-->
+                            <option value="f3ThermostatTemp">Thermostat Temp</option><!-- niet zones 4 en 12-->
+                            <option value="f3ThermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zones 4 en 12-->
+                            <option value="f3ThermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zones 4 en 12-->
+                            <option value="f3VavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="f3BathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="f3VavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zones 4 en 12-->
+                            <option value="f3ReheatCoilPower">REHEAT COIL Power</option><!-- niet zones 4 en 9-->
+                            <option value="f3VavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="f3VavSysOutfoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="f3VavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="f3VavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="f3VavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="f3VavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f3VavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="f3VavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="f3ReturnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zones 4 en 12-->
+                            <option value="f3SupplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zones 4 en 12-->
+                            <option value="f3SupplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zones 4 en 12-->
+                            <option value="f3VavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                        </select>
+                    </div>
+                </div>
+            </center>
+        </main>
+        <script src="js/dimensions.js" defer></script>
+        <script src="js/general.js" defer></script>
+    </body>
+</html>
