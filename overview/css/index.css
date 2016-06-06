@@ -15,6 +15,10 @@ body {
     background-color: orange;
 }
 
+#button-general {
+    background-color: red;
+}
+
 .vis {
     text-align: center;
 }
