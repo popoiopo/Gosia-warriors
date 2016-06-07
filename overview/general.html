@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/general.css">
+        <script src="js/d3.min.js"></script>
+        <script src="js/d3-queue.min.js"></script>
+        <script src="js/jquery-2.2.2.min.js"></script>
+        <title>VAC MC2 - General</title>
+    </head>
+    <body>
+        <header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+                <div id="navigation-buttons">
+                    <button id="button-index" class="button" type="button" value="index.html">Index</button>
+                    <button id="button-general" class="button" type="button" value="general.html">General</button>
+                    <button id="button-f1" class="button" type="button" value="floor1.html">Floor 1</button>
+                    <button id="button-f2" class="button" type="button" value="floor2.html">Floor 2</button>
+                    <button id="button-f3" class="button" type="button" value="floor3.html">Floor 3</button>
+                </div>
+            </center>
+        </header>
+        <main>
+            <center>
+                <div id="general-div" class="vis">
+                    <h2>General readings</h2>
+                    <select id="general-dropdown" name="sensors">
+                        <option value="coolScheduleValue" selected>COOL Schedule Value</option>
+                        <option value="deliFanPower">DELI-FAN Power</option>
+                        <option value="drybulbTemperature">Drybulb Temperature</option>
+                        <option value="loopTempSchedule">Loop Temp Schedule</option>
+                        <option value="heatScheduleValue">HEAT Schedule Value</option>
+                        <option value="hvacElectricDemandPower">HVAC Electric Demand Power</option>
+                        <option value="pumpPower">Pump Power</option>
+                        <option value="supplySideInletMassFlowRate">Supply Side Inlet Mass Flow Rate</option>
+                        <option value="supplySideInletTemperature">Supply Side Inlet Temperature</option>
+                        <option value="supplySideOutletTemperature">Supply Side Outlet Temperature</option>
+                        <option value="totalElectricDemandPower">Total Electric Demand Power</option>
+                        <option value="waterHeaterGasRate">Water Heater Gas Rate</option>
+                        <option value="waterHeaterSetpoint">Water Heater Setpoint</option>
+                        <option value="waterHeaterTankTemperature">Water Heater Tank Temperature</option>
+                        <option value="windDirection">Wind Direction</option>
+                        <option value="windSpeed">Wind Speed</option>
+                    </select>
+                    <h3 id="general-vis-info"></h3>
+                </div>
+            </center>
+        </main>
+        <script src="js/dimensions.js" defer></script>
+        <script src="js/general.js" defer></script>
+    </body>
+</html>
