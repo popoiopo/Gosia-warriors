@@ -21,8 +21,17 @@ var lightsPower = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7:
     vavSysSupplyFanOutletMassFlowRate = [],
     mechanicalVentilationMassFlowRate = []; // Alleen zone 1
 
-$(".zone-checkbox").change(function() {
-    $("#f1-" + this.id + "-line").toggle();
+var f1Zone1Checkbox = document.getElementById("f1-zone1"),
+    f1Zone2Checkbox = document.getElementById("f1-zone2"),
+    f1Zone3Checkbox = document.getElementById("f1-zone3"),
+    f1Zone4Checkbox = document.getElementById("f1-zone4"),
+    f1Zone5Checkbox = document.getElementById("f1-zone5"),
+    f1Zone7Checkbox = document.getElementById("f1-zone7"),
+    f1Zone8aCheckbox = document.getElementById("f1-zone8a"),
+    f1Zone8bCheckbox = document.getElementById("f1-zone8b");
+
+$(".f1-zone-checkbox").change(function() {
+    $("#" + this.id + "-line").toggle();
 });
 
 d3.select("#f1-vis-info").text($("#f1-dropdown :selected").text());
@@ -32,7 +41,7 @@ $("#f1-dropdown").change(changeF1Header);
 function changeF1Header() {
     d3.select("#f1-vis-info").text($("#f1-dropdown :selected").text());
     updateF1Chart(eval($("#f1-sensors").val()));
-    console.log(eval($("#f1-sensors").val()));
+    // console.log(eval($("#f1-sensors").val()));
 }
 
 // Bron: http://stackoverflow.com/questions/26246601/wildcard-string-comparison-in-javascript
@@ -213,35 +222,7 @@ d3.json("json/floor1-MC2.json", function(error, data) {
             }
         }
     }
-    // console.log(mechanicalVentilationMassFlowRate);
-
-    // console.log(thermostatTemp.zone1);
     initF1Chart(eval($("#f1-sensors").val()));
-
-    /*
-    Lights Power
-    Equipment Power
-    Thermostat Temp
-    Thermostat Heating Setpoint
-    Thermostat Cooling Setpoint
-    VAV Availability Manager Night Cycle Control Status
-    SUPPLY FAN:Fan Power
-    BATH_EXHAUST:Fan Power (aparte case alleen voor BATH_EXHAUST)
-    VAV REHEAT Damper Position
-    REHEAT COIL Power
-    HEATING COIL Power
-    Outdoor Air Flow Fraction
-    Outdoor Air Mass Flow Rate
-    COOLING COIL Power
-    AIR LOOP INLET Temperature
-    AIR LOOP INLET Mass Flow Rate
-    SUPPLY FAN OUTLET Temperature
-    SUPPLY FAN OUTLET Mass Flow Rate
-    RETURN OUTLET CO2 Concentration
-    SUPPLY INLET Temperature
-    SUPPLY INLET Mass Flow Rate
-    Mechanical Ventilation Mass Flow Rate (alleen bij zone 1)
-    */
 });
 
 // Bron: http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
@@ -252,14 +233,14 @@ function isArray(variable) {
 function initF1Chart(dataVariable) {
     if (isArray(dataVariable)) {
         // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
-        document.getElementById("zone1").disabled = true;
-        document.getElementById("zone2").disabled = true;
-        document.getElementById("zone3").disabled = true;
-        document.getElementById("zone4").disabled = true;
-        document.getElementById("zone5").disabled = true;
-        document.getElementById("zone7").disabled = true;
-        document.getElementById("zone8a").disabled = true;
-        document.getElementById("zone8b").disabled = true;
+        f1Zone1Checkbox.disabled = true;
+        f1Zone2Checkbox.disabled = true;
+        f1Zone3Checkbox.disabled = true;
+        f1Zone4Checkbox.disabled = true;
+        f1Zone5Checkbox.disabled = true;
+        f1Zone7Checkbox.disabled = true;
+        f1Zone8aCheckbox.disabled = true;
+        f1Zone8bCheckbox.disabled = true;
 
         // Data betreft de gehele verdieping
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
@@ -451,14 +432,14 @@ function initF1Chart(dataVariable) {
 function updateF1Chart(dataVariable) {
     if (isArray(dataVariable)) {
         // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
-        document.getElementById("zone1").disabled = true;
-        document.getElementById("zone2").disabled = true;
-        document.getElementById("zone3").disabled = true;
-        document.getElementById("zone4").disabled = true;
-        document.getElementById("zone5").disabled = true;
-        document.getElementById("zone7").disabled = true;
-        document.getElementById("zone8a").disabled = true;
-        document.getElementById("zone8b").disabled = true;
+        f1Zone1Checkbox.disabled = true;
+        f1Zone2Checkbox.disabled = true;
+        f1Zone3Checkbox.disabled = true;
+        f1Zone4Checkbox.disabled = true;
+        f1Zone5Checkbox.disabled = true;
+        f1Zone7Checkbox.disabled = true;
+        f1Zone8aCheckbox.disabled = true;
+        f1Zone8bCheckbox.disabled = true;
 
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
@@ -542,14 +523,14 @@ function updateF1Chart(dataVariable) {
                 .style("display", "none");
     } else {
         // De checkboxes moeten weer werken als de data over meerdere zones
-        document.getElementById("zone1").disabled = false;
-        document.getElementById("zone2").disabled = false;
-        document.getElementById("zone3").disabled = false;
-        document.getElementById("zone4").disabled = false;
-        document.getElementById("zone5").disabled = false;
-        document.getElementById("zone7").disabled = false;
-        document.getElementById("zone8a").disabled = false;
-        document.getElementById("zone8b").disabled = false;
+        f1Zone1Checkbox.disabled = false;
+        f1Zone2Checkbox.disabled = false;
+        f1Zone3Checkbox.disabled = false;
+        f1Zone4Checkbox.disabled = false;
+        f1Zone5Checkbox.disabled = false;
+        f1Zone7Checkbox.disabled = false;
+        f1Zone8aCheckbox.disabled = false;
+        f1Zone8bCheckbox.disabled = false;
 
         x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
         var yMax = 0;
@@ -587,55 +568,103 @@ function updateF1Chart(dataVariable) {
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone1Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone2-line")
             .datum(dataVariable.zone2)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone2Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone3-line")
             .datum(dataVariable.zone3)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone3Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone4-line")
             .datum(dataVariable.zone4)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone4Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone5-line")
             .datum(dataVariable.zone5)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone5Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone7-line")
             .datum(dataVariable.zone7)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone7Checkbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone8a-line")
             .datum(dataVariable.zone8a)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone8aCheckbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
 
         svg.f1.select("#f1-zone8b-line")
             .datum(dataVariable.zone8b)
             .transition()
                 .duration(1000)
                 .attr("d", line.f1)
-                .style("display", "");
+                .style("display", function() {
+                    if (f1Zone8bCheckbox.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
     }
 }
