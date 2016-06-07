@@ -18,3 +18,13 @@ body {
 #button-index {
     background-color: red;
 }
+
+p {
+    word-wrap: break-word;
+    width: 500px;
+    text-align: justify;
+}
+
+#content {
+    width: 600px;
+}
