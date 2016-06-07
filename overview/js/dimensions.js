@@ -18,6 +18,11 @@ var svg = {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
+    f2: d3.select("#f2-div").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 };
 
@@ -25,6 +30,8 @@ var x = {
     general: d3.time.scale()
                 .range([0, width]),
     f1: d3.time.scale()
+            .range([0, width]),
+    f2: d3.time.scale()
             .range([0, width])
 };
 
@@ -32,6 +39,8 @@ var y = {
     general: d3.scale.linear()
                 .range([height, 0]),
     f1: d3.scale.linear()
+            .range([height, 0]),
+    f2: d3.scale.linear()
             .range([height, 0])
 };
 
@@ -43,6 +52,10 @@ var xAxis = {
     f1: d3.svg.axis()
             .scale(x.f1)
             .orient("bottom")
+            .ticks(14),
+    f2: d3.svg.axis()
+            .scale(x.f2)
+            .orient("bottom")
             .ticks(14)
 };
 
@@ -52,6 +65,9 @@ var yAxis = {
                 .orient("left"),
     f1: d3.svg.axis()
             .scale(y.f1)
+            .orient("left"),
+    f2: d3.svg.axis()
+            .scale(y.f2)
             .orient("left")
 };
 
@@ -61,5 +77,8 @@ var line = {
                 .y(function(d) {return y.general(d.val);}),
     f1: d3.svg.line()
             .x(function(d) {return x.f1(d.timestamp);})
-            .y(function(d) {return y.f1(d.val);})
+            .y(function(d) {return y.f1(d.val);}),
+    f2: d3.svg.line()
+            .x(function(d) {return x.f2(d.timestamp);})
+            .y(function(d) {return y.f2(d.val);})
 };

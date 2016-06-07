@@ -28,6 +28,150 @@ body {
     stroke-width: 1.5px;
 }
 
+#f2-line {
+    stroke: steelblue;
+}
+
+#f2-zone1-line {
+    stroke: #FFCC00;
+}
+
+#f2-zone1-text {
+    color: #FFCC00;
+}
+
+#f2-zone2-line {
+    stroke: #FF6600;
+}
+
+#f2-zone2-text {
+    color: #FF6600;
+}
+
+#f2-zone3-line {
+    stroke: #99CC00;
+}
+
+#f2-zone3-text {
+    color: #99CC00;
+}
+
+#f2-zone4-line {
+    stroke: #FF9966;
+}
+
+#f2-zone4-text {
+    color: #FF9966;
+}
+
+#f2-zone5-line {
+    stroke: #CC0033;
+}
+
+#f2-zone5-text {
+    color: #CC0033;
+}
+
+#f2-zone6-line {
+    stroke: #CCFF33;
+}
+
+#f2-zone6-text {
+    color: #CCFF33;
+}
+
+#f2-zone7-line {
+    stroke: #333300;
+}
+
+#f2-zone7-text {
+    color: #333300;
+}
+
+#f2-zone8-line {
+    stroke: #FFFF00;
+}
+
+#f2-zone8-text {
+    color: #FFFF00;
+}
+
+#f2-zone9-line {
+    stroke: #FF3366;
+}
+
+#f2-zone9-text {
+    color: #FF3366;
+}
+
+#f2-zone10-line {
+    stroke: #FF6699;
+}
+
+#f2-zone10-text {
+    color: #FF6699;
+}
+
+#f2-zone11-line {
+    stroke: #336600;
+}
+
+#f2-zone11-text {
+    color: #336600;
+}
+
+#f2-zone12a-line {
+    stroke: #CC99CC;
+}
+
+#f2-zone12a-text {
+    color: #CC99CC;
+}
+
+#f2-zone12b-line {
+    stroke: #660066;
+}
+
+#f2-zone12b-text {
+    color: #660066;
+}
+
+#f2-zone12c-line {
+    stroke: #FF99FF;
+}
+
+#f2-zone12c-text {
+    color: #FF99FF;
+}
+
+#f2-zone13-text {
+    color: #858585;
+}
+
+#f2-zone14-line {
+    stroke: #66FFFF;
+}
+
+#f2-zone14-text {
+    color: #66FFFF;
+}
+
+#f2-zone15-line {
+    stroke: #6666CC;
+}
+
+#f2-zone15-text {
+    color: #6666CC;
+}
+
+#f2-zone16-line {
+    stroke: #0000FF;
+}
+
+#f2-zone16-text {
+    color: #0000FF;
+}
+
 .axis path,
 .axis line {
     fill: none;
