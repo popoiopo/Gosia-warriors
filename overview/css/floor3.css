@@ -1,0 +1,45 @@
+body {
+    font: 16px sans-serif;
+}
+
+.button {
+    background-color: green;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 15px 32px;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: orange;
+}
+
+#button-f3 {
+    background-color: red;
+}
+
+.vis {
+    text-align: center;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis text {
+    font: 10px sans-serif;
+}
+
+.y.axis text {
+    font: 12px sans-serif;
+}
