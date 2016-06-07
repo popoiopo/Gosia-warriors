@@ -37,7 +37,7 @@ for (var i = 0; i < f2zones.length; i++) {
     f2supplyInletMassFlowRate[zone] = [];
     f2vavReheatDamperPosition[zone] = [];
     f2reheatCoilPower[zone] = [];
-    
+
     eval("f2Zone" + f2zones[i] + "Checkbox = document.getElementById('f2-" + zone + "');");
 }
 
@@ -223,7 +223,6 @@ d3.json("json/floor2-MC2.json", function(error, data) {
             }
         }
     }
-    // console.log(f2lightsPower);
     initF2Chart(eval($("#f2-sensors").val()));
 });
 
@@ -243,7 +242,7 @@ function initF2Chart(dataVariable) {
             .attr("id", "f2-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f1)
+            .call(xAxis.f2)
             // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
             .selectAll("text")
                 .style("text-anchor", "end")
@@ -395,7 +394,7 @@ function updateF2Chart(dataVariable) {
         svg.f2.select("#f2-y-axis")
             .transition()
                 .duration(1000)
-                .call(yAxis.f1);
+                .call(yAxis.f2);
 
         svg.f2.select("#f2-y-label")
             .transition()
