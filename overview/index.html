@@ -6,14 +6,15 @@
         <script src="js/d3.min.js"></script>
         <script src="js/d3-queue.min.js"></script>
         <script src="js/jquery-2.2.2.min.js"></script>
-        <title>VAC MC2 - General</title>
+        <title>VAC MC2 - Index</title>
     </head>
     <body>
         <header>
             <center>
                 <h1>Mini Challenge 2</h1>
                 <div id="navigation-buttons">
-                    <button id="button-general" class="button" type="button" value="index.html">General</button>
+                    <button id="button-index" class="button" type="button" value="index.html">Index</button>
+                    <button id="button-general" class="button" type="button" value="general.html">General</button>
                     <button id="button-f1" class="button" type="button" value="floor1.html">Floor 1</button>
                     <button id="button-f2" class="button" type="button" value="floor2.html">Floor 2</button>
                     <button id="button-f3" class="button" type="button" value="floor3.html">Floor 3</button>
@@ -22,59 +23,9 @@
         </header>
         <main>
             <center>
-                <div id="general-div" class="vis">
-                    <h2>General readings</h2>
-                    <select id="general-dropdown" name="sensors">
-                        <option value="coolScheduleValue" selected>COOL Schedule Value</option>
-                        <option value="deliFanPower">DELI-FAN Power</option>
-                        <option value="drybulbTemperature">Drybulb Temperature</option>
-                        <option value="loopTempSchedule">Loop Temp Schedule</option>
-                        <option value="heatScheduleValue">HEAT Schedule Value</option>
-                        <option value="hvacElectricDemandPower">HVAC Electric Demand Power</option>
-                        <option value="pumpPower">Pump Power</option>
-                        <option value="supplySideInletMassFlowRate">Supply Side Inlet Mass Flow Rate</option>
-                        <option value="supplySideInletTemperature">Supply Side Inlet Temperature</option>
-                        <option value="supplySideOutletTemperature">Supply Side Outlet Temperature</option>
-                        <option value="totalElectricDemandPower">Total Electric Demand Power</option>
-                        <option value="waterHeaterGasRate">Water Heater Gas Rate</option>
-                        <option value="waterHeaterSetpoint">Water Heater Setpoint</option>
-                        <option value="waterHeaterTankTemperature">Water Heater Tank Temperature</option>
-                        <option value="windDirection">Wind Direction</option>
-                        <option value="windSpeed">Wind Speed</option>
-                    </select>
-                    <h3 id="general-vis-info"></h3>
-                </div>
-                <div id="f3-div" class="vis">
-                    <h2>Floor 3 readings</h2>
-                    <div id="f3-dropdown">
-                        <select id="f3-sensors" name="sensors">
-                            <option value="f3LightsPower" selected>Lights Power</option><!-- niet zones 4 en 12-->
-                            <option value="f3EquipmentPower">Equipment Power</option><!-- niet zones 4 en 12-->
-                            <option value="f3ThermostatTemp">Thermostat Temp</option><!-- niet zones 4 en 12-->
-                            <option value="f3ThermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zones 4 en 12-->
-                            <option value="f3ThermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zones 4 en 12-->
-                            <option value="f3VavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
-                            <option value="f3BathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
-                            <option value="f3VavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zones 4 en 12-->
-                            <option value="f3ReheatCoilPower">REHEAT COIL Power</option><!-- niet zones 4 en 9-->
-                            <option value="f3VavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
-                            <option value="f3VavSysOutdoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
-                            <option value="f3VavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
-                            <option value="f3VavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
-                            <option value="f3VavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
-                            <option value="f3VavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
-                            <option value="f3VavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
-                            <option value="f3VavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
-                            <option value="f3ReturnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zones 4 en 12-->
-                            <option value="f3SupplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zones 4 en 12-->
-                            <option value="f3SupplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zones 4 en 12-->
-                            <option value="f3VavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
-                        </select>
-                    </div>
-                </div>
+                hello, world
             </center>
         </main>
-        <script src="js/dimensions.js" defer></script>
-        <script src="js/general.js" defer></script>
+        <script src="js/dimensions.js"></script>
     </body>
 </html>

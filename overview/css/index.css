@@ -15,31 +15,6 @@ body {
     background-color: orange;
 }
 
-#button-general {
+#button-index {
     background-color: red;
-}
-
-.vis {
-    text-align: center;
-}
-
-.line {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-}
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.x.axis text {
-    font: 10px sans-serif;
-}
-
-.y.axis text {
-    font: 12px sans-serif;
 }
