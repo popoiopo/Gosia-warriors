@@ -25,8 +25,119 @@ body {
 
 .line {
     fill: none;
-    stroke: steelblue;
     stroke-width: 1.5px;
+}
+
+#f3-line {
+    stroke: steelblue;
+}
+
+#f3-zone1-line {
+    stroke: #a6cee3;
+}
+
+#f3-zone1-text {
+    color: #a6cee3;
+}
+
+#f3-zone2-line {
+    stroke: #1f78b4;
+}
+
+#f3-zone2-text {
+    color: #1f78b4;
+}
+
+#f3-zone3-line {
+    stroke: #b2df8a;
+}
+
+#f3-zone3-text {
+    color: #b2df8a;
+}
+
+#f3-zone4-text {
+    color: #858585;
+}
+
+#f3-zone5-line {
+    stroke: #33a02c;
+}
+
+#f3-zone5-text {
+    color: #33a02c;
+}
+
+#f3-zone6-line {
+    stroke: #fb9a99;
+}
+
+#f3-zone6-text {
+    color: #fb9a99;
+}
+
+#f3-zone7-line {
+    stroke: #e31a1c;
+}
+
+#f3-zone7-text {
+    color: #e31a1c;
+}
+
+#f3-zone8-line {
+    stroke: #fdbf6f;
+}
+
+#f3-zone8-text {
+    color: #fdbf6f;
+}
+
+#f3-zone9-line {
+    stroke: #ff7f00;
+}
+
+#f3-zone9-text {
+    color: #ff7f00;
+}
+
+#f3-zone10-line {
+    stroke: #cab2d6;
+}
+
+#f3-zone10-text {
+    color: #cab2d6;
+}
+
+#f3-zone11a-line {
+    stroke: #6a3d9a;
+}
+
+#f3-zone11a-text {
+    color: #6a3d9a;
+}
+
+#f3-zone11b-line {
+    stroke: #ffff00;
+}
+
+#f3-zone11b-text {
+    color: #ffff00;
+}
+
+#f3-zone11c-line {
+    stroke: #b15928;
+}
+
+#f3-zone11c-text {
+    color: #b15928;
+}
+
+#f3-zone12-line {
+    stroke: #660033;
+}
+
+#f3-zone12-text {
+    color: #660033;
 }
 
 .axis path,
