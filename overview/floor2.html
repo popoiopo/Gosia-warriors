@@ -26,29 +26,51 @@
                     <h2>Floor 2 readings</h2>
                     <div id="f2-dropdown">
                         <select id="f2-sensors" name="sensors">
-                            <option value="f2LightsPower" selected>Lights Power</option><!-- niet zone 13-->
-                            <option value="f2EquipmentPower">Equipment Power</option><!-- niet zone 13-->
-                            <option value="f2ThermostatTemp">Thermostat Temp</option><!-- niet zone 13-->
-                            <option value="f2ThermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 13-->
-                            <option value="f2ThermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 13-->
-                            <option value="f2VavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
-                            <option value="f2BathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
-                            <option value="f2VavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 13-->
-                            <option value="f2ReheatCoilPower">REHEAT COIL Power</option><!-- niet zone 13-->
-                            <option value="f2VavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
-                            <option value="f2VavSysOutfoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
-                            <option value="f2VavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
-                            <option value="f2VavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
-                            <option value="f2VavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
-                            <option value="f2VavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
-                            <option value="f2VavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
-                            <option value="f2VavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
-                            <option value="f2ReturnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zone 13-->
-                            <option value="f2SupplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zone 13-->
-                            <option value="f2SupplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zone 13-->
-                            <option value="f2VavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                            <option value="lightsPower" selected>Lights Power</option><!-- niet zone 13-->
+                            <option value="equipmentPower">Equipment Power</option><!-- niet zone 13-->
+                            <option value="thermostatTemp">Thermostat Temp</option><!-- niet zone 13-->
+                            <option value="thermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 13-->
+                            <option value="thermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 13-->
+                            <option value="vavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="bathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="vavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 13-->
+                            <option value="reheatCoilPower">REHEAT COIL Power</option><!-- niet zone 13-->
+                            <option value="vavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="vavSysOutfoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="vavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="returnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zone 13-->
+                            <option value="supplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zone 13-->
+                            <option value="supplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zone 13-->
+                            <option value="vavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
                         </select>
                     </div>
+                    <br>
+                    <div id="f2-checkboxes">
+                        <label for="zone1"><input type="checkbox" id="f2-zone1" class="f2-zone-checkbox" checked/> <span id="f2-zone1-text">Zone 1</span></label>
+                        <label for="zone2"><input type="checkbox" id="f2-zone2" class="f2-zone-checkbox" checked/> <span id="f2-zone2-text">Zone 2</span></label>
+                        <label for="zone3"><input type="checkbox" id="f2-zone3" class="f2-zone-checkbox" checked/> <span id="f2-zone3-text">Zone 3</span></label>
+                        <label for="zone4"><input type="checkbox" id="f2-zone4" class="f2-zone-checkbox" checked/> <span id="f2-zone4-text">Zone 4</span></label>
+                        <label for="zone5"><input type="checkbox" id="f2-zone5" class="f2-zone-checkbox" checked/> <span id="f2-zone5-text">Zone 5</span></label>
+                        <label for="zone6"><input type="checkbox" id="f2-zone6" class="f2-zone-checkbox" checked/> <span id="f2-zone6-text">Zone 6</span></label>
+                        <label for="zone7"><input type="checkbox" id="f2-zone7" class="f2-zone-checkbox" checked/> <span id="f2-zone7-text">Zone 7</span></label>
+                        <label for="zone8"><input type="checkbox" id="f2-zone8" class="f2-zone-checkbox" checked/> <span id="f2-zone8-text">Zone 8</span></label>
+                        <label for="zone9"><input type="checkbox" id="f2-zone9" class="f2-zone-checkbox" checked/> <span id="f2-zone9-text">Zone 9</span></label>
+                        <label for="zone10"><input type="checkbox" id="f2-zone10" class="f2-zone-checkbox" checked/> <span id="f2-zone10-text">Zone 10</span></label>
+                        <label for="zone11"><input type="checkbox" id="f2-zone11" class="f2-zone-checkbox" checked/> <span id="f2-zone11-text">Zone 11</span></label>
+                        <label for="zone12a"><input type="checkbox" id="f2-zone12a" class="f2-zone-checkbox" checked/> <span id="f2-zone12a-text">Zone 12a</span></label>
+                        <label for="zone12b"><input type="checkbox" id="f2-zone12b" class="f2-zone-checkbox" checked/> <span id="f2-zone12b-text">Zone 12b</span></label>
+                        <label for="zone12c"><input type="checkbox" id="f2-zone12c" class="f2-zone-checkbox" checked/> <span id="f2-zone12c-text">Zone 12c</span></label>
+                        <label for="zone13"><input type="checkbox" id="f2-zone13" class="f2-zone-checkbox" disabled/> <span id="f2-zone13-text">Zone 13</span></label>
+                        <label for="zone14"><input type="checkbox" id="f2-zone14" class="f2-zone-checkbox" checked/> <span id="f2-zone14-text">Zone 14</span></label>
+                        <label for="zone15"><input type="checkbox" id="f2-zone15" class="f2-zone-checkbox" checked/> <span id="f2-zone15-text">Zone 15</span></label>
+                        <label for="zone16"><input type="checkbox" id="f2-zone16" class="f2-zone-checkbox" checked/> <span id="f2-zone16-text">Zone 16</span></label>
+                    </div>
+                    <h3 id="f2-vis-info"></h3>
                 </div>
             </center>
         </main>
