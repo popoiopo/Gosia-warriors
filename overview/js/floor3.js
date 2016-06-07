@@ -1,5 +1,11 @@
+/*
+* Javascript file bij floor3.html, tekent de chart
+*/
+
+// Array van zones van floor 3 waarvoor sensorreadings zijn
 var f3zones = ["1", "2", "3", "5", "6", "7", "8", "9", "10", "11a", "11b", "11c", "12"];
 
+// Lege variabelen om later ingeladen data in op te slaan
 var f3lightsPower = {},
     f3equipmentPower = {},
     f3thermostatTemp = {},
@@ -22,9 +28,11 @@ var f3lightsPower = {},
     f3vavSysSupplyFanOutletTemperature = [],
     f3vavSysSupplyFanOutletMassFlowRate = [];
 
+// Lege variabelen om later DOM elementen aan te binden
 var f3Zone1Checkbox, f3Zone2Checkbox, f3Zone3Checkbox, f3Zone5Checkbox, f3Zone6Checkbox, f3Zone7Checkbox, f3Zone8Checkbox,
     f3Zone9Checkbox, f3Zone10Checkbox, f3Zone11aCheckbox, f3Zone11bCheckbox, f3Zone11cCheckbox, f3Zone12Checkbox;
 
+// Maak placeholders voor elke zone, zone 12 heeft alleen REHEAT COIL Power en zone 9 heeft deze niet
 for (var i = 0; i < f3zones.length; i++) {
     var zone = "zone" + f3zones[i];
     if (zone !== "zone12") {
@@ -42,34 +50,42 @@ for (var i = 0; i < f3zones.length; i++) {
         f3reheatCoilPower[zone] = [];
     }
 
+    // Bind de DOM elementen aan de lege variabelen
     eval("f3Zone" + f3zones[i] + "Checkbox = document.getElementById('f3-" + zone + "');");
 }
 
+// Event listener voor als een checkbox verandert
 $(".f3-zone-checkbox").change(function() {
     $("#" + this.id + "-line").toggle();
 });
 
+// Maak de header tekst adhv de dropdown
 d3.select("#f3-vis-info").text($("#f3-dropdown :selected").text());
 
+// Event listener voor als de dropdown verandert
 $("#f3-dropdown").change(changeF3Header);
 
 function changeF3Header() {
+    // Update de header tekst als de dropdown verandert
     d3.select("#f3-vis-info").text($("#f3-dropdown :selected").text());
+    // Update de chart adhv de nieuwe data uit de dropdown
     updateF3Chart(eval($("#f3-sensors").val()));
-    // console.log($("#f3-sensors").val());
-    // console.log(eval($("#f3-sensors").val()));
 }
 
+// Laad de data in
 d3.json("json/floor3-MC2.json", function(error, data) {
     if (error) throw error;
 
     for (var i = 0; i < data.length; i++) {
-        // console.log(data[i].message);
+        // Sla de timestamp op voor later gebruik
         var datetime = new Date(dateFormat.parse(data[i]["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/);
-        // console.log(datetime);
+
+        // Ga elke sensor per timestamp af
         for (var key in data[i]) {
+            // Als het een sensorwaarde betreft
             if (key !== "Date/Time" && key !== "type" && key !== "floor") {
                 var zone = "zone";
+                // Check of het een zonereading was
                 if (wildcardCompare(key, "F_3_Z_10*")) {
                     zone += "10";
                 } else if (wildcardCompare(key, "F_3_Z_11A*")) {
@@ -99,6 +115,7 @@ d3.json("json/floor3-MC2.json", function(error, data) {
                 } else if (wildcardCompare(key, "F_3_Z_1*")) {
                     zone += "1";
                 } else {
+                    // Anders gaat de reading over de hele verdieping
                     if (key === "F_3_VAV_SYS SUPPLY FAN:Fan Power") {
                         f3vavSysSupplyFanFanPower.push({
                             timestamp: datetime,
@@ -161,6 +178,7 @@ d3.json("json/floor3-MC2.json", function(error, data) {
                 // De data betreft een zone
                 if (zone !== "zone") {
                     var sensorReading = key.substr(key.indexOf(" ") + 1, key.length);
+                    // Check welke sensor het betreft
                     if (sensorReading === "Lights Power") {
                         f3lightsPower[zone].push({
                             timestamp: datetime,
@@ -217,12 +235,15 @@ d3.json("json/floor3-MC2.json", function(error, data) {
             }
         }
     }
+    // Initialiseer de chart
     initF3Chart(eval($("#f3-sensors").val()));
 });
 
+// Functie om de chart te initialiseren
 function initF3Chart(dataVariable) {
     if (isArray(dataVariable)) {
         // Data betreft de gehele verdieping
+        // Bereken de ranges van de data
         x.f3.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f3.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
@@ -232,7 +253,7 @@ function initF3Chart(dataVariable) {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis.f3)
-            // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+            // Zet de labels aan de x-as schuin
             .selectAll("text")
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
@@ -250,9 +271,10 @@ function initF3Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
+                // Maak de label adhv de dropdown
                 .text($("#f3-sensors :selected").text());
 
-        // De lijn tekenen
+        // De verdiepingslijn tekenen
         svg.f3.append("path")
             .datum(dataVariable)
             .attr("id", "f3-line")
@@ -263,6 +285,7 @@ function initF3Chart(dataVariable) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f3Zone" + f3zones[i] + "Checkbox.disabled = true");
 
+            // Bind verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
             svg.f3.append("path")
                 .datum(dataVariable)
                 .attr("id", "f3-zone" + f3zones[i] + "-line")
@@ -272,6 +295,7 @@ function initF3Chart(dataVariable) {
         }
     } else {
         // Data betreft meerdere zones
+        // Bereken de ranges van de data
         x.f3.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
         var yMax = 0;
         for (var zone in dataVariable) {
@@ -287,7 +311,7 @@ function initF3Chart(dataVariable) {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis.f3)
-            // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+            // Zet de labels aan de x-as schuin
             .selectAll("text")
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
@@ -305,9 +329,10 @@ function initF3Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
+                // Maak de label adhv de dropdown
                 .text($("#f3-sensors :selected").text());
 
-        // De lijn tekenen
+        // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
         svg.f3.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f3-line")
@@ -318,6 +343,7 @@ function initF3Chart(dataVariable) {
         for (var i = 0; i < f3zones.length; i++) {
             var zone = "zone" + f3zones[i];
 
+            // Bind de zonedata aan de zonelijnen maar check goed voor welke zone welke sensordata er beschikbaar is
             if (zone !== "zone12" && zone !== "zone9") {
                 svg.f3.append("path")
                     .datum(dataVariable[zone])
@@ -325,6 +351,7 @@ function initF3Chart(dataVariable) {
                     .attr("class", "line")
                     .attr("d", line.f3);
             } else if (zone === "zone9") {
+                // Er is voor zone 9 geen REHEAT COIL Power data beschikbaar
                 if ($("#f3-sensors").val() !== "f3reheatCoilPower") {
                     svg.f3.append("path")
                         .datum(dataVariable[zone])
@@ -341,6 +368,7 @@ function initF3Chart(dataVariable) {
                         .style("display", "none");
                 }
             } else if (zone === "zone12") {
+                // Er is voor zone 12 alleen REHEAT COIL Power data beschikbaar
                 if ($("#f3-sensors").val() === "f3reheatCoilPower") {
                     svg.f3.append("path")
                         .datum(dataVariable.zone1)
@@ -361,11 +389,15 @@ function initF3Chart(dataVariable) {
     }
 }
 
+// Update de chart als de dropdown verandert
 function updateF3Chart(dataVariable) {
     if (isArray(dataVariable)) {
+        // Data betreft de gehele verdieping
+        // Bereken de nieuwe ranges
         x.f3.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f3.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Update de assen adhv de nieuwe ranges
         svg.f3.select("#f3-x-axis")
             .transition()
                 .duration(1000)
@@ -376,11 +408,13 @@ function updateF3Chart(dataVariable) {
                 .duration(1000)
                 .call(yAxis.f3);
 
+        // Update de label adhv de dropdown
         svg.f3.select("#f3-y-label")
             .transition()
                 .duration(1000)
                 .text($("#f3-sensors :selected").text());
 
+        // Bind de nieuwe verdiepingsdata aan de verdiepingslijn
         svg.f3.select("#f3-line")
             .datum(dataVariable)
             .transition()
@@ -392,6 +426,7 @@ function updateF3Chart(dataVariable) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f3Zone" + f3zones[i] + "Checkbox.disabled = true");
 
+            // Bind verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
             var zone = "zone" + f3zones[i];
             svg.f3.select("#f3-" + zone + "-line")
                 .datum(dataVariable)
@@ -401,6 +436,8 @@ function updateF3Chart(dataVariable) {
                 .style("display", "none");
         }
     } else {
+        // Data gaat over meerdere zones
+        // Bereken de nieuwe ranges
         x.f3.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
         var yMax = 0;
         for (var zone in dataVariable) {
@@ -410,6 +447,7 @@ function updateF3Chart(dataVariable) {
         }
         y.f3.domain([0, yMax]).nice();
 
+        // Update de assen adhv de nieuwe ranges
         svg.f3.select("#f3-x-axis")
             .transition()
                 .duration(1000)
@@ -420,11 +458,13 @@ function updateF3Chart(dataVariable) {
                 .duration(1000)
                 .call(yAxis.f3);
 
+        // Update de label adhv de dropdown
         svg.f3.select("#f3-y-label")
             .transition()
                 .duration(1000)
                 .text($("#f3-sensors :selected").text());
 
+        // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
         svg.f3.select("#f3-line")
             .datum(dataVariable.zone1)
             .transition()
@@ -436,6 +476,7 @@ function updateF3Chart(dataVariable) {
             // De checkboxes moeten weer werken als de data over meerdere zones
             eval("f3Zone" + f3zones[i] + "Checkbox.disabled = false");
 
+            // Bind zonedata aan de zonelijnen maar check goed voor welke zones welke sensordata beschikbaar is
             var zone = "zone" + f3zones[i];
             if (zone !== "zone9" && zone !== "zone12") {
                 svg.f3.select("#f3-" + zone + "-line")
@@ -444,6 +485,7 @@ function updateF3Chart(dataVariable) {
                         .duration(1000)
                         .attr("d", line.f3)
                         .style("display", function() {
+                            // Laat de lijn alleen zien als de checkbox aangevinkt is
                             if (eval("f3Zone" + f3zones[i] + "Checkbox.checked")) {
                                 return "";
                             } else {
@@ -451,6 +493,7 @@ function updateF3Chart(dataVariable) {
                             }
                         });
             } else if (zone === "zone9") {
+                // Zone 9 heeft geen REHEAT COIL Power data
                 if ($("#f3-sensors").val() !== "f3reheatCoilPower") {
                     svg.f3.select("#f3-" + zone + "-line")
                         .datum(dataVariable[zone])
@@ -458,6 +501,7 @@ function updateF3Chart(dataVariable) {
                             .duration(1000)
                             .attr("d", line.f3)
                             .style("display", function() {
+                                // Laat de lijn alleen zien als de checkbox aangevinkt is
                                 if (eval("f3Zone" + f3zones[i] + "Checkbox.checked")) {
                                     return "";
                                 } else {
@@ -474,6 +518,7 @@ function updateF3Chart(dataVariable) {
                             .style("display", "none");
                 }
             } else if (zone === "zone12") {
+                // Zone 12 heeft alleen REHEAT COIL Power data
                 if ($("#f3-sensors").val() === "f3reheatCoilPower") {
                     svg.f3.select("#f3-" + zone + "-line")
                         .datum(dataVariable[zone])
@@ -481,6 +526,7 @@ function updateF3Chart(dataVariable) {
                             .duration(1000)
                             .attr("d", line.f3)
                             .style("display", function() {
+                                // Laat de lijn alleen zien als de checkbox aangevinkt is
                                 if (eval("f3Zone" + f3zones[i] + "Checkbox.checked")) {
                                     return "";
                                 } else {

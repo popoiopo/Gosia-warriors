@@ -1,15 +1,21 @@
+/*
+* Javascript bestand bij floor1.html die de chart tekent
+*/
+
+// Houd bij voor welke zones er sensordata is
 var f1zones = ["1", "2", "3", "4", "5", "7", "8a", "8b"];
 
-var f1lightsPower = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1equipmentPower = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1thermostatTemp = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1thermostatHeatingSetpoint = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1thermostatCoolingSetpoint = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1returnOutletCo2Concentration = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1supplyInletTemperature = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1supplyInletMassFlowRate = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1vavReheatDamperPosition = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
-    f1reheatCoilPower = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone7: [], zone8a: [], zone8b: []},
+// Maak lege variabelen aan voor de data die ingeladen wordt
+var f1lightsPower = {},
+    f1equipmentPower = {},
+    f1thermostatTemp = {},
+    f1thermostatHeatingSetpoint = {},
+    f1thermostatCoolingSetpoint = {},
+    f1returnOutletCo2Concentration = {},
+    f1supplyInletTemperature = {},
+    f1supplyInletMassFlowRate = {},
+    f1vavReheatDamperPosition = {},
+    f1reheatCoilPower = {},
     f1vavAvailabilityManagerNightCycleControlStatus = [],
     f1vavSysSupplyFanFanPower = [],
     f1bathExhaustFanPower = [],
@@ -21,10 +27,12 @@ var f1lightsPower = {zone1: [], zone2: [], zone3: [], zone4: [], zone5: [], zone
     f1vavSysAirLoopInletMassFlowRate = [],
     f1vavSysSupplyFanOutletTemperature = [],
     f1vavSysSupplyFanOutletMassFlowRate = [],
-    f1mechanicalVentilationMassFlowRate = []; // Alleen zone 1
+    f1mechanicalVentilationMassFlowRate = [];
 
+// Maak lege variabelen aan die de checkboxes in het DOM selecteren straks
 var f1Zone1Checkbox, f1Zone2Checkbox, f1Zone3Checkbox, f1Zone4Checkbox, f1Zone5Checkbox, f1Zone7Checkbox, f1Zone8aCheckbox, f1Zone8bCheckbox;
 
+// Maak placeholders voor de data die straks wordt ingeladen en pak de checkboxes uit het DOM
 for (var i = 0; i < f1zones.length; i++) {
     var zone = "zone" + f1zones[i];
     f1lightsPower[zone] = [];
@@ -41,36 +49,39 @@ for (var i = 0; i < f1zones.length; i++) {
     eval("f1Zone" + f1zones[i] + "Checkbox = document.getElementById('f1-" + zone + "');");
 }
 
+// Toggle de lijn van de checkbox die wordt aangeklikt
 $(".f1-zone-checkbox").change(function() {
     $("#" + this.id + "-line").toggle();
 });
 
+// Maak de header tekst adhv de geselecteerde data
 d3.select("#f1-vis-info").text($("#f1-dropdown :selected").text());
 
+// Event listener voor als de dropdown verandert
 $("#f1-dropdown").change(changeF1Header);
 
 function changeF1Header() {
+    // Update de header tekst adhv de dropdown
     d3.select("#f1-vis-info").text($("#f1-dropdown :selected").text());
+    // Update de chart als de dropdown verandert
     updateF1Chart(eval($("#f1-sensors").val()));
-    // console.log(eval($("#f1-sensors").val()));
 }
 
-// Bron: http://stackoverflow.com/questions/26246601/wildcard-string-comparison-in-javascript
-function wildcardCompare(str, rule) {
-  return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
-}
-
+// Laad de data in
 d3.json("json/floor1-MC2.json", function(error, data) {
     if (error) throw error;
 
     for (var i = 0; i < data.length; i++) {
-        // console.log(data[i].message);
+        // Variabelen voor timestamp en offset voor later gebruik
         var datetime = new Date(dateFormat.parse(data[i].message["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/);
-        // console.log(datetime);
         var timeoffset = data[i].offset;
+
+        // Ga elke sensorwaarde af
         for (var key in data[i].message) {
+            // Als de key een sensorwaarde betreft
             if (key !== "Date/Time" && key !== "type" && key !== "floor") {
                 var zone = "zone";
+                // Check of de sensorwaarde meerdere zones betreft
                 if (wildcardCompare(key, "F_1_Z_1*")) {
                     zone += "1";
                 } else if (wildcardCompare(key, "F_1_Z_2*")) {
@@ -88,6 +99,7 @@ d3.json("json/floor1-MC2.json", function(error, data) {
                 } else if (wildcardCompare(key, "F_1_Z_8B*")) {
                     zone += "8b";
                 } else {
+                    // Zo niet, dan gaat de waarde over de gehele verdieping
                     if (key === "F_1_VAV_SYS SUPPLY FAN:Fan Power") {
                         f1vavSysSupplyFanFanPower.push({
                             timestamp: datetime,
@@ -161,6 +173,7 @@ d3.json("json/floor1-MC2.json", function(error, data) {
                 // De data betreft een zone
                 if (zone !== "zone") {
                     var sensorReading = key.substr(key.indexOf(" ") + 1, key.length);
+                    // Check welke sensor het was
                     if (sensorReading === "Lights Power") {
                         f1lightsPower[zone].push({
                             timestamp: datetime,
@@ -233,17 +246,15 @@ d3.json("json/floor1-MC2.json", function(error, data) {
             }
         }
     }
+    // Initialiseer de chart adhv de ingeladen data en gekozen dropdown keuze
     initF1Chart(eval($("#f1-sensors").val()));
 });
 
-// Bron: http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
-function isArray(variable) {
-    return (!!variable) && (variable.constructor === Array);
-}
-
+// Functie die de chart initialiseert
 function initF1Chart(dataVariable) {
     if (isArray(dataVariable)) {
         // Data betreft de gehele verdieping
+        // Bereken de ranges van de data
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
@@ -253,7 +264,7 @@ function initF1Chart(dataVariable) {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis.f1)
-            // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+            // Zet de labels aan de x-as schuin
             .selectAll("text")
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
@@ -271,9 +282,10 @@ function initF1Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
+                // Maak de label de gekozen data
                 .text($("#f1-sensors :selected").text());
 
-        // De lijn tekenen
+        // De lijn tekenen voor de data die over de gehele verdieping gaat
         svg.f1.append("path")
             .datum(dataVariable)
             .attr("id", "f1-line")
@@ -284,6 +296,7 @@ function initF1Chart(dataVariable) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
 
+            // Bind de verdiepingsdata aan de zonelijnen, maar maak ze onzichtbaar
             svg.f1.append("path")
                 .datum(dataVariable)
                 .attr("id", "f1-zone" + f1zones[i] + "-line")
@@ -293,6 +306,7 @@ function initF1Chart(dataVariable) {
         }
     } else {
         // Data betreft meerdere zones
+        // Bereken de ranges van de data
         x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
         var yMax = 0;
         for (var zone in dataVariable) {
@@ -308,7 +322,7 @@ function initF1Chart(dataVariable) {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis.f1)
-            // Zet de labels aan de x-as schuin, zodat ze elkaar niet overlappen
+            // Zet de labels aan de x-as schuin
             .selectAll("text")
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
@@ -326,9 +340,10 @@ function initF1Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
+                // Maak de label adhv de gekozen data in de dropdown
                 .text($("#f1-sensors :selected").text());
 
-        // De lijn tekenen
+        // De lijn die over de gehel verdieping gaat definieren, maar maak hem onzichtbaar
         svg.f1.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f1-line")
@@ -336,8 +351,10 @@ function initF1Chart(dataVariable) {
             .attr("d", line.f1)
             .style("display", "none");
 
+        // Loop elke zone af
         for (var i = 0; i < f1zones.length; i++) {
             var zone = "zone" + f1zones[i];
+            // Maak een lijn voor elke zone en bind data aan die lijnen
             svg.f1.append("path")
                 .datum(dataVariable[zone])
                 .attr("id", "f1-" + zone + "-line")
@@ -347,11 +364,15 @@ function initF1Chart(dataVariable) {
     }
 }
 
+// Functie om de chart te updaten als de dropdown verandert
 function updateF1Chart(dataVariable) {
     if (isArray(dataVariable)) {
+        // Data betreft de gehele verdieping
+        // Bereken de nieuwe ranges van de data
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Verander de assen adhv de nieuwe ranges
         svg.f1.select("#f1-x-axis")
             .transition()
                 .duration(1000)
@@ -362,11 +383,13 @@ function updateF1Chart(dataVariable) {
                 .duration(1000)
                 .call(yAxis.f1);
 
+        // Update de label adhv de gekozen data
         svg.f1.select("#f1-y-label")
             .transition()
                 .duration(1000)
                 .text($("#f1-sensors :selected").text());
 
+        // Maak de lijn die over de gehele verdieping gaat weer zichtbaar
         svg.f1.select("#f1-line")
             .datum(dataVariable)
             .transition()
@@ -378,6 +401,7 @@ function updateF1Chart(dataVariable) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
 
+            // Bind de verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
             var zone = "zone" + f1zones[i];
             svg.f1.select("#f1-" + zone + "-line")
                 .datum(dataVariable)
@@ -387,6 +411,8 @@ function updateF1Chart(dataVariable) {
                 .style("display", "none");
         }
     } else {
+        // Data betreft meerdere zones
+        // Bereken de nieuwe ranges
         x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
         var yMax = 0;
         for (var zone in dataVariable) {
@@ -396,6 +422,7 @@ function updateF1Chart(dataVariable) {
         }
         y.f1.domain([0, yMax]).nice();
 
+        // Update de assen adhv de nieuwe ranges
         svg.f1.select("#f1-x-axis")
             .transition()
                 .duration(1000)
@@ -406,11 +433,13 @@ function updateF1Chart(dataVariable) {
                 .duration(1000)
                 .call(yAxis.f1);
 
+        // Update de label adhv de nieuwe data
         svg.f1.select("#f1-y-label")
             .transition()
                 .duration(1000)
                 .text($("#f1-sensors :selected").text());
 
+        // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
         svg.f1.select("#f1-line")
             .datum(dataVariable.zone1)
             .transition()
@@ -422,12 +451,14 @@ function updateF1Chart(dataVariable) {
             // De checkboxes moeten weer werken als de data over meerdere zones
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = false");
 
+            // Bind de zonedata aan de zonelijnen
             var zone = "zone" + f1zones[i];
             svg.f1.select("#f1-" + zone + "-line")
                 .datum(dataVariable[zone])
                 .transition()
                     .duration(1000)
                     .attr("d", line.f1)
+                    // Check of de checkboxes zijn aangevinkt om te kijken of de lijn zichtbaar moet worden
                     .style("display", function() {
                         if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
                             return "";
