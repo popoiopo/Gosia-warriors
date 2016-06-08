@@ -393,10 +393,11 @@ function initF2Chart(dataVariable) {
             .style("display", "none");
 
         var contextLine = context.f2.append("path")
-            .datum(dataVariable.zone2)
+            .datum(dataVariable.zone1)
             .attr("id", "f2-brush-line")
             .attr("class", "lines-f2 f2-general")
-            .attr("d", brushLine.f2);
+            .attr("d", brushLine.f2)
+            .style("display", "none");
             // .attr("clip-path", "url(#clip)");
 
         context.f2.append("g")
