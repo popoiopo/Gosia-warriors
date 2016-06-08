@@ -137,8 +137,16 @@ function initGeneralChart(dataArray) {
     x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
     y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
 
+    brushX.general.domain(x.general.domain());
+    brushY.general.domain(y.general.domain());
+
+    focus.general.append("defs").append("clipPath")
+    .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
     // Assen toevoegen
-    svg.general.append("g")
+    focus.general.append("g")
         .attr("id", "general-x-axis")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
@@ -150,7 +158,7 @@ function initGeneralChart(dataArray) {
             .attr("dy", ".15em")
             .attr("transform", "rotate(-45)" );
 
-    svg.general.append("g")
+    focus.general.append("g")
         .attr("id", "general-y-axis")
         .attr("class", "y axis")
         .call(yAxis.general)
@@ -165,11 +173,32 @@ function initGeneralChart(dataArray) {
             .text($("#general-dropdown :selected").text());
 
     // De lijn tekenen van de geselecteerde data
-    svg.general.append("path")
+    focus.general.append("path")
         .datum(dataArray)
         .attr("id", "general-line")
-        .attr("class", "line")
-        .attr("d", line.general);
+        .attr("class", "lines-general")
+        .attr("d", line.general)
+        .attr("clip-path", "url(#clip)");
+
+    var contextLine = context.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-brush-line")
+        .attr("class", "lines-general")
+        .attr("d", brushLine.general);
+        // .attr("clip-path", "url(#clip)");
+
+    context.general.append("g")
+        .attr("id", "general-context-x-axis")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + brushHeight + ")")
+        .call(brushXAxis.general);
+
+    context.general.append("g")
+        .attr("class", "x brush")
+        .call(brush.general)
+      .selectAll("rect")
+        .attr("y", -6)
+        .attr("height", brushHeight + 7);
 }
 
 // Functie die wordt aangeroepen nadat de chart gemaakt die de data in de chart updatet
@@ -177,6 +206,9 @@ function updateGeneralChart(dataArray) {
     // Bereken de nieuwe ranges van de data
     x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
     y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
+
+    brushX.general.domain(x.general.domain());
+    brushY.general.domain(y.general.domain());
 
     // Pas de assen aan adhv de nieuwe ranges
     svg.general.select("#general-x-axis")
@@ -201,4 +233,16 @@ function updateGeneralChart(dataArray) {
         .transition()
             .duration(1000)
             .attr("d", line.general);
+
+    var contextLine = context.general.select("#general-brush-line")
+        .datum(dataArray)
+        .transition()
+            .duration(1000)
+            .attr("d", brushLine.general);
+        // .attr("clip-path", "url(#clip)");
+
+    context.general.select("#general-context-x-axis")
+        .transition()
+        .duration(1000)
+            .call(brushXAxis.general);
 }

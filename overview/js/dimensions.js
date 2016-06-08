@@ -8,9 +8,12 @@ $(".button").click(function() {
 });
 
 // Afmetingen van de svg op de pagina
-var margin = {top: 20, bottom: 50, left: 60, right: 20};
+var margin = {top: 10, bottom: 175, left: 60, right: 20};
 var width = 1100 - margin.left - margin.right;
-var height = 500 - margin.top - margin.bottom;
+var height = 550 - margin.top - margin.bottom;
+
+var brushMargin = {top: 430, right: 20, bottom: 50, left: 60};
+var brushHeight = 550 - brushMargin.top - brushMargin.bottom;
 
 // Functie om de datum van de JSON om te zetten naar javascript Date
 var dateFormat = d3.time.format("%Y-%m-%d %X");
@@ -51,6 +54,17 @@ var x = {
             .range([0, width])
 };
 
+var brushX = {
+    general: d3.time.scale()
+                .range([0, width]),
+    f1: d3.time.scale()
+            .range([0, width]),
+    f2: d3.time.scale()
+            .range([0, width]),
+    f3: d3.time.scale()
+            .range([0, width])
+};
+
 // y schalen voor elk van de vier pagina's
 var y = {
     general: d3.scale.linear()
@@ -61,6 +75,17 @@ var y = {
             .range([height, 0]),
     f3: d3.scale.linear()
             .range([height, 0])
+};
+
+var brushY = {
+    general: d3.scale.linear()
+                .range([brushHeight, 0]),
+    f1: d3.scale.linear()
+            .range([brushHeight, 0]),
+    f2: d3.scale.linear()
+            .range([brushHeight, 0]),
+    f3: d3.scale.linear()
+            .range([brushHeight, 0])
 };
 
 // x assen voor elk van de vier pagina's
@@ -82,6 +107,25 @@ var xAxis = {
             .orient("bottom")
             .ticks(14)
 };
+
+var brushXAxis = {
+    general: d3.svg.axis()
+                .scale(brushX.general)
+                .orient("bottom")
+                .ticks(14),
+    f1: d3.svg.axis()
+            .scale(brushX.f1)
+            .orient("bottom")
+            .ticks(14),
+    f2: d3.svg.axis()
+            .scale(brushX.f2)
+            .orient("bottom")
+            .ticks(14),
+    f3: d3.svg.axis()
+            .scale(brushX.f3)
+            .orient("bottom")
+            .ticks(14)
+}
 
 // y assen voor elk van de vier pagina's
 var yAxis = {
@@ -113,6 +157,86 @@ var line = {
     f3: d3.svg.line()
             .x(function(d) {return x.f3(d.timestamp);})
             .y(function(d) {return y.f3(d.val);})
+};
+
+var brushLine = {
+    general: d3.svg.line()
+                .x(function(d) {return brushX.general(d.timestamp);})
+                .y(function(d) {return brushY.general(d.val);}),
+    f1: d3.svg.line()
+            .x(function(d) {return brushX.f1(d.timestamp);})
+            .y(function(d) {return brushY.f1(d.val);}),
+    f2: d3.svg.line()
+            .x(function(d) {return brushX.f2(d.timestamp);})
+            .y(function(d) {return brushY.f2(d.val);}),
+    f3: d3.svg.line()
+            .x(function(d) {return brushX.f3(d.timestamp);})
+            .y(function(d) {return brushY.f3(d.val);})
+};
+
+var brushed = {
+    general: function() {
+        x.general.domain(brush.general.empty() ? brushX.general.domain() : /*[d3.min(brush.general), d3.max(brush.general)]*/brush.general.extent());
+        // console.log(x.general.domain());
+        focus.general.select("#general-line").attr("d", line.general);
+        focus.general.select("#general-x-axis").call(xAxis.general);
+    },
+    f1: function() {
+        x.f1.domain(brush.f1.empty() ? brushX.f1.domain() : brush.f1.extent());
+        svg.f1.selectAll("path.line").attr("d",  function(d) {return line.f1(d.val)});
+        svg.f1.select(".x.axis").call(xAxis.f1);
+    },
+    f2: function() {
+        x.f2.domain(brush.f2.empty() ? brushX.f2.domain() : brush.f2.extent());
+        svg.f2.selectAll("path.line").attr("d",  function(d) {return line.f2(d.val)});
+        svg.f2.select(".x.axis").call(xAxis.f2);
+    },
+    f3: function() {
+        x.f3.domain(brush.f3.empty() ? brushX.f3.domain() : brush.f3.extent());
+        focus.f3.selectAll("path.line").attr("d",  function(d) {return line.f3(d.val)});
+        svg.f3.select(".x.axis").call(xAxis.f3);
+    }
+};
+
+var brush = {
+    general: d3.svg.brush()
+                .x(brushX.general)
+                .on("brush", brushed.general),
+    f1: d3.svg.brush()
+            .x(brushX.f1)
+            .on("brush", brushed.f1),
+    f2: d3.svg.brush()
+            .x(brushX.f2)
+            .on("brush", brushed.f2),
+    f3: d3.svg.brush()
+            .x(brushX.f3)
+            .on("brush", brushed.f3)
+};
+
+var focus = {
+    general: svg.general.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f1: svg.f1.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f2: svg.f2.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f3: svg.f3.append("g")
+                .attr("transform", "translate(0," + margin.top + ")")
+};
+
+var context = {
+    general: svg.general.append("g")
+                .attr("class", "context")
+                .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f1: svg.f1.append("g")
+            .attr("class", "context")
+            .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f2: svg.f2.append("g")
+        .attr("class", "context")
+        .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f3: svg.f3.append("g")
+            .attr("class", "context")
+            .attr("transform", "translate(0," + brushMargin.top + ")")
 };
 
 // Gedeelde functies
