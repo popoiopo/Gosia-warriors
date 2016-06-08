@@ -176,15 +176,14 @@ var brushLine = {
 
 var brushed = {
     general: function() {
-        x.general.domain(brush.general.empty() ? brushX.general.domain() : /*[d3.min(brush.general), d3.max(brush.general)]*/brush.general.extent());
-        // console.log(x.general.domain());
+        x.general.domain(brush.general.empty() ? brushX.general.domain() : brush.general.extent());
         focus.general.select("#general-line").attr("d", line.general);
         focus.general.select("#general-x-axis").call(xAxis.general);
     },
     f1: function() {
         x.f1.domain(brush.f1.empty() ? brushX.f1.domain() : brush.f1.extent());
-        svg.f1.selectAll("path.line").attr("d",  function(d) {return line.f1(d.val)});
-        svg.f1.select(".x.axis").call(xAxis.f1);
+        focus.f1.selectAll("path.lines-f1").attr("d", line.f1);
+        focus.f1.select("#f1-x-axis").call(xAxis.f1);
     },
     f2: function() {
         x.f2.domain(brush.f2.empty() ? brushX.f2.domain() : brush.f2.extent());

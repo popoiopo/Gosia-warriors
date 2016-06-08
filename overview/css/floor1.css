@@ -23,44 +23,44 @@ body {
     text-align: center;
 }
 
-.line {
+.lines-f1 {
     fill: none;
     stroke-width: 1.5px;
 }
 
-#f1-line {
+.f1-general {
     stroke: #a6cee3;
 }
 
-#f1-zone1-line {
+.f1-zone1 {
     stroke: #1f78b4;
 }
 
-#f1-zone2-line {
+.f1-zone2 {
     stroke: #b2df8a;
 }
 
-#f1-zone3-line {
+.f1-zone3 {
     stroke: #33a02c;
 }
 
-#f1-zone4-line {
+.f1-zone4 {
     stroke: #fb9a99;
 }
 
-#f1-zone5-line {
+.f1-zone5 {
     stroke: #e31a1c;
 }
 
-#f1-zone7-line {
+.f1-zone7 {
     stroke: #fdbf6f;
 }
 
-#f1-zone8a-line {
+.f1-zone8a {
     stroke: #ff7f00;
 }
 
-#f1-zone8b-line {
+.f1-zone8b {
     stroke: #cab2d6;
 }
 
@@ -113,4 +113,10 @@ body {
 
 .y.axis text {
     font: 12px sans-serif;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
 }

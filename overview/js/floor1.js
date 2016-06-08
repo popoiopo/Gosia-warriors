@@ -52,6 +52,7 @@ for (var i = 0; i < f1zones.length; i++) {
 // Toggle de lijn van de checkbox die wordt aangeklikt
 $(".f1-zone-checkbox").change(function() {
     $("#" + this.id + "-line").toggle();
+    $("#" + this.id + "-brush").toggle();
 });
 
 // Maak de header tekst adhv de geselecteerde data
@@ -258,8 +259,17 @@ function initF1Chart(dataVariable) {
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        brushX.f1.domain(x.f1.domain());
+        brushY.f1.domain(y.f1.domain());
+
+        focus.f1.append("defs").append("clipPath")
+        .attr("id", "clip-f1")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
         // Assen toevoegen
-        svg.f1.append("g")
+        focus.f1.append("g")
             .attr("id", "f1-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -271,7 +281,7 @@ function initF1Chart(dataVariable) {
                 .attr("dy", ".15em")
                 .attr("transform", "rotate(-45)" );
 
-        svg.f1.append("g")
+        focus.f1.append("g")
             .attr("id", "f1-y-axis")
             .attr("class", "y axis")
             .call(yAxis.f1)
@@ -282,26 +292,55 @@ function initF1Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
-                // Maak de label de gekozen data
+                // Maak de label tekst de geselecteerde data uit de dropdown
                 .text($("#f1-sensors :selected").text());
 
-        // De lijn tekenen voor de data die over de gehele verdieping gaat
-        svg.f1.append("path")
+        // De lijn tekenen van de geselecteerde data
+        focus.f1.append("path")
             .datum(dataVariable)
             .attr("id", "f1-line")
-            .attr("class", "line")
-            .attr("d", line.f1);
+            .attr("class", "lines-f1 f1-general")
+            .attr("d", line.f1)
+            .attr("clip-path", "url(#clip-f1)");
+
+        var contextLine = context.f1.append("path")
+            .datum(dataVariable)
+            .attr("id", "f1-brush-line")
+            .attr("class", "lines-f1 f1-general")
+            .attr("d", brushLine.f1);
+            // .attr("clip-path", "url(#clip)");
+
+        context.f1.append("g")
+            .attr("id", "f1-context-x-axis")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + brushHeight + ")")
+            .call(brushXAxis.f1);
+
+        context.f1.append("g")
+            .attr("class", "x brush")
+            .call(brush.f1)
+          .selectAll("rect")
+            .attr("y", -6)
+            .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f1zones.length; i++) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
 
             // Bind de verdiepingsdata aan de zonelijnen, maar maak ze onzichtbaar
-            svg.f1.append("path")
+            focus.f1.append("path")
                 .datum(dataVariable)
                 .attr("id", "f1-zone" + f1zones[i] + "-line")
-                .attr("class", "line")
+                .attr("class", "lines-f1 f1-" + zone)
                 .attr("d", line.f1)
+                .attr("clip-path", "url(#clip-f1)")
+                .style("display", "none");
+
+            context.f1.append("path")
+                .datum(dataVariable)
+                .attr("id", "f1-" + zone + "-brush")
+                .attr("class", "lines-f1 f1-" + zone)
+                .attr("d", brushLine.f1)
                 .style("display", "none");
         }
     } else {
@@ -316,8 +355,17 @@ function initF1Chart(dataVariable) {
         }
         y.f1.domain([0, yMax]).nice();
 
+        brushX.f1.domain(x.f1.domain());
+        brushY.f1.domain(y.f1.domain());
+
+        focus.f1.append("defs").append("clipPath")
+        .attr("id", "clip-f1")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
         // Assen toevoegen
-        svg.f1.append("g")
+        focus.f1.append("g")
             .attr("id", "f1-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -329,7 +377,7 @@ function initF1Chart(dataVariable) {
                 .attr("dy", ".15em")
                 .attr("transform", "rotate(-45)" );
 
-        svg.f1.append("g")
+        focus.f1.append("g")
             .attr("id", "f1-y-axis")
             .attr("class", "y axis")
             .call(yAxis.f1)
@@ -340,30 +388,58 @@ function initF1Chart(dataVariable) {
                 .attr("y", 3)
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
-                // Maak de label adhv de gekozen data in de dropdown
+                // Maak de label tekst de geselecteerde data uit de dropdown
                 .text($("#f1-sensors :selected").text());
 
-        // De lijn die over de gehel verdieping gaat definieren, maar maak hem onzichtbaar
-        svg.f1.append("path")
+        // De lijn tekenen van de geselecteerde data
+        focus.f1.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f1-line")
-            .attr("class", "line")
+            .attr("class", "lines-f1 f1-general")
             .attr("d", line.f1)
+            .attr("clip-path", "url(#clip-f1)")
             .style("display", "none");
+
+        var contextLine = context.f1.append("path")
+            .datum(dataVariable)
+            .attr("id", "f1-brush-line")
+            .attr("class", "lines-f1 f1-general")
+            .attr("d", brushLine.f1);
+            // .attr("clip-path", "url(#clip)");
+
+        context.f1.append("g")
+            .attr("id", "f1-context-x-axis")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + brushHeight + ")")
+            .call(brushXAxis.f1);
+
+        context.f1.append("g")
+            .attr("class", "x brush")
+            .call(brush.f1)
+          .selectAll("rect")
+            .attr("y", -6)
+            .attr("height", brushHeight + 7);
 
         // Loop elke zone af
         for (var i = 0; i < f1zones.length; i++) {
             var zone = "zone" + f1zones[i];
             // Maak een lijn voor elke zone en bind data aan die lijnen
-            svg.f1.append("path")
+            focus.f1.append("path")
                 .datum(dataVariable[zone])
                 .attr("id", "f1-" + zone + "-line")
-                .attr("class", "line")
+                .attr("class", "lines-f1 f1-" + zone)
+                .attr("clip-path", "url(#clip-f1)")
                 .attr("d", line.f1);
+
+            context.f1.append("path")
+                .datum(dataVariable[zone])
+                .attr("id", "f1-" + zone + "-brush")
+                .attr("class", "lines-f1 f1-" + zone)
+                .attr("d", brushLine.f1);
         }
     }
     // Breng een lijn naar voren als er over gehoverd wordt
-    d3.selectAll(".line").on("mouseover", function() {
+    d3.selectAll(".lines-f1").on("mouseover", function() {
         d3.select(this).moveToFront();
     });
 }
@@ -375,6 +451,9 @@ function updateF1Chart(dataVariable) {
         // Bereken de nieuwe ranges van de data
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+
+        brushX.f1.domain(x.f1.domain());
+        brushY.f1.domain(y.f1.domain());
 
         // Verander de assen adhv de nieuwe ranges
         svg.f1.select("#f1-x-axis")
@@ -401,6 +480,19 @@ function updateF1Chart(dataVariable) {
                 .attr("d", line.f1)
                 .style("display", "");
 
+        var contextLine = context.f1.select("#f1-brush-line")
+            .datum(dataVariable)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.f1)
+                .style("display", "");
+            // .attr("clip-path", "url(#clip)");
+
+        context.f1.select("#f1-context-x-axis")
+            .transition()
+            .duration(1000)
+                .call(brushXAxis.f1);
+
         for (var i = 0; i < f1zones.length; i++) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
@@ -410,9 +502,16 @@ function updateF1Chart(dataVariable) {
             svg.f1.select("#f1-" + zone + "-line")
                 .datum(dataVariable)
                 .transition()
-                .duration(1000)
-                .attr("d", line.f1)
-                .style("display", "none");
+                    .duration(1000)
+                    .attr("d", line.f1)
+                    .style("display", "none");
+
+            context.f1.select("#f1-" + zone + "-brush")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.f1)
+                    .style("display", "none");
         }
     } else {
         // Data betreft meerdere zones
@@ -425,6 +524,9 @@ function updateF1Chart(dataVariable) {
             }
         }
         y.f1.domain([0, yMax]).nice();
+
+        brushX.f1.domain(x.f1.domain());
+        brushY.f1.domain(y.f1.domain());
 
         // Update de assen adhv de nieuwe ranges
         svg.f1.select("#f1-x-axis")
@@ -451,6 +553,19 @@ function updateF1Chart(dataVariable) {
                 .attr("d", line.f1)
                 .style("display", "none");
 
+        var contextLine = context.f1.select("#f1-brush-line")
+            .datum(dataVariable)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.f1)
+                .style("display", "none");
+            // .attr("clip-path", "url(#clip)");
+
+        context.f1.select("#f1-context-x-axis")
+            .transition()
+            .duration(1000)
+                .call(brushXAxis.f1);
+
         for (var i = 0; i < f1zones.length; i++) {
             // De checkboxes moeten weer werken als de data over meerdere zones
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = false");
@@ -463,6 +578,19 @@ function updateF1Chart(dataVariable) {
                     .duration(1000)
                     .attr("d", line.f1)
                     // Check of de checkboxes zijn aangevinkt om te kijken of de lijn zichtbaar moet worden
+                    .style("display", function() {
+                        if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            context.f1.select("#f1-" + zone + "-brush")
+                .datum(dataVariable[zone])
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.f1)
                     .style("display", function() {
                         if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
                             return "";
