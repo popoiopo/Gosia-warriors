@@ -324,6 +324,7 @@ function initF1Chart(dataVariable) {
             .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f1zones.length; i++) {
+            var zone = "zone" + f1zones[i];
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
 
@@ -401,10 +402,11 @@ function initF1Chart(dataVariable) {
             .style("display", "none");
 
         var contextLine = context.f1.append("path")
-            .datum(dataVariable)
+            .datum(dataVariable.zone1)
             .attr("id", "f1-brush-line")
             .attr("class", "lines-f1 f1-general")
-            .attr("d", brushLine.f1);
+            .attr("d", brushLine.f1)
+            .style("display", "none");
             // .attr("clip-path", "url(#clip)");
 
         context.f1.append("g")
