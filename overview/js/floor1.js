@@ -362,6 +362,10 @@ function initF1Chart(dataVariable) {
                 .attr("d", line.f1);
         }
     }
+    // Breng een lijn naar voren als er over gehoverd wordt
+    d3.selectAll(".line").on("mouseover", function() {
+        d3.select(this).moveToFront();
+    });
 }
 
 // Functie om de chart te updaten als de dropdown verandert

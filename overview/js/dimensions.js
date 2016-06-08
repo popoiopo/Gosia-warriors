@@ -127,3 +127,11 @@ function isArray(variable) {
 function wildcardCompare(str, rule) {
   return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
+
+// Methode om een lijn naar voren te brengen
+// Bron: http://stackoverflow.com/questions/14167863/how-can-i-bring-a-circle-to-the-front-with-d3
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};

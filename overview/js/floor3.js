@@ -387,6 +387,10 @@ function initF3Chart(dataVariable) {
             }
         }
     }
+    // Breng een lijn naar voren als er over gehoverd wordt
+    d3.selectAll(".line").on("mouseover", function() {
+        d3.select(this).moveToFront();
+    });
 }
 
 // Update de chart als de dropdown verandert
