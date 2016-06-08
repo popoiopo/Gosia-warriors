@@ -187,13 +187,13 @@ var brushed = {
     },
     f2: function() {
         x.f2.domain(brush.f2.empty() ? brushX.f2.domain() : brush.f2.extent());
-        svg.f2.selectAll("path.line").attr("d",  function(d) {return line.f2(d.val)});
-        svg.f2.select(".x.axis").call(xAxis.f2);
+        focus.f2.selectAll("path.lines-f2").attr("d", line.f2);
+        focus.f2.select(".x.axis").call(xAxis.f2);
     },
     f3: function() {
         x.f3.domain(brush.f3.empty() ? brushX.f3.domain() : brush.f3.extent());
-        focus.f3.selectAll("path.line").attr("d",  function(d) {return line.f3(d.val)});
-        svg.f3.select(".x.axis").call(xAxis.f3);
+        focus.f3.selectAll("path.lines-f3").attr("d", line.f3);
+        focus.f3.select(".x.axis").call(xAxis.f3);
     }
 };
 
