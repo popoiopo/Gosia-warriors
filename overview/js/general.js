@@ -141,10 +141,11 @@ function initGeneralChart(dataArray) {
     brushY.general.domain(y.general.domain());
 
     focus.general.append("defs").append("clipPath")
-    .attr("id", "clip")
+    .attr("id", "clip-general")
         .append("rect")
         .attr("width", width)
         .attr("height", height);
+
     // Assen toevoegen
     focus.general.append("g")
         .attr("id", "general-x-axis")
@@ -178,7 +179,7 @@ function initGeneralChart(dataArray) {
         .attr("id", "general-line")
         .attr("class", "lines-general")
         .attr("d", line.general)
-        .attr("clip-path", "url(#clip)");
+        .attr("clip-path", "url(#clip-general)");
 
     var contextLine = context.general.append("path")
         .datum(dataArray)
