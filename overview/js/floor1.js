@@ -556,7 +556,7 @@ function updateF1Chart(dataVariable) {
                 .style("display", "none");
 
         var contextLine = context.f1.select("#f1-brush-line")
-            .datum(dataVariable)
+            .datum(dataVariable.zone1)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f1)
