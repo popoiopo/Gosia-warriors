@@ -1,4 +1,5 @@
 /*
+* Team Gosia Warriors
 * Javascript file bij floor3.html, tekent de chart
 */
 
@@ -248,9 +249,11 @@ function initF3Chart(dataVariable) {
         x.f3.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f3.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Bereken de brushdomeinen
         brushX.f3.domain(x.f3.domain());
         brushY.f3.domain(y.f3.domain());
 
+        // Definieer het canvas waar de lijnen op mogen verschijnen
         focus.f3.append("defs").append("clipPath")
         .attr("id", "clip-f3")
             .append("rect")
@@ -292,30 +295,31 @@ function initF3Chart(dataVariable) {
             .attr("d", line.f3)
             .attr("clip-path", "url(#clip-f3)");
 
+        // Maak de brushlijn voor de gehele verdieping
         var contextLine = context.f3.append("path")
             .datum(dataVariable)
             .attr("id", "f3-brush-line")
             .attr("class", "lines-f3 f3-general")
             .attr("d", brushLine.f3);
-            // .attr("clip-path", "url(#clip)");
 
+        // x as voor de brush
         context.f3.append("g")
             .attr("id", "f3-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f3);
 
+        // Maak de brush zelf
         context.f3.append("g")
             .attr("class", "x brush")
             .call(brush.f3)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f3zones.length; i++) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
             eval("f3Zone" + f3zones[i] + "Checkbox.disabled = true");
-
             var zone = "zone" + f3zones[i];
 
             // Bind de verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
@@ -327,6 +331,7 @@ function initF3Chart(dataVariable) {
                 .attr("clip-path", "url(#clip-f3)")
                 .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f3.append("path")
                 .datum(dataVariable)
                 .attr("id", "f3-" + zone + "-brush")
@@ -346,9 +351,11 @@ function initF3Chart(dataVariable) {
         }
         y.f3.domain([0, yMax]).nice();
 
+        // Update de brushdomeinen
         brushX.f3.domain(x.f3.domain());
         brushY.f3.domain(y.f3.domain());
 
+        // Definieer het canvas waar de lijnen op mogen verschijnen
         focus.f3.append("defs").append("clipPath")
         .attr("id", "clip-f3")
             .append("rect")
@@ -382,7 +389,7 @@ function initF3Chart(dataVariable) {
                 // Maak de label tekst de geselecteerde data uit de dropdown
                 .text($("#f3-sensors :selected").text());
 
-        // De lijn tekenen van de geselecteerde data
+        // De lijn tekenen met data van zone1 (willekeurig) maar maak deze onzichtbaar
         focus.f3.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f3-line")
@@ -391,31 +398,34 @@ function initF3Chart(dataVariable) {
             .attr("clip-path", "url(#clip-f3)")
             .style("display", "none");
 
+        // En doe hetzelfde voor de brushlijn
         var contextLine = context.f3.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f3-brush-line")
             .attr("class", "lines-f3 f3-general")
             .attr("d", brushLine.f3)
             .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // x as voor de brush
         context.f3.append("g")
             .attr("id", "f3-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f3);
 
+        // De brush zelf maken
         context.f3.append("g")
             .attr("class", "x brush")
             .call(brush.f3)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f3zones.length; i++) {
             var zone = "zone" + f3zones[i];
 
             // Bind de zonedata aan de zonelijnen maar check goed voor welke zone welke sensordata er beschikbaar is
+            // En doe hetzelfde voor de brushlijnen
             if (zone !== "zone12" && zone !== "zone9") {
                 focus.f3.append("path")
                     .datum(dataVariable[zone])
@@ -508,6 +518,7 @@ function updateF3Chart(dataVariable) {
         x.f3.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f3.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Update de brushdomeinen
         brushX.f3.domain(x.f3.domain());
         brushY.f3.domain(y.f3.domain());
 
@@ -536,14 +547,15 @@ function updateF3Chart(dataVariable) {
                 .attr("d", line.f3)
                 .style("display", "");
 
+        // En doe dat bij de brushlijn ook
         var contextLine = context.f3.select("#f3-brush-line")
             .datum(dataVariable)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f3)
                 .style("display", "");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de brush x as
         context.f3.select("#f3-context-x-axis")
             .transition()
             .duration(1000)
@@ -562,6 +574,7 @@ function updateF3Chart(dataVariable) {
                 .attr("d", line.f3)
                 .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f3.select("#f3-" + zone + "-brush")
                 .datum(dataVariable)
                 .transition()
@@ -581,6 +594,7 @@ function updateF3Chart(dataVariable) {
         }
         y.f3.domain([0, yMax]).nice();
 
+        // Update de brushdomeinen
         brushX.f3.domain(x.f3.domain());
         brushY.f3.domain(y.f3.domain());
 
@@ -609,14 +623,15 @@ function updateF3Chart(dataVariable) {
                 .attr("d", line.f3)
                 .style("display", "none");
 
+        // En doe hetzelfde voor de brushlijn
         var contextLine = context.f3.select("#f3-brush-line")
             .datum(dataVariable.zone1)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f3)
                 .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de brush x as
         context.f3.select("#f3-context-x-axis")
             .transition()
             .duration(1000)
@@ -627,6 +642,7 @@ function updateF3Chart(dataVariable) {
             eval("f3Zone" + f3zones[i] + "Checkbox.disabled = false");
 
             // Bind zonedata aan de zonelijnen maar check goed voor welke zones welke sensordata beschikbaar is
+            // En doe hetzelfde voor de brushlijnen
             var zone = "zone" + f3zones[i];
             if (zone !== "zone9" && zone !== "zone12") {
                 svg.f3.select("#f3-" + zone + "-line")

@@ -1,4 +1,5 @@
 /*
+* Team Gosia Warriors
 * Gedeelde file voor general.html, floor1.html, floor2.html en floor3.html
 */
 
@@ -54,6 +55,7 @@ var x = {
             .range([0, width])
 };
 
+// x schalen voor de brush op elke pagina
 var brushX = {
     general: d3.time.scale()
                 .range([0, width]),
@@ -77,6 +79,7 @@ var y = {
             .range([height, 0])
 };
 
+// y schalen voor de brush op elke pagina
 var brushY = {
     general: d3.scale.linear()
                 .range([brushHeight, 0]),
@@ -108,6 +111,7 @@ var xAxis = {
             .ticks(14)
 };
 
+// x as voor de brush op elke pagina
 var brushXAxis = {
     general: d3.svg.axis()
                 .scale(brushX.general)
@@ -159,6 +163,7 @@ var line = {
             .y(function(d) {return y.f3(d.val);})
 };
 
+// Lijnen van de brush op elke pagina
 var brushLine = {
     general: d3.svg.line()
                 .x(function(d) {return brushX.general(d.timestamp);})
@@ -174,6 +179,7 @@ var brushLine = {
             .y(function(d) {return brushY.f3(d.val);})
 };
 
+// Callback functie voor als de brush wordt gebruikt
 var brushed = {
     general: function() {
         x.general.domain(brush.general.empty() ? brushX.general.domain() : brush.general.extent());
@@ -197,6 +203,7 @@ var brushed = {
     }
 };
 
+// De brush zelf op elke pagina
 var brush = {
     general: d3.svg.brush()
                 .x(brushX.general)
@@ -212,6 +219,7 @@ var brush = {
             .on("brush", brushed.f3)
 };
 
+// Het canvas waarop de lijnen getekend worden
 var focus = {
     general: svg.general.append("g")
                 .attr("transform", "translate(0," + margin.top + ")"),
@@ -223,6 +231,7 @@ var focus = {
                 .attr("transform", "translate(0," + margin.top + ")")
 };
 
+// Het canvas waar de brush lijnen op komen
 var context = {
     general: svg.general.append("g")
                 .attr("class", "context")

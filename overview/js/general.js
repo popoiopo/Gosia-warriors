@@ -137,9 +137,11 @@ function initGeneralChart(dataArray) {
     x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
     y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
 
+    // Update ook de domeinen van de brushes
     brushX.general.domain(x.general.domain());
     brushY.general.domain(y.general.domain());
 
+    // Bepaal waar de lijnen mogen verschijnen
     focus.general.append("defs").append("clipPath")
     .attr("id", "clip-general")
         .append("rect")
@@ -181,25 +183,27 @@ function initGeneralChart(dataArray) {
         .attr("d", line.general)
         .attr("clip-path", "url(#clip-general)");
 
+    // Plak de brush lijn in zijn eigen plekje
     var contextLine = context.general.append("path")
         .datum(dataArray)
         .attr("id", "general-brush-line")
         .attr("class", "lines-general")
         .attr("d", brushLine.general);
-        // .attr("clip-path", "url(#clip)");
 
+    // x as voor de brush slider
     context.general.append("g")
         .attr("id", "general-context-x-axis")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + brushHeight + ")")
         .call(brushXAxis.general);
 
+    // Maak het oppervlak van de brush
     context.general.append("g")
         .attr("class", "x brush")
         .call(brush.general)
-      .selectAll("rect")
-        .attr("y", -6)
-        .attr("height", brushHeight + 7);
+        .selectAll("rect")
+            .attr("y", -6)
+            .attr("height", brushHeight + 7);
 }
 
 // Functie die wordt aangeroepen nadat de chart gemaakt die de data in de chart updatet
@@ -208,6 +212,7 @@ function updateGeneralChart(dataArray) {
     x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
     y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
 
+    // Update ook de domeinen van de brush
     brushX.general.domain(x.general.domain());
     brushY.general.domain(y.general.domain());
 
@@ -235,12 +240,12 @@ function updateGeneralChart(dataArray) {
             .duration(1000)
             .attr("d", line.general);
 
+    // Pas de brush analoog aan de linechart aan
     var contextLine = context.general.select("#general-brush-line")
         .datum(dataArray)
         .transition()
             .duration(1000)
             .attr("d", brushLine.general);
-        // .attr("clip-path", "url(#clip)");
 
     context.general.select("#general-context-x-axis")
         .transition()

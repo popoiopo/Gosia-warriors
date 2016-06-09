@@ -1,4 +1,5 @@
 /*
+* Team Gosia Warriors
 * Javascript file die hoort bij floor2.html, tekent de chart
 */
 
@@ -249,9 +250,11 @@ function initF2Chart(dataVariable) {
         x.f2.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f2.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Bereken de brushdomeinen
         brushX.f2.domain(x.f2.domain());
         brushY.f2.domain(y.f2.domain());
 
+        // Definieer het canvas waar de lijnen op mogen verschijnen
         focus.f2.append("defs").append("clipPath")
         .attr("id", "clip-f2")
             .append("rect")
@@ -293,25 +296,27 @@ function initF2Chart(dataVariable) {
             .attr("d", line.f2)
             .attr("clip-path", "url(#clip-f2)");
 
+        // Maak de brushlijn over de gehele verdieping
         var contextLine = context.f2.append("path")
             .datum(dataVariable)
             .attr("id", "f2-brush-line")
             .attr("class", "lines-f2 f2-general")
             .attr("d", brushLine.f2);
-            // .attr("clip-path", "url(#clip)");
 
+        // Brush x as
         context.f2.append("g")
             .attr("id", "f2-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f2);
 
+        // De brush zelf maken
         context.f2.append("g")
             .attr("class", "x brush")
             .call(brush.f2)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+                .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f2zones.length; i++) {
             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
@@ -328,6 +333,7 @@ function initF2Chart(dataVariable) {
                 .attr("clip-path", "url(#clip-f2)")
                 .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f2.append("path")
                 .datum(dataVariable)
                 .attr("id", "f2-" + zone + "-brush")
@@ -347,9 +353,11 @@ function initF2Chart(dataVariable) {
         }
         y.f2.domain([0, yMax]).nice();
 
+        // Bereken de brushdomeinen
         brushX.f2.domain(x.f2.domain());
         brushY.f2.domain(y.f2.domain());
 
+        // Definieer het canvas waar de lijnen op mogen verschijnen
         focus.f2.append("defs").append("clipPath")
         .attr("id", "clip-f2")
             .append("rect")
@@ -383,7 +391,7 @@ function initF2Chart(dataVariable) {
                 // Maak de label tekst de geselecteerde data uit de dropdown
                 .text($("#f2-sensors :selected").text());
 
-        // De lijn tekenen van de geselecteerde data
+        // Teken de verdiepingslijn met zone1 data (willekeurig) maar maak deze onzichtbaar
         focus.f2.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f2-line")
@@ -392,26 +400,28 @@ function initF2Chart(dataVariable) {
             .attr("clip-path", "url(#clip-f2)")
             .style("display", "none");
 
+        // En doe hetzelfde voor de brushlijn
         var contextLine = context.f2.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f2-brush-line")
             .attr("class", "lines-f2 f2-general")
             .attr("d", brushLine.f2)
             .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // Brush x as
         context.f2.append("g")
             .attr("id", "f2-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f2);
 
+        // Maak de brush zelf
         context.f2.append("g")
             .attr("class", "x brush")
             .call(brush.f2)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f2zones.length; i++) {
             // Bind zonedata aan de zonelijnen en laat deze zien
@@ -425,6 +435,7 @@ function initF2Chart(dataVariable) {
                 .attr("clip-path", "url(#clip-f2)")
                 .attr("d", line.f2);
 
+            // En doe hetzelfde voor de brushlijnen
             context.f2.append("path")
                 .datum(dataVariable[zone])
                 .attr("id", "f2-" + zone + "-brush")
@@ -446,6 +457,7 @@ function updateF2Chart(dataVariable) {
         x.f2.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f2.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Update de brushdomeinen
         brushX.f2.domain(x.f2.domain());
         brushY.f2.domain(y.f2.domain());
 
@@ -474,14 +486,15 @@ function updateF2Chart(dataVariable) {
                 .attr("d", line.f2)
                 .style("display", "");
 
+        // Update de brushlijn
         var contextLine = context.f2.select("#f2-brush-line")
             .datum(dataVariable)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f2)
                 .style("display", "");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de brush x as
         context.f2.select("#f2-context-x-axis")
             .transition()
             .duration(1000)
@@ -500,6 +513,7 @@ function updateF2Chart(dataVariable) {
                 .attr("d", line.f2)
                 .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f2.select("#f2-" + zone + "-brush")
                 .datum(dataVariable)
                 .transition()
@@ -519,6 +533,7 @@ function updateF2Chart(dataVariable) {
         }
         y.f2.domain([0, yMax]).nice();
 
+        // Update de brushdomeinen
         brushX.f2.domain(x.f2.domain());
         brushY.f2.domain(y.f2.domain());
 
@@ -547,14 +562,15 @@ function updateF2Chart(dataVariable) {
                 .attr("d", line.f2)
                 .style("display", "none");
 
+        // En doe hetzelfde voor de brushlijnen
         var contextLine = context.f2.select("#f2-brush-line")
             .datum(dataVariable.zone1)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f2)
                 .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de brush x as
         context.f2.select("#f2-context-x-axis")
             .transition()
             .duration(1000)
@@ -579,6 +595,7 @@ function updateF2Chart(dataVariable) {
                         }
                     });
 
+            // En doe hetzelfde voor de brushlijnen
             context.f2.select("#f2-" + zone + "-brush")
                 .datum(dataVariable[zone])
                 .transition()

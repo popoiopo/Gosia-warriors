@@ -1,4 +1,5 @@
 /*
+* Team Gosia Warriors
 * Javascript bestand bij floor1.html die de chart tekent
 */
 
@@ -49,7 +50,7 @@ for (var i = 0; i < f1zones.length; i++) {
     eval("f1Zone" + f1zones[i] + "Checkbox = document.getElementById('f1-" + zone + "');");
 }
 
-// Toggle de lijn van de checkbox die wordt aangeklikt
+// Toggle de lijnen van de checkbox die wordt aangeklikt
 $(".f1-zone-checkbox").change(function() {
     $("#" + this.id + "-line").toggle();
     $("#" + this.id + "-brush").toggle();
@@ -259,9 +260,11 @@ function initF1Chart(dataVariable) {
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Bereken ook de domeinen van de brush
         brushX.f1.domain(x.f1.domain());
         brushY.f1.domain(y.f1.domain());
 
+        // Bepaal waar de lijnen mogen verschijnen op de linechart
         focus.f1.append("defs").append("clipPath")
         .attr("id", "clip-f1")
             .append("rect")
@@ -303,25 +306,27 @@ function initF1Chart(dataVariable) {
             .attr("d", line.f1)
             .attr("clip-path", "url(#clip-f1)");
 
+        // Maak de brushlijnen in hun eigen plekje
         var contextLine = context.f1.append("path")
             .datum(dataVariable)
             .attr("id", "f1-brush-line")
             .attr("class", "lines-f1 f1-general")
             .attr("d", brushLine.f1);
-            // .attr("clip-path", "url(#clip)");
 
+        // Geef de brush zijn eigen x as
         context.f1.append("g")
             .attr("id", "f1-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f1);
 
+        // Maak de brush zelf aan
         context.f1.append("g")
             .attr("class", "x brush")
             .call(brush.f1)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         for (var i = 0; i < f1zones.length; i++) {
             var zone = "zone" + f1zones[i];
@@ -337,6 +342,7 @@ function initF1Chart(dataVariable) {
                 .attr("clip-path", "url(#clip-f1)")
                 .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f1.append("path")
                 .datum(dataVariable)
                 .attr("id", "f1-" + zone + "-brush")
@@ -356,6 +362,7 @@ function initF1Chart(dataVariable) {
         }
         y.f1.domain([0, yMax]).nice();
 
+        // Bereken de domeinen van de brush
         brushX.f1.domain(x.f1.domain());
         brushY.f1.domain(y.f1.domain());
 
@@ -401,26 +408,28 @@ function initF1Chart(dataVariable) {
             .attr("clip-path", "url(#clip-f1)")
             .style("display", "none");
 
+        // Maak de brush lijn maar maak deze onzichtbaar
         var contextLine = context.f1.append("path")
             .datum(dataVariable.zone1)
             .attr("id", "f1-brush-line")
             .attr("class", "lines-f1 f1-general")
             .attr("d", brushLine.f1)
             .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // x as van de brush
         context.f1.append("g")
             .attr("id", "f1-context-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + brushHeight + ")")
             .call(brushXAxis.f1);
 
+        // De brush zelf aanmaken
         context.f1.append("g")
             .attr("class", "x brush")
             .call(brush.f1)
-          .selectAll("rect")
-            .attr("y", -6)
-            .attr("height", brushHeight + 7);
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
 
         // Loop elke zone af
         for (var i = 0; i < f1zones.length; i++) {
@@ -433,6 +442,7 @@ function initF1Chart(dataVariable) {
                 .attr("clip-path", "url(#clip-f1)")
                 .attr("d", line.f1);
 
+            // En doe hetzelfde voor de brush
             context.f1.append("path")
                 .datum(dataVariable[zone])
                 .attr("id", "f1-" + zone + "-brush")
@@ -454,6 +464,7 @@ function updateF1Chart(dataVariable) {
         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
 
+        // Update de domeinen van de brushes
         brushX.f1.domain(x.f1.domain());
         brushY.f1.domain(y.f1.domain());
 
@@ -482,14 +493,15 @@ function updateF1Chart(dataVariable) {
                 .attr("d", line.f1)
                 .style("display", "");
 
+        // Maak de brush lijn over de gehele verdieping weer zichtbaar
         var contextLine = context.f1.select("#f1-brush-line")
             .datum(dataVariable)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f1)
                 .style("display", "");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de x as
         context.f1.select("#f1-context-x-axis")
             .transition()
             .duration(1000)
@@ -508,6 +520,7 @@ function updateF1Chart(dataVariable) {
                     .attr("d", line.f1)
                     .style("display", "none");
 
+            // En doe hetzelfde voor de brushlijnen
             context.f1.select("#f1-" + zone + "-brush")
                 .datum(dataVariable)
                 .transition()
@@ -527,6 +540,7 @@ function updateF1Chart(dataVariable) {
         }
         y.f1.domain([0, yMax]).nice();
 
+        // Update de brushdomeinen
         brushX.f1.domain(x.f1.domain());
         brushY.f1.domain(y.f1.domain());
 
@@ -555,14 +569,15 @@ function updateF1Chart(dataVariable) {
                 .attr("d", line.f1)
                 .style("display", "none");
 
+        // En doe hetzelfde voor de brushlijn
         var contextLine = context.f1.select("#f1-brush-line")
             .datum(dataVariable.zone1)
             .transition()
                 .duration(1000)
                 .attr("d", brushLine.f1)
                 .style("display", "none");
-            // .attr("clip-path", "url(#clip)");
 
+        // Transitie op de brush x as
         context.f1.select("#f1-context-x-axis")
             .transition()
             .duration(1000)
@@ -588,6 +603,7 @@ function updateF1Chart(dataVariable) {
                         }
                     });
 
+            // En doe hetzelfde voor de brushlijnen
             context.f1.select("#f1-" + zone + "-brush")
                 .datum(dataVariable[zone])
                 .transition()
