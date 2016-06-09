@@ -1,12 +1,26 @@
 /*
+* Team Gosia Warriors
 * Javascript file bij general.html
 * Tekent de visualisatie voor data die gaat over het gehele gebouw.
 */
 
 // Lege arrays die worden gevuld met de ingelezen data
-var loopTempSchedule = [], supplySideOutletTemperature = [], waterHeaterGasRate = [], deliFanPower = [], supplySideInletMassFlowRate = [], hvacElectricDemandPower = [], heatScheduleValue = [],
-    pumpPower = [], waterHeaterTankTemperature = [], supplySideInletTemperature = [], windDirection = [], totalElectricDemandPower = [], drybulbTemperature = [], waterHeaterSetpoint = [],
-    windSpeed = [], coolScheduleValue = [];
+var loopTempSchedule = [],
+    supplySideOutletTemperature = [],
+    waterHeaterGasRate = [],
+    deliFanPower = [],
+    supplySideInletMassFlowRate = [],
+    hvacElectricDemandPower = [],
+    heatScheduleValue = [],
+    pumpPower = [],
+    waterHeaterTankTemperature = [],
+    supplySideInletTemperature = [],
+    windDirection = [],
+    totalElectricDemandPower = [],
+    drybulbTemperature = [],
+    waterHeaterSetpoint = [],
+    windSpeed = [],
+    coolScheduleValue = [];
 
 // Print header tekst adhv de dropdown keuze
 d3.select("#general-vis-info").text($("#general-dropdown :selected").text());
