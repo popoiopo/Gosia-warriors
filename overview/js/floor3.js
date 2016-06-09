@@ -265,13 +265,7 @@ function initF3Chart(dataVariable) {
             .attr("id", "f3-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f3)
-            // Zet de labels aan de x-as schuin
-            .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", "rotate(-45)" );
+            .call(xAxis.f3);
 
         focus.f3.append("g")
             .attr("id", "f3-y-axis")
@@ -367,13 +361,7 @@ function initF3Chart(dataVariable) {
             .attr("id", "f3-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f3)
-            // Zet de labels aan de x-as schuin
-            .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", "rotate(-45)" );
+            .call(xAxis.f3);
 
         focus.f3.append("g")
             .attr("id", "f3-y-axis")

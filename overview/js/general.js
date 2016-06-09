@@ -153,13 +153,7 @@ function initGeneralChart(dataArray) {
         .attr("id", "general-x-axis")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis.general)
-        // Zet de labels aan de x-as schuin
-        .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", "rotate(-45)" );
+        .call(xAxis.general);
 
     focus.general.append("g")
         .attr("id", "general-y-axis")

@@ -276,13 +276,7 @@ function initF1Chart(dataVariable) {
             .attr("id", "f1-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f1)
-            // Zet de labels aan de x-as schuin
-            .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", "rotate(-45)" );
+            .call(xAxis.f1);
 
         focus.f1.append("g")
             .attr("id", "f1-y-axis")
@@ -377,13 +371,7 @@ function initF1Chart(dataVariable) {
             .attr("id", "f1-x-axis")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f1)
-            // Zet de labels aan de x-as schuin
-            .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", ".15em")
-                .attr("transform", "rotate(-45)" );
+            .call(xAxis.f1);
 
         focus.f1.append("g")
             .attr("id", "f1-y-axis")
