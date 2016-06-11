@@ -493,8 +493,16 @@ function initF3Chart(dataVariable) {
         }
     }
     // Breng een lijn naar voren als er over gehoverd wordt
-    d3.selectAll(".lines-f3").on("mouseover", function() {
-        d3.select(this).moveToFront();
+    $(".lines-f3").mouseover(function() {
+        $(".lines-f3").not(this).each(function() {
+            $(this).css("opacity", "0.2");
+        });
+    });
+
+    $(".lines-f3").mouseout(function() {
+        $(".lines-f3").each(function() {
+            $(this).css("opacity", "1");
+        });
     });
 }
 

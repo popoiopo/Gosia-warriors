@@ -129,7 +129,7 @@ var brushXAxis = {
             .scale(brushX.f3)
             .orient("bottom")
             .ticks(14)
-}
+};
 
 // y assen voor elk van de vier pagina's
 var yAxis = {
