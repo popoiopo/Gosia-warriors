@@ -328,6 +328,18 @@ function initGeneralChart(dataArray) {
         .selectAll("rect")
             .attr("y", -6)
             .attr("height", brushHeight + 7);
+
+    $(".lines-general").mouseover(function() {
+        $(".lines-general").not(this).each(function() {
+            $(this).css("opacity", "0.2");
+        });
+    });
+
+    $(".lines-general").mouseout(function() {
+        $(".lines-general").each(function() {
+            $(this).css("opacity", "1");
+        });
+    });
 }
 
 // Functie die wordt aangeroepen nadat de chart gemaakt die de data in de chart updatet
