@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="floor1.css">
+        <script src="d3.min.js"></script>
+        <script src="d3-queue.min.js"></script>
+        <script src="jquery-2.2.2.min.js"></script>
+        <title>VAC MC2 - Floor 2</title>
+    </head>
+    <body>
+        <header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+                <div id="navigation-buttons">
+                    <button id="button-general" class="button" type="button" value="index.html">General</button>
+                    <button id="button-f1" class="button" type="button" value="floor1.html">Floor 1</button>
+                    <button id="button-f2" class="button" type="button" value="floor2.html">Floor 2</button>
+                    <button id="button-f3" class="button" type="button" value="floor3.html">Floor 3</button>
+                </div>
+            </center>
+        </header>
+        <main>
+            <center>
+                <div id="f1-div" class="vis">
+                    <h2>Floor 1 readings</h2>
+                    <div id="f1-dropdown">
+                        <select id="f1-sensors" name="sensors">
+                            <option value="lightsPower" selected>Lights Power</option><!-- niet zone 6-->
+                            <option value="equipmentPower">Equipment Power</option><!-- niet zone 6-->
+                            <option value="thermostatTemp">Thermostat Temp</option><!-- niet zone 6-->
+                            <option value="thermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 6-->
+                            <option value="thermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 6-->
+                            <option value="vavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                            <option value="vavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="bathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="vavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 6-->
+                            <option value="reheatCoilPower">REHEAT COIL Power</option><!-- niet zone 6-->
+                            <option value="vavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="vavSysOutdoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="vavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="returnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zone 6-->
+                            <option value="supplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zone 6-->
+                            <option value="supplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zone 6-->
+                            <option value="mechanicalVentilationMassFlowRate">Mechanical Ventilation Mass Flow Rate</option><!-- alleen zone 1-->
+                        </select>
+                    </div>
+                    <br>
+                    <h3 id="f1-vis-info"></h3>
+                </div>
+            </center>
+        </main>
+        <script src="floor2.js" defer></script>
+    </body>
+</html>
