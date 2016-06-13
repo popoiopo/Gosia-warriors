@@ -23,16 +23,16 @@ body {
     text-align: center;
 }
 
-.line {
+.lines-f2 {
     fill: none;
     stroke-width: 1.5px;
 }
 
-#f2-line {
+.f2-general {
     stroke: steelblue;
 }
 
-#f2-zone1-line {
+.f2-zone1 {
     stroke: #FFCC00;
 }
 
@@ -40,7 +40,7 @@ body {
     color: #FFCC00;
 }
 
-#f2-zone2-line {
+.f2-zone2 {
     stroke: #FF6600;
 }
 
@@ -48,7 +48,7 @@ body {
     color: #FF6600;
 }
 
-#f2-zone3-line {
+.f2-zone3 {
     stroke: #99CC00;
 }
 
@@ -56,7 +56,7 @@ body {
     color: #99CC00;
 }
 
-#f2-zone4-line {
+.f2-zone4 {
     stroke: #FF9966;
 }
 
@@ -64,7 +64,7 @@ body {
     color: #FF9966;
 }
 
-#f2-zone5-line {
+.f2-zone5 {
     stroke: #CC0033;
 }
 
@@ -72,7 +72,7 @@ body {
     color: #CC0033;
 }
 
-#f2-zone6-line {
+.f2-zone6 {
     stroke: #CCFF33;
 }
 
@@ -80,7 +80,7 @@ body {
     color: #CCFF33;
 }
 
-#f2-zone7-line {
+.f2-zone7 {
     stroke: #333300;
 }
 
@@ -88,7 +88,7 @@ body {
     color: #333300;
 }
 
-#f2-zone8-line {
+.f2-zone8 {
     stroke: #FFFF00;
 }
 
@@ -96,7 +96,7 @@ body {
     color: #FFFF00;
 }
 
-#f2-zone9-line {
+.f2-zone9 {
     stroke: #FF3366;
 }
 
@@ -104,7 +104,7 @@ body {
     color: #FF3366;
 }
 
-#f2-zone10-line {
+.f2-zone10 {
     stroke: #FF6699;
 }
 
@@ -112,7 +112,7 @@ body {
     color: #FF6699;
 }
 
-#f2-zone11-line {
+.f2-zone11 {
     stroke: #336600;
 }
 
@@ -120,7 +120,7 @@ body {
     color: #336600;
 }
 
-#f2-zone12a-line {
+.f2-zone12a {
     stroke: #CC99CC;
 }
 
@@ -128,7 +128,7 @@ body {
     color: #CC99CC;
 }
 
-#f2-zone12b-line {
+.f2-zone12b {
     stroke: #660066;
 }
 
@@ -136,7 +136,7 @@ body {
     color: #660066;
 }
 
-#f2-zone12c-line {
+.f2-zone12c {
     stroke: #FF99FF;
 }
 
@@ -148,7 +148,7 @@ body {
     color: #858585;
 }
 
-#f2-zone14-line {
+.f2-zone14 {
     stroke: #66FFFF;
 }
 
@@ -156,7 +156,7 @@ body {
     color: #66FFFF;
 }
 
-#f2-zone15-line {
+.f2-zone15 {
     stroke: #6666CC;
 }
 
@@ -164,7 +164,7 @@ body {
     color: #6666CC;
 }
 
-#f2-zone16-line {
+.f2-zone16 {
     stroke: #0000FF;
 }
 
@@ -185,4 +185,10 @@ body {
 
 .y.axis text {
     font: 12px sans-serif;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
 }

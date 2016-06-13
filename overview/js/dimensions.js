@@ -1,13 +1,26 @@
+/*
+* Team Gosia Warriors
+* Gedeelde file voor general.html, floor1.html, floor2.html en floor3.html
+*/
+
+// Redirect bij druk op de knop
 $(".button").click(function() {
     window.location = this.value;
 });
 
-var margin = {top: 20, bottom: 50, left: 60, right: 20};
+// Afmetingen van de svg op de pagina
+var margin = {top: 10, bottom: 175, left: 60, right: 20};
 var width = 1100 - margin.left - margin.right;
-var height = 500 - margin.top - margin.bottom;
+var height = 550 - margin.top - margin.bottom;
 
+var brushMargin = {top: 430, right: 20, bottom: 50, left: 60};
+var brushHeight = 550 - brushMargin.top - brushMargin.bottom;
+
+// Functie om de datum van de JSON om te zetten naar javascript Date
 var dateFormat = d3.time.format("%Y-%m-%d %X");
+var csvDateFormat = d3.time.format("%d-%m-%Y %H:%M");
 
+// svg elementen voor elk van de vier pagina's
 var svg = {
     general: d3.select("#general-div").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -31,6 +44,7 @@ var svg = {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 };
 
+// x schalen voor elk van de vier pagina's
 var x = {
     general: d3.time.scale()
                 .range([0, width]),
@@ -42,6 +56,19 @@ var x = {
             .range([0, width])
 };
 
+// x schalen voor de brush op elke pagina
+var brushX = {
+    general: d3.time.scale()
+                .range([0, width]),
+    f1: d3.time.scale()
+            .range([0, width]),
+    f2: d3.time.scale()
+            .range([0, width]),
+    f3: d3.time.scale()
+            .range([0, width])
+};
+
+// y schalen voor elk van de vier pagina's
 var y = {
     general: d3.scale.linear()
                 .range([height, 0]),
@@ -53,6 +80,19 @@ var y = {
             .range([height, 0])
 };
 
+// y schalen voor de brush op elke pagina
+var brushY = {
+    general: d3.scale.linear()
+                .range([brushHeight, 0]),
+    f1: d3.scale.linear()
+            .range([brushHeight, 0]),
+    f2: d3.scale.linear()
+            .range([brushHeight, 0]),
+    f3: d3.scale.linear()
+            .range([brushHeight, 0])
+};
+
+// x assen voor elk van de vier pagina's
 var xAxis = {
     general: d3.svg.axis()
                 .scale(x.general)
@@ -72,6 +112,27 @@ var xAxis = {
             .ticks(14)
 };
 
+// x as voor de brush op elke pagina
+var brushXAxis = {
+    general: d3.svg.axis()
+                .scale(brushX.general)
+                .orient("bottom")
+                .ticks(14),
+    f1: d3.svg.axis()
+            .scale(brushX.f1)
+            .orient("bottom")
+            .ticks(14),
+    f2: d3.svg.axis()
+            .scale(brushX.f2)
+            .orient("bottom")
+            .ticks(14),
+    f3: d3.svg.axis()
+            .scale(brushX.f3)
+            .orient("bottom")
+            .ticks(14)
+};
+
+// y assen voor elk van de vier pagina's
 var yAxis = {
     general: d3.svg.axis()
                 .scale(y.general)
@@ -87,6 +148,7 @@ var yAxis = {
             .orient("left")
 };
 
+// Lijnen voor elk van de vier pagina's adhv hun schalen
 var line = {
     general: d3.svg.line()
                 .x(function(d) {return x.general(d.timestamp);})
@@ -102,12 +164,107 @@ var line = {
             .y(function(d) {return y.f3(d.val);})
 };
 
+// Lijnen van de brush op elke pagina
+var brushLine = {
+    general: d3.svg.line()
+                .x(function(d) {return brushX.general(d.timestamp);})
+                .y(function(d) {return brushY.general(d.val);}),
+    f1: d3.svg.line()
+            .x(function(d) {return brushX.f1(d.timestamp);})
+            .y(function(d) {return brushY.f1(d.val);}),
+    f2: d3.svg.line()
+            .x(function(d) {return brushX.f2(d.timestamp);})
+            .y(function(d) {return brushY.f2(d.val);}),
+    f3: d3.svg.line()
+            .x(function(d) {return brushX.f3(d.timestamp);})
+            .y(function(d) {return brushY.f3(d.val);})
+};
+
+// Callback functie voor als de brush wordt gebruikt
+var brushed = {
+    general: function() {
+        x.general.domain(brush.general.empty() ? brushX.general.domain() : brush.general.extent());
+        focus.general.selectAll("path.lines-general").attr("d", line.general);
+        focus.general.select("#general-x-axis").call(xAxis.general);
+    },
+    f1: function() {
+        x.f1.domain(brush.f1.empty() ? brushX.f1.domain() : brush.f1.extent());
+        focus.f1.selectAll("path.lines-f1").attr("d", line.f1);
+        focus.f1.select("#f1-x-axis").call(xAxis.f1);
+    },
+    f2: function() {
+        x.f2.domain(brush.f2.empty() ? brushX.f2.domain() : brush.f2.extent());
+        focus.f2.selectAll("path.lines-f2").attr("d", line.f2);
+        focus.f2.select(".x.axis").call(xAxis.f2);
+    },
+    f3: function() {
+        x.f3.domain(brush.f3.empty() ? brushX.f3.domain() : brush.f3.extent());
+        focus.f3.selectAll("path.lines-f3").attr("d", line.f3);
+        focus.f3.select(".x.axis").call(xAxis.f3);
+    }
+};
+
+// De brush zelf op elke pagina
+var brush = {
+    general: d3.svg.brush()
+                .x(brushX.general)
+                .on("brush", brushed.general),
+    f1: d3.svg.brush()
+            .x(brushX.f1)
+            .on("brush", brushed.f1),
+    f2: d3.svg.brush()
+            .x(brushX.f2)
+            .on("brush", brushed.f2),
+    f3: d3.svg.brush()
+            .x(brushX.f3)
+            .on("brush", brushed.f3)
+};
+
+// Het canvas waarop de lijnen getekend worden
+var focus = {
+    general: svg.general.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f1: svg.f1.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f2: svg.f2.append("g")
+                .attr("transform", "translate(0," + margin.top + ")"),
+    f3: svg.f3.append("g")
+                .attr("transform", "translate(0," + margin.top + ")")
+};
+
+// Het canvas waar de brush lijnen op komen
+var context = {
+    general: svg.general.append("g")
+                .attr("class", "context")
+                .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f1: svg.f1.append("g")
+            .attr("class", "context")
+            .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f2: svg.f2.append("g")
+        .attr("class", "context")
+        .attr("transform", "translate(0," + brushMargin.top + ")"),
+    f3: svg.f3.append("g")
+            .attr("class", "context")
+            .attr("transform", "translate(0," + brushMargin.top + ")")
+};
+
+// Gedeelde functies
+// Check of een variabele een array is
 // Bron: http://stackoverflow.com/questions/8511281/check-if-a-variable-is-an-object-in-javascript
 function isArray(variable) {
     return (!!variable) && (variable.constructor === Array);
 }
 
+// Check een string met een wildcard character *
 // Bron: http://stackoverflow.com/questions/26246601/wildcard-string-comparison-in-javascript
 function wildcardCompare(str, rule) {
   return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
+
+// Methode om een lijn naar voren te brengen
+// Bron: http://stackoverflow.com/questions/14167863/how-can-i-bring-a-circle-to-the-front-with-d3
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};

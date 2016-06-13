@@ -23,16 +23,16 @@ body {
     text-align: center;
 }
 
-.line {
+.lines-f3 {
     fill: none;
     stroke-width: 1.5px;
 }
 
-#f3-line {
+.f3-general {
     stroke: steelblue;
 }
 
-#f3-zone1-line {
+.f3-zone1 {
     stroke: #a6cee3;
 }
 
@@ -40,7 +40,7 @@ body {
     color: #a6cee3;
 }
 
-#f3-zone2-line {
+.f3-zone2 {
     stroke: #1f78b4;
 }
 
@@ -48,7 +48,7 @@ body {
     color: #1f78b4;
 }
 
-#f3-zone3-line {
+.f3-zone3 {
     stroke: #b2df8a;
 }
 
@@ -60,7 +60,7 @@ body {
     color: #858585;
 }
 
-#f3-zone5-line {
+.f3-zone5 {
     stroke: #33a02c;
 }
 
@@ -68,7 +68,7 @@ body {
     color: #33a02c;
 }
 
-#f3-zone6-line {
+.f3-zone6 {
     stroke: #fb9a99;
 }
 
@@ -76,7 +76,7 @@ body {
     color: #fb9a99;
 }
 
-#f3-zone7-line {
+.f3-zone7 {
     stroke: #e31a1c;
 }
 
@@ -84,7 +84,7 @@ body {
     color: #e31a1c;
 }
 
-#f3-zone8-line {
+.f3-zone8 {
     stroke: #fdbf6f;
 }
 
@@ -92,7 +92,7 @@ body {
     color: #fdbf6f;
 }
 
-#f3-zone9-line {
+.f3-zone9 {
     stroke: #ff7f00;
 }
 
@@ -100,7 +100,7 @@ body {
     color: #ff7f00;
 }
 
-#f3-zone10-line {
+.f3-zone10 {
     stroke: #cab2d6;
 }
 
@@ -108,7 +108,7 @@ body {
     color: #cab2d6;
 }
 
-#f3-zone11a-line {
+.f3-zone11a {
     stroke: #6a3d9a;
 }
 
@@ -116,7 +116,7 @@ body {
     color: #6a3d9a;
 }
 
-#f3-zone11b-line {
+.f3-zone11b {
     stroke: #ffff00;
 }
 
@@ -124,7 +124,7 @@ body {
     color: #ffff00;
 }
 
-#f3-zone11c-line {
+.f3-zone11c {
     stroke: #b15928;
 }
 
@@ -132,7 +132,7 @@ body {
     color: #b15928;
 }
 
-#f3-zone12-line {
+.f3-zone12 {
     stroke: #660033;
 }
 
@@ -153,4 +153,10 @@ body {
 
 .y.axis text {
     font: 12px sans-serif;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
 }
