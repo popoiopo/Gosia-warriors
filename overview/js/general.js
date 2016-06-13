@@ -22,6 +22,7 @@ var loopTempSchedule = [],
     windSpeed = [],
     coolScheduleValue = [];
 
+// Zones en verdiepingen waarvoor hazium data gemete is
 var haziumZones = ["F_1_Z_8A", "F_2_Z_2", "F_2_Z_4", "F_3_Z_1"];
 
 var haziumData = {};
@@ -29,15 +30,17 @@ for (var i = 0; i < haziumZones.length; i++) {
     haziumData[haziumZones[i]] = [];
 }
 
+// Zet de div van de checkboxes eerst op onzichtbaar
 var generalCheckboxDiv = d3.select("#hazium-checkboxes");
 generalCheckboxDiv.style("display", "none");
 
+// Cache de checkboxes
 var checkboxLine1 = document.getElementById("general-checkbox-line-1");
 var checkboxLine2 = document.getElementById("general-checkbox-line-2");
 var checkboxLine3 = document.getElementById("general-checkbox-line-3");
 var checkboxLine4 = document.getElementById("general-checkbox-line-4");
-// console.log(checkboxLine1.checked, checkboxLine2.checked, checkboxLine3.checked, checkboxLine4.checked);
 
+// Bind een on change event aan de checkboxes en toggle de lijnen die erbij horen
 $(".general-hazium-checkbox").change(function() {
     $("#general-" + this.value).toggle();
     $("#general-brush-" + this.value).toggle();
@@ -62,6 +65,7 @@ function changeGeneralHeader() {
 }
 
 d3.csv("json/hazium_data.csv", function(d) {
+        // Format de data
         return {
             Time: new Date(csvDateFormat.parse(d.Time)),
             F_1_Z_8A: +d.F_1_Z_8A,
@@ -72,6 +76,7 @@ d3.csv("json/hazium_data.csv", function(d) {
     }, function(csverror, rows) {
         if (csverror) throw csverror;
 
+        // Sla de data op in haziumData
         for (var i = 0; i < rows.length; i++) {
             for (var key in rows[i]) {
                 if (key !== "Time") {
@@ -240,6 +245,7 @@ function initGeneralChart(dataArray) {
         .attr("d", line.general)
         .attr("clip-path", "url(#clip-general)");
 
+    // Dit zijn de lijnen voor de hazium data maar zet ze eerst op onzichtbaar
     focus.general.append("path")
         .datum(dataArray)
         .attr("id", "general-line-1")
@@ -279,6 +285,7 @@ function initGeneralChart(dataArray) {
         .attr("class", "lines-general")
         .attr("d", brushLine.general);
 
+    // Brushlijnen voor de hazium data maar maak ze eerst onzichtbaar
     context.general.append("path")
         .datum(dataArray)
         .attr("id", "general-brush-line-1")
@@ -359,6 +366,7 @@ function updateGeneralChart(dataArray) {
                 .attr("d", line.general)
                 .style("display", "");
 
+        // Maak de hazium lijnen onzichtbaar
         svg.general.select("#general-line-1")
             .datum(dataArray)
             .transition()
@@ -395,6 +403,7 @@ function updateGeneralChart(dataArray) {
                 .attr("d", brushLine.general)
                 .style("display", "");
 
+        // Maak de hazium brush lijnen onzichtbaar
         context.general.select("#general-brush-line-1")
             .datum(dataArray)
             .transition()
@@ -423,6 +432,7 @@ function updateGeneralChart(dataArray) {
                 .attr("d", brushLine.general)
                 .style("display", "none");
 
+        // Transition op de brush x as
         context.general.select("#general-context-x-axis")
             .transition()
             .duration(1000)
@@ -461,7 +471,7 @@ function updateGeneralChart(dataArray) {
                 .duration(1000)
                 .text($("#general-dropdown :selected").text());
 
-        // Verander de gebonden data aan de lijn
+        // Verander de gebonden data aan de lijn en maak deze onzichtbaar
         svg.general.select("#general-line")
             .datum(dataVariable.F_1_Z_8A)
             .transition()
@@ -469,6 +479,7 @@ function updateGeneralChart(dataArray) {
                 .attr("d", line.general)
                 .style("display", "none");
 
+        // Maak de haziumlijnen zichtbaar adhv de aangevinkte checkboxes
         svg.general.select("#general-line-1")
             .datum(dataVariable.F_1_Z_8A)
             .transition()
@@ -521,7 +532,7 @@ function updateGeneralChart(dataArray) {
                     }
                 });
 
-        // Pas de brush analoog aan de linechart aan
+        // Pas de brush analoog aan de linechart aan en maak deze onzichtbaar
         var contextLine = context.general.select("#general-brush-line")
             .datum(dataVariable.F_1_Z_8A)
             .transition()
@@ -529,6 +540,7 @@ function updateGeneralChart(dataArray) {
                 .attr("d", brushLine.general)
                 .style("display", "none");
 
+        // Maak de haziumbrushlijnen zichtbaar adhv de aangevinkte checkboxes
         context.general.select("#general-brush-line-1")
             .datum(dataVariable.F_1_Z_8A)
             .transition()
@@ -581,6 +593,7 @@ function updateGeneralChart(dataArray) {
                     }
                 });
 
+        // Transition op de brush x as
         context.general.select("#general-context-x-axis")
             .transition()
             .duration(1000)
