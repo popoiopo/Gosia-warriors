@@ -18,6 +18,7 @@ var brushHeight = 550 - brushMargin.top - brushMargin.bottom;
 
 // Functie om de datum van de JSON om te zetten naar javascript Date
 var dateFormat = d3.time.format("%Y-%m-%d %X");
+var csvDateFormat = d3.time.format("%d-%m-%Y %H:%M");
 
 // svg elementen voor elk van de vier pagina's
 var svg = {
@@ -183,7 +184,7 @@ var brushLine = {
 var brushed = {
     general: function() {
         x.general.domain(brush.general.empty() ? brushX.general.domain() : brush.general.extent());
-        focus.general.select("#general-line").attr("d", line.general);
+        focus.general.selectAll("path.lines-general").attr("d", line.general);
         focus.general.select("#general-x-axis").call(xAxis.general);
     },
     f1: function() {

@@ -22,6 +22,27 @@ var loopTempSchedule = [],
     windSpeed = [],
     coolScheduleValue = [];
 
+var haziumZones = ["F_1_Z_8A", "F_2_Z_2", "F_2_Z_4", "F_3_Z_1"];
+
+var haziumData = {};
+for (var i = 0; i < haziumZones.length; i++) {
+    haziumData[haziumZones[i]] = [];
+}
+
+var generalCheckboxDiv = d3.select("#hazium-checkboxes");
+generalCheckboxDiv.style("display", "none");
+
+var checkboxLine1 = document.getElementById("general-checkbox-line-1");
+var checkboxLine2 = document.getElementById("general-checkbox-line-2");
+var checkboxLine3 = document.getElementById("general-checkbox-line-3");
+var checkboxLine4 = document.getElementById("general-checkbox-line-4");
+// console.log(checkboxLine1.checked, checkboxLine2.checked, checkboxLine3.checked, checkboxLine4.checked);
+
+$(".general-hazium-checkbox").change(function() {
+    $("#general-" + this.value).toggle();
+    $("#general-brush-" + this.value).toggle();
+});
+
 // Print header tekst adhv de dropdown keuze
 d3.select("#general-vis-info").text($("#general-dropdown :selected").text());
 
@@ -31,118 +52,146 @@ $("#general-dropdown").change(changeGeneralHeader);
 function changeGeneralHeader() {
     // Update de header tekst
     d3.select("#general-vis-info").text($("#general-dropdown :selected").text());
+    if ($("#general-dropdown :selected").val() == "haziumData") {
+        generalCheckboxDiv.style("display", "");
+    } else {
+        generalCheckboxDiv.style("display", "none");
+    }
     // Update de chart
     updateGeneralChart(eval($("#general-dropdown").val()));
 }
 
-// Lees de data in
-d3.json("json/general-MC2.json", function(error, data) {
-    if (error) throw error;
+d3.csv("json/hazium_data.csv", function(d) {
+        return {
+            Time: new Date(csvDateFormat.parse(d.Time)),
+            F_1_Z_8A: +d.F_1_Z_8A,
+            F_2_Z_2: +d.F_2_Z_2,
+            F_2_Z_4: +d.F_2_Z_4,
+            F_3_Z_1: +d.F_3_Z_1
+        };
+    }, function(csverror, rows) {
+        if (csverror) throw csverror;
 
-    for (var i = 0; i < data.length; i++) {
-        // Sla de timestamp en offset op om later te gebruiken
-        var datetime = new Date(dateFormat.parse(data[i].message["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/);
-        var timeoffset = data[i].offset;
+        for (var i = 0; i < rows.length; i++) {
+            for (var key in rows[i]) {
+                if (key !== "Time") {
+                    haziumData[key].push({
+                        timestamp: rows[i].Time,
+                        val: rows[i][key]
+                    });
+                }
+            }
+        }
 
-        // Vul de eerder gedefinieerde arrays met de ingelezen data
-        loopTempSchedule.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Loop Temp Schedule"]
+        // Lees de data in
+        d3.json("json/general-MC2.json", function(error, data) {
+            if (error) throw error;
+
+            for (var i = 0; i < data.length; i++) {
+                // Sla de timestamp en offset op om later te gebruiken
+                var datetime = new Date(dateFormat.parse(data[i].message["Date/Time"])/* - new Date().getTimezoneOffset() * 60 * 1000*/);
+                var timeoffset = data[i].offset;
+
+                // Vul de eerder gedefinieerde arrays met de ingelezen data
+                loopTempSchedule.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Loop Temp Schedule"]
+                });
+
+                supplySideOutletTemperature.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Supply Side Outlet Temperature"]
+                });
+
+                waterHeaterGasRate.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Water Heater Gas Rate"]
+                });
+
+                deliFanPower.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["DELI-FAN Power"]
+                });
+
+                supplySideInletMassFlowRate.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Supply Side Inlet Mass Flow Rate"]
+                });
+
+                hvacElectricDemandPower.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["HVAC Electric Demand Power"]
+                });
+
+                heatScheduleValue.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["HEAT Schedule Value"]
+                });
+
+                pumpPower.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Pump Power"]
+                });
+
+                waterHeaterTankTemperature.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Water Heater Tank Temperature"]
+                });
+
+                supplySideInletTemperature.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Supply Side Inlet Temperature"]
+                });
+
+                windDirection.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Wind Direction"]
+                });
+
+                totalElectricDemandPower.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Total Electric Demand Power"]
+                });
+
+                drybulbTemperature.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Drybulb Temperature"]
+                });
+
+                waterHeaterSetpoint.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Water Heater Setpoint"]
+                });
+
+                windSpeed.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["Wind Speed"]
+                });
+
+                coolScheduleValue.push({
+                    timestamp: datetime,
+                    offset: timeoffset,
+                    val: +data[i].message["COOL Schedule Value"]
+                });
+            }
+            // Initialiseer de chart
+            initGeneralChart(eval($("#general-dropdown").val()));
         });
-
-        supplySideOutletTemperature.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Supply Side Outlet Temperature"]
-        });
-
-        waterHeaterGasRate.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Water Heater Gas Rate"]
-        });
-
-        deliFanPower.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["DELI-FAN Power"]
-        });
-
-        supplySideInletMassFlowRate.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Supply Side Inlet Mass Flow Rate"]
-        });
-
-        hvacElectricDemandPower.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["HVAC Electric Demand Power"]
-        });
-
-        heatScheduleValue.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["HEAT Schedule Value"]
-        });
-
-        pumpPower.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Pump Power"]
-        });
-
-        waterHeaterTankTemperature.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Water Heater Tank Temperature"]
-        });
-
-        supplySideInletTemperature.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Supply Side Inlet Temperature"]
-        });
-
-        windDirection.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Wind Direction"]
-        });
-
-        totalElectricDemandPower.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Total Electric Demand Power"]
-        });
-
-        drybulbTemperature.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Drybulb Temperature"]
-        });
-
-        waterHeaterSetpoint.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Water Heater Setpoint"]
-        });
-
-        windSpeed.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["Wind Speed"]
-        });
-
-        coolScheduleValue.push({
-            timestamp: datetime,
-            offset: timeoffset,
-            val: +data[i].message["COOL Schedule Value"]
-        });
-    }
-    // Initialiseer de chart
-    initGeneralChart(eval($("#general-dropdown").val()));
 });
 
 // Functie om de chart te maken (als de data geladen is)
@@ -191,12 +240,72 @@ function initGeneralChart(dataArray) {
         .attr("d", line.general)
         .attr("clip-path", "url(#clip-general)");
 
+    focus.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-line-1")
+        .attr("class", "lines-general")
+        .attr("d", line.general)
+        .attr("clip-path", "url(#clip-general)")
+        .style("display", "none");
+
+    focus.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-line-2")
+        .attr("class", "lines-general")
+        .attr("d", line.general)
+        .attr("clip-path", "url(#clip-general)")
+        .style("display", "none");
+
+    focus.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-line-3")
+        .attr("class", "lines-general")
+        .attr("d", line.general)
+        .attr("clip-path", "url(#clip-general)")
+        .style("display", "none");
+
+    focus.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-line-4")
+        .attr("class", "lines-general")
+        .attr("d", line.general)
+        .attr("clip-path", "url(#clip-general)")
+        .style("display", "none");
+
     // Plak de brush lijn in zijn eigen plekje
     var contextLine = context.general.append("path")
         .datum(dataArray)
         .attr("id", "general-brush-line")
         .attr("class", "lines-general")
         .attr("d", brushLine.general);
+
+    context.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-brush-line-1")
+        .attr("class", "lines-general")
+        .attr("d", brushLine.general)
+        .style("display", "none");
+
+    context.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-brush-line-2")
+        .attr("class", "lines-general")
+        .attr("d", brushLine.general)
+        .style("display", "none");
+
+    context.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-brush-line-3")
+        .attr("class", "lines-general")
+        .attr("d", brushLine.general)
+        .style("display", "none");
+
+    context.general.append("path")
+        .datum(dataArray)
+        .attr("id", "general-brush-line-4")
+        .attr("class", "lines-general")
+        .attr("d", brushLine.general)
+        .style("display", "none");
 
     // x as voor de brush slider
     context.general.append("g")
@@ -216,47 +325,265 @@ function initGeneralChart(dataArray) {
 
 // Functie die wordt aangeroepen nadat de chart gemaakt die de data in de chart updatet
 function updateGeneralChart(dataArray) {
-    // Bereken de nieuwe ranges van de data
-    x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
-    y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
+    if (isArray(dataArray)) {
+        // Bereken de nieuwe ranges van de data
+        x.general.domain(d3.extent(dataArray, function(d) {return d.timestamp;})).nice();
+        y.general.domain([0, d3.max(dataArray, function(d) {return d.val;})]).nice();
 
-    // Update ook de domeinen van de brush
-    brushX.general.domain(x.general.domain());
-    brushY.general.domain(y.general.domain());
+        // Update ook de domeinen van de brush
+        brushX.general.domain(x.general.domain());
+        brushY.general.domain(y.general.domain());
 
-    // Pas de assen aan adhv de nieuwe ranges
-    svg.general.select("#general-x-axis")
-        .transition()
+        // Pas de assen aan adhv de nieuwe ranges
+        svg.general.select("#general-x-axis")
+            .transition()
+                .duration(1000)
+                .call(xAxis.general);
+
+        svg.general.select("#general-y-axis")
+            .transition()
+                .duration(1000)
+                .call(yAxis.general);
+
+        // Verander de labeltekst adhv de nieuwe data
+        svg.general.select("#general-y-label")
+            .transition()
+                .duration(1000)
+                .text($("#general-dropdown :selected").text());
+
+        // Verander de gebonden data aan de lijn
+        svg.general.select("#general-line")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "");
+
+        svg.general.select("#general-line-1")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "none");
+
+        svg.general.select("#general-line-2")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "none");
+
+        svg.general.select("#general-line-3")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "none");
+
+        svg.general.select("#general-line-4")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "none");
+
+        // Pas de brush analoog aan de linechart aan
+        var contextLine = context.general.select("#general-brush-line")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "");
+
+        context.general.select("#general-brush-line-1")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "none");
+
+        context.general.select("#general-brush-line-2")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "none");
+
+        context.general.select("#general-brush-line-3")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "none");
+
+        context.general.select("#general-brush-line-4")
+            .datum(dataArray)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "none");
+
+        context.general.select("#general-context-x-axis")
+            .transition()
             .duration(1000)
-            .call(xAxis.general);
+                .call(brushXAxis.general);
+    } else {
+        // Het betreft de hazium concentraties
+        var dataVariable = dataArray;
+        // Bepaal de nieuwe ranges
+        x.general.domain(d3.extent(dataVariable.F_1_Z_8A, function(d) {return d.timestamp;})).nice();
+        var yMax = 0;
+        for (var zone in dataVariable) {
+            if(d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
+                yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
+            }
+        }
+        y.general.domain([0, yMax]).nice();
 
-    svg.general.select("#general-y-axis")
-        .transition()
+        // Update de brushdomeinen
+        brushX.general.domain(x.general.domain());
+        brushY.general.domain(y.general.domain());
+
+        // Pas de assen aan adhv de nieuwe ranges
+        svg.general.select("#general-x-axis")
+            .transition()
+                .duration(1000)
+                .call(xAxis.general);
+
+        svg.general.select("#general-y-axis")
+            .transition()
+                .duration(1000)
+                .call(yAxis.general);
+
+        // Verander de labeltekst adhv de nieuwe data
+        svg.general.select("#general-y-label")
+            .transition()
+                .duration(1000)
+                .text($("#general-dropdown :selected").text());
+
+        // Verander de gebonden data aan de lijn
+        svg.general.select("#general-line")
+            .datum(dataVariable.F_1_Z_8A)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", "none");
+
+        svg.general.select("#general-line-1")
+            .datum(dataVariable.F_1_Z_8A)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", function() {
+                    if (checkboxLine1.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        svg.general.select("#general-line-2")
+            .datum(dataVariable.F_2_Z_2)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", function() {
+                    if (checkboxLine2.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        svg.general.select("#general-line-3")
+            .datum(dataVariable.F_2_Z_4)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", function() {
+                    if (checkboxLine3.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        svg.general.select("#general-line-4")
+            .datum(dataVariable.F_3_Z_1)
+            .transition()
+                .duration(1000)
+                .attr("d", line.general)
+                .style("display", function() {
+                    if (checkboxLine4.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        // Pas de brush analoog aan de linechart aan
+        var contextLine = context.general.select("#general-brush-line")
+            .datum(dataVariable.F_1_Z_8A)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", "none");
+
+        context.general.select("#general-brush-line-1")
+            .datum(dataVariable.F_1_Z_8A)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", function() {
+                    if (checkboxLine1.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        context.general.select("#general-brush-line-2")
+            .datum(dataVariable.F_2_Z_2)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", function() {
+                    if (checkboxLine2.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        context.general.select("#general-brush-line-3")
+            .datum(dataVariable.F_2_Z_4)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", function() {
+                    if (checkboxLine3.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        context.general.select("#general-brush-line-4")
+            .datum(dataVariable.F_3_Z_1)
+            .transition()
+                .duration(1000)
+                .attr("d", brushLine.general)
+                .style("display", function() {
+                    if (checkboxLine4.checked) {
+                        return "";
+                    } else {
+                        return "none";
+                    }
+                });
+
+        context.general.select("#general-context-x-axis")
+            .transition()
             .duration(1000)
-            .call(yAxis.general);
-
-    // Verander de labeltekst adhv de nieuwe data
-    svg.general.select("#general-y-label")
-        .transition()
-            .duration(1000)
-            .text($("#general-dropdown :selected").text());
-
-    // Verander de gebonden data aan de lijn
-    svg.general.select("#general-line")
-        .datum(dataArray)
-        .transition()
-            .duration(1000)
-            .attr("d", line.general);
-
-    // Pas de brush analoog aan de linechart aan
-    var contextLine = context.general.select("#general-brush-line")
-        .datum(dataArray)
-        .transition()
-            .duration(1000)
-            .attr("d", brushLine.general);
-
-    context.general.select("#general-context-x-axis")
-        .transition()
-        .duration(1000)
-            .call(brushXAxis.general);
+                .call(brushXAxis.general);
+    }
 }

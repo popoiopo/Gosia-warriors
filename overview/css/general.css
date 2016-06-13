@@ -29,6 +29,47 @@ body {
     stroke-width: 1.5px;
 }
 
+#general-line,
+#general-brush-line {
+    stroke: steelblue;
+}
+
+#general-line-1,
+#general-brush-line-1 {
+    stroke: steelblue;
+}
+
+#general-F_1_Z_8A-text {
+    color: steelblue;
+}
+
+#general-line-2,
+#general-brush-line-2 {
+    stroke: orange;
+}
+
+#general-F_2_Z_2-text {
+    color: orange;
+}
+
+#general-line-3,
+#general-brush-line-3 {
+    stroke: red;
+}
+
+#general-F_2_Z_4-text {
+    color: red;
+}
+
+#general-line-4,
+#general-brush-line-4 {
+    stroke: green;
+}
+
+#general-F_3_Z_1-text {
+    color: green;
+}
+
 .axis path,
 .axis line {
     fill: none;
