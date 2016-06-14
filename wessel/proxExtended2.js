@@ -5,7 +5,7 @@ Wessel de Jong
 10206620
 
 Programmeerproject
-Prox data 
+Prox data
 */
 
 function proxGrapher(data, id) {
@@ -83,7 +83,7 @@ function proxGrapher(data, id) {
 	    .x(function(d) { return x2(d.date); })
 	    .y(function(d) { return y2(d.frequency); });
 
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#linegraph").append("svg")
 		.attr("id", id)
 		.attr("class", "svg")
 		.attr("display", "none")
@@ -147,14 +147,6 @@ function proxGrapher(data, id) {
 	  .attr("d", function(d) { return line(d.values); })
 	  .style("stroke", function(d) { return color(d.floor); });
 
-	floor.append("text")
-	  .datum(function(d) { return {floor: d.floor, value: d.values[d.values.length - 1]}; })
-	  .attr("class", "label")
-	  .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.frequency) + ")"; })
-	  .attr("x", 3)
-	  .attr("dy", ".35em")
-	  .text(function(d) { return d.floor; });
-
 	var floor2 = context.selectAll(".floor")
 	  .data(floors)
 	.enter().append("g")
@@ -166,37 +158,10 @@ function proxGrapher(data, id) {
 	  .attr("d", function(d) { return line2(d.values); })
 	  .style("stroke", function(d) { return color(d.floor); });
 
-	legendItem = legend.selectAll('.floor')
-	  .data(floors.map(function(d) { return d.floor; }).sort())
-	.enter().append("g")
-	  .attr("transform", function(d, i) { return "translate(0," + i*18 + ")"; })
-	  .attr("class", "floor legend")
-	  
-	legendItem.append("rect")
-	  .attr("width", 13)
-	  .attr("height", 13)
-	  .attr("fill", function(d) { return color(d); });
-
-	legendItem.append("text")
-	  .attr("x", 15)
-	  .attr("y", 10.5)
-	  .text(function(d) { return d; });
-
 	function brushed() {
 	  x.domain(brush.empty() ? x2.domain() : brush.extent());
-	  focus.selectAll("path.line").attr("d", function(d) { return line(d.values); }); 
+	  focus.selectAll("path.line").attr("d", function(d) { return line(d.values); });
 	  focus.select(".x.axis").call(xAxis);
 	};
 
 };
-
-
-
-
-
-
-
-
-
-
-
