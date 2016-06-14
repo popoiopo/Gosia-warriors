@@ -5,7 +5,7 @@ Wessel de Jong
 10206620
 
 Programmeerproject
-Prox data 
+Prox data
 */
 
 // final dataset
@@ -15,6 +15,9 @@ var floor_2 = {}
 var floor_3 = {}
 
 function dataMaker(callback) {
+    var dataDays = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
 	// variables for temporary storing data per floor
 	var general_floor_1 = []
 	var general_floor_2 = []
@@ -77,7 +80,7 @@ function dataMaker(callback) {
 	  				}
 	  			}
 
-	  		} 
+	  		}
 	  		else if (+d.floor == 2) {
 	  			general_floor_2.push(d);
 
@@ -132,21 +135,61 @@ function dataMaker(callback) {
 			// add rest of data
 			floors[i].forEach(function(d) {
 			    var datetime = formatDate.parse(d.timestamp);
-		  
+
 			    if (datetime.getDate() > 4) {
 			    	var date = formatDate_2(datetime).split(':')[0];
 			    	tally[date] = (tally[date]||0) + 1
 			    }
 			});
 
+            var tallyKeys = Object.keys(tally);
+            for (var j = 0; j < dataDays.length; j++) {
+                var day = dataDays[j];
+                for (var k = 0; k < dataHours.length; k++) {
+                    var hour = dataHours[k];
+                    if (day === 31) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
+                                tally["2016-05-" + day + " 0" + hour] = 0;
+                            }
+                        }
+                        else {
+                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
+                                tally["2016-05-" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else if (day < 10) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
+                                tally["2016-06-0" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
+                                tally["2016-06-0" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
+                                tally["2016-06-" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
+                                tally["2016-06-" + day + " " + hour] = 0;
+                            }
+                        }
+                    }
+                }
+            }
 			// temporary dataset for each floor
 			var floor_data = [];
 
+            var sortedTallyKeys = Object.keys(tally).sort();
 			// create final dataset for each floor
-			for (j = 0; j < Object.keys(tally).length; j++) {
+			for (j = 0; j < sortedTallyKeys.length; j++) {
 			    floor_data.push({
-			    	date: Object.keys(tally)[j],
-			        frequency: tally[Object.keys(tally)[j]]
+			    	date: sortedTallyKeys[j],
+			        frequency: tally[sortedTallyKeys[j]]
 			    })
 			}
 
@@ -183,21 +226,62 @@ function dataMaker(callback) {
 			// add rest of data
 			floor_1_data[i].forEach(function(d) {
 			    var datetime = formatDate.parse(d.timestamp);
-		  
+
 			    if (datetime.getDate() > 4) {
 			    	var date = formatDate_2(datetime).split(':')[0];
 			    	tally[date] = (tally[date]||0) + 1
 			    }
 			});
 
+            var tallyKeys = Object.keys(tally);
+            for (var j = 0; j < dataDays.length; j++) {
+                var day = dataDays[j];
+                for (var k = 0; k < dataHours.length; k++) {
+                    var hour = dataHours[k];
+                    if (day === 31) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
+                                tally["2016-05-" + day + " 0" + hour] = 0;
+                            }
+                        }
+                        else {
+                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
+                                tally["2016-05-" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else if (day < 10) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
+                                tally["2016-06-0" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
+                                tally["2016-06-0" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
+                                tally["2016-06-" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
+                                tally["2016-06-" + day + " " + hour] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
 			// temporary dataset for each zone
 			var zone_1_data = [];
 
+            var sortedTallyKeys = Object.keys(tally).sort();
 			// create final dataset for each floor
-			for (j = 0; j < Object.keys(tally).length; j++) {
+			for (j = 0; j < sortedTallyKeys.length; j++) {
 			    zone_1_data.push({
-			    	date: Object.keys(tally)[j],
-			        frequency: tally[Object.keys(tally)[j]]
+			    	date: sortedTallyKeys[j],
+			        frequency: tally[sortedTallyKeys[j]]
 			    })
 			}
 
@@ -234,21 +318,62 @@ function dataMaker(callback) {
 			// add rest of data
 			floor_2_data[i].forEach(function(d) {
 			    var datetime = formatDate.parse(d.timestamp);
-		  
+
 			    if (datetime.getDate() > 4) {
 			    	var date = formatDate_2(datetime).split(':')[0];
 			    	tally[date] = (tally[date]||0) + 1
 			    }
 			});
 
+            var tallyKeys = Object.keys(tally);
+            for (var j = 0; j < dataDays.length; j++) {
+                var day = dataDays[j];
+                for (var k = 0; k < dataHours.length; k++) {
+                    var hour = dataHours[k];
+                    if (day === 31) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
+                                tally["2016-05-" + day + " 0" + hour] = 0;
+                            }
+                        }
+                        else {
+                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
+                                tally["2016-05-" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else if (day < 10) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
+                                tally["2016-06-0" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
+                                tally["2016-06-0" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
+                                tally["2016-06-" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
+                                tally["2016-06-" + day + " " + hour] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
 			// temporary dataset for each zone
 			var zone_2_data = [];
 
+            var sortedTallyKeys = Object.keys(tally).sort();
 			// create final dataset for each floor
-			for (j = 0; j < Object.keys(tally).length; j++) {
+			for (j = 0; j < sortedTallyKeys.length; j++) {
 			    zone_2_data.push({
-			    	date: Object.keys(tally)[j],
-			        frequency: tally[Object.keys(tally)[j]]
+			    	date: sortedTallyKeys[j],
+			        frequency: tally[sortedTallyKeys[j]]
 			    })
 			}
 
@@ -285,21 +410,62 @@ function dataMaker(callback) {
 			// add rest of data
 			floor_3_data[i].forEach(function(d) {
 			    var datetime = formatDate.parse(d.timestamp);
-		  
+
 			    if (datetime.getDate() > 4) {
 			    	var date = formatDate_2(datetime).split(':')[0];
 			    	tally[date] = (tally[date]||0) + 1
 			    }
 			});
 
+            var tallyKeys = Object.keys(tally);
+            for (var j = 0; j < dataDays.length; j++) {
+                var day = dataDays[j];
+                for (var k = 0; k < dataHours.length; k++) {
+                    var hour = dataHours[k];
+                    if (day === 31) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
+                                tally["2016-05-" + day + " 0" + hour] = 0;
+                            }
+                        }
+                        else {
+                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
+                                tally["2016-05-" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else if (day < 10) {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
+                                tally["2016-06-0" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
+                                tally["2016-06-0" + day + " " + hour] = 0;
+                            }
+                        }
+                    } else {
+                        if (hour < 10) {
+                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
+                                tally["2016-06-" + day + " 0" + hour] = 0;
+                            }
+                        } else {
+                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
+                                tally["2016-06-" + day + " " + hour] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
 			// temporary dataset for each zone
 			var zone_3_data = [];
 
+            var sortedTallyKeys = Object.keys(tally).sort();
 			// create final dataset for each floor
-			for (j = 0; j < Object.keys(tally).length; j++) {
+			for (j = 0; j < sortedTallyKeys.length; j++) {
 			    zone_3_data.push({
-			    	date: Object.keys(tally)[j],
-			        frequency: tally[Object.keys(tally)[j]]
+			    	date: sortedTallyKeys[j],
+			        frequency: tally[sortedTallyKeys[j]]
 			    })
 			}
 
@@ -315,9 +481,7 @@ function dataMaker(callback) {
 
 		var data = {general:data_general, floor_1: floor_1, floor_2: floor_2, floor_3: floor_3};
 		console.log(data["floor_1"]);
+
 		callback(data);
 	});
 };
-
-
-
