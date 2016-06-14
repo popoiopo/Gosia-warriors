@@ -484,11 +484,11 @@ function dataMaker(dataType) {
         if (dataType === "general") {
             proxGrapher(data.general, "prox-general");
         } else if (dataType === "f1") {
-            proxGrapher(data.floor_1, "svg_1");
+            proxGrapher(data.floor_1, "prox-svg_1");
         } else if (dataType === "f2") {
-            proxGrapher(data.floor_2, "svg_2");
+            proxGrapher(data.floor_2, "prox-svg_2");
         } else if (dataType === "f3") {
-            proxGrapger(data.floor_3, "svg_3");
+            proxGrapher(data.floor_3, "prox-svg_3");
         } else {
             console.log("ok");
         }

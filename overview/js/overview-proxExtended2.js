@@ -142,7 +142,7 @@ function proxGrapher(data, id) {
 	  .attr("class", "floor");
 
 	floor.append("path")
-	  .attr("class", "line")
+	  .attr("class", "prox-lines")
 	  .attr("id", function(d) { return id + "_" + d.floor; })
 	  .attr("clip-path", "url(#clip)")
 	  .attr("d", function(d) { return line(d.values); })
@@ -154,15 +154,27 @@ function proxGrapher(data, id) {
 	  .attr("class", "floor");
 
 	floor2.append("path")
-	  .attr("class", "line")
+	  .attr("class", "prox-lines")
 	  .attr("id", function(d) { return id + "_" + d.floor + "_slider"; })
 	  .attr("d", function(d) { return line2(d.values); })
 	  .style("stroke", function(d) { return color(d.floor); });
 
 	function brushed() {
 	  x.domain(brush.empty() ? x2.domain() : brush.extent());
-	  focus.selectAll("path.line").attr("d", function(d) { return line(d.values); });
+	  focus.selectAll("path.prox-lines").attr("d", function(d) { return line(d.values); });
 	  focus.select(".x.axis").call(xAxis);
 	};
+
+    $(".prox-lines").mouseover(function() {
+        $(".prox-lines").not(this).each(function() {
+            $(this).css("opacity", "0.2");
+        });
+    });
+
+    $(".prox-lines").mouseout(function() {
+        $(".prox-lines").each(function() {
+            $(this).css("opacity", "1");
+        });
+    });
 
 };
