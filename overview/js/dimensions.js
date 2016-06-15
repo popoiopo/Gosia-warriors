@@ -8,6 +8,24 @@ $(".button").click(function() {
     window.location = this.value;
 });
 
+// Maak eerst alle divs onzichtbaar, want
+$(".floor-graphs-div").css("display", "none");
+
+// maak ze alleen zichtbaar bij een druk op een van de floor knoppen
+$(".floor-button").click(function() {
+    // Geef aan welke knop is aangeklikt
+    $(".floor-button").not(this).each(function() {
+        $(this).css("background-color", "blue");
+    });
+    $(this).css("background-color", "red");
+
+    $(".floor-graphs-div").css("display", "none");
+    $("#floor-graphs-" + this.value).css("display", "");
+
+    // Houd bij in een onzichtbare paragraph welke verdieping geshowd wordt
+    $("#current-visible-floor").html($(this).attr("number"));
+});
+
 // Afmetingen van de svg op de pagina
 var margin = {top: 10, bottom: 175, left: 60, right: 20};
 var width = 1100 - margin.left - margin.right;
@@ -259,6 +277,26 @@ function isArray(variable) {
 // Bron: http://stackoverflow.com/questions/26246601/wildcard-string-comparison-in-javascript
 function wildcardCompare(str, rule) {
   return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
+}
+
+// Events binden voor de prox graphs
+function bindProxEvents() {
+    $(".prox-lines").mouseover(function() {
+        $(".prox-lines").not(this).each(function() {
+            $(this).css("opacity", "0.2");
+        });
+    });
+
+    $(".prox-lines").mouseout(function() {
+        $(".prox-lines").each(function() {
+            $(this).css("opacity", "1");
+        });
+    });
+
+    $(".prox-checkbox").change(function() {
+        $("#prox-" + this.value).toggle();
+        $("#prox-" + this.value + "_slider").toggle();
+    });
 }
 
 // Methode om een lijn naar voren te brengen

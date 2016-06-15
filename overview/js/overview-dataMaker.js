@@ -14,7 +14,7 @@ var floor_1 = {}
 var floor_2 = {}
 var floor_3 = {}
 
-function dataMaker(dataType) {
+function dataMaker() {
     var dataDays = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
@@ -481,16 +481,22 @@ function dataMaker(dataType) {
 
 		var data = {general:data_general, floor_1: floor_1, floor_2: floor_2, floor_3: floor_3};
 
-        if (dataType === "general") {
-            proxGrapher(data.general, "prox-general");
-        } else if (dataType === "f1") {
-            proxGrapher(data.floor_1, "prox-svg_1");
-        } else if (dataType === "f2") {
-            proxGrapher(data.floor_2, "prox-svg_2");
-        } else if (dataType === "f3") {
-            proxGrapher(data.floor_3, "prox-svg_3");
-        } else {
-            console.log("ok");
-        }
+        // if (dataType === "general") {
+        //     proxGrapher(data.general, "prox-general");
+        // } else if (dataType === "f1") {
+        //     proxGrapher(data.floor_1, "prox-svg_1");
+        // } else if (dataType === "f2") {
+        //     proxGrapher(data.floor_2, "prox-svg_2");
+        // } else if (dataType === "f3") {
+        //     proxGrapher(data.floor_3, "prox-svg_3");
+        // } else {
+        //     console.log("ok");
+        // }
+        proxGrapher(data.general, "prox-general");
+        proxGrapher(data.floor_1, "prox-svg_1");
+        proxGrapher(data.floor_2, "prox-svg_2");
+        proxGrapher(data.floor_3, "prox-svg_3");
+
+        bindProxEvents();
 	});
 };

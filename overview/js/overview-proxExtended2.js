@@ -16,6 +16,17 @@ function proxGrapher(data, id) {
 	    height = 650 - margin.top - margin.bottom,
 	    height2 = 650- margin2.top - margin2.bottom;
 
+    var fixedProxSuffix;
+    if (id === "prox-general") {
+        fixedProxSuffix = "general";
+    } else if (id === "prox-svg_1") {
+        fixedProxSuffix = "floor-1";
+    } else if (id === "prox-svg_2") {
+        fixedProxSuffix = "floor-2";
+    } else {
+        fixedProxSuffix = "floor-3";
+    }
+
 	var parseDate = d3.time.format("%a %b %d %Y %H:%M:%S").parse;
 
 	var color = d3.scale.category10();
@@ -85,7 +96,7 @@ function proxGrapher(data, id) {
 	    .x(function(d) { return x2(d.date); })
 	    .y(function(d) { return y2(d.frequency); });
 
-	var svg = d3.select("#fixed-prox-div").append("svg")
+	var svg = d3.select("#fixed-prox-div-" + fixedProxSuffix).append("svg")
 		.attr("id", id)
 		.attr("class", "svg")
 	    .attr("width", width + margin.left + margin.right)
@@ -164,17 +175,4 @@ function proxGrapher(data, id) {
 	  focus.selectAll("path.prox-lines").attr("d", function(d) { return line(d.values); });
 	  focus.select(".x.axis").call(xAxis);
 	};
-
-    $(".prox-lines").mouseover(function() {
-        $(".prox-lines").not(this).each(function() {
-            $(this).css("opacity", "0.2");
-        });
-    });
-
-    $(".prox-lines").mouseout(function() {
-        $(".prox-lines").each(function() {
-            $(this).css("opacity", "1");
-        });
-    });
-
 };
