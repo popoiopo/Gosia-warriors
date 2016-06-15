@@ -9,51 +9,51 @@ Prox data
 */
 
 // final dataset
-var data_general = {}
-var floor_1 = {}
-var floor_2 = {}
-var floor_3 = {}
+var data_general = {};
+var floor_1 = {};
+var floor_2 = {};
+var floor_3 = {};
+
+var dataDays = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
 function dataMaker() {
-    var dataDays = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-    var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-
 	// variables for temporary storing data per floor
-	var general_floor_1 = []
-	var general_floor_2 = []
-	var general_floor_3 = []
+	var general_floor_1 = [];
+	var general_floor_2 = [];
+	var general_floor_3 = [];
 
 	// variables for temporary storing data per floor per zone
-	var floor_1_zone_1= []
-	var floor_1_zone_2= []
-	var floor_1_zone_3= []
-	var floor_1_zone_4= []
-	var floor_1_zone_5= []
-	var floor_1_zone_6= []
-	var floor_1_zone_7= []
-	var floor_1_zone_8= []
+	var floor_1_zone_1= [];
+	var floor_1_zone_2= [];
+	var floor_1_zone_3= [];
+	var floor_1_zone_4= [];
+	var floor_1_zone_5= [];
+	var floor_1_zone_6= [];
+	var floor_1_zone_7= [];
+	var floor_1_zone_8= [];
 
-	var floor_1_data = [floor_1_zone_1, floor_1_zone_2, floor_1_zone_3, floor_1_zone_4, floor_1_zone_5, floor_1_zone_6, floor_1_zone_7, floor_1_zone_8]
+	var floor_1_data = [floor_1_zone_1, floor_1_zone_2, floor_1_zone_3, floor_1_zone_4, floor_1_zone_5, floor_1_zone_6, floor_1_zone_7, floor_1_zone_8];
 
-	var floor_2_zone_1= []
-	var floor_2_zone_2= []
-	var floor_2_zone_3= []
-	var floor_2_zone_4= []
-	var floor_2_zone_5= []
-	var floor_2_zone_6= []
-	var floor_2_zone_7= []
+	var floor_2_zone_1= [];
+	var floor_2_zone_2= [];
+	var floor_2_zone_3= [];
+	var floor_2_zone_4= [];
+	var floor_2_zone_5= [];
+	var floor_2_zone_6= [];
+	var floor_2_zone_7= [];
 
-	var floor_2_data = [floor_2_zone_1, floor_2_zone_2, floor_2_zone_3, floor_2_zone_4, floor_2_zone_5, floor_2_zone_6, floor_2_zone_7]
+	var floor_2_data = [floor_2_zone_1, floor_2_zone_2, floor_2_zone_3, floor_2_zone_4, floor_2_zone_5, floor_2_zone_6, floor_2_zone_7];
 
-	var floor_3_zone_1= []
-	var floor_3_zone_2= []
-	var floor_3_zone_3= []
-	var floor_3_zone_4= []
-	var floor_3_zone_5= []
-	var floor_3_zone_6= []
-	var floor_3_zone_ServerRoom= []
+	var floor_3_zone_1= [];
+	var floor_3_zone_2= [];
+	var floor_3_zone_3= [];
+	var floor_3_zone_4= [];
+	var floor_3_zone_5= [];
+	var floor_3_zone_6= [];
+	var floor_3_zone_ServerRoom= [];
 
-	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom]
+	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom];
 
 
 	// keys for dataset
@@ -70,38 +70,17 @@ function dataMaker() {
 	  	}
 
 	  	// create dataset for each floor separate
-	  	csv.forEach(function(d) {
-	  		if (+d.floor == 1) {
-	  			general_floor_1.push(d);
-
-	  			for (i = 0; i < floor_1_data.length; i++) {
-	  				if (+d.zone == i + 1) {
-	  					floor_1_data[i].push(d)
-	  				}
-	  			}
-
-	  		}
-	  		else if (+d.floor == 2) {
-	  			general_floor_2.push(d);
-
-	  			for (i = 0; i < floor_2_data.length; i++) {
-	  				if (+d.zone == i + 1) {
-	  					floor_2_data[i].push(d)
-	  				}
-	  			}
-	  		}
-	  		else {
-	  			general_floor_3.push(d);
-
-	  			for (i = 0; i < floor_3_data.length; i++) {
-	  				if (+d.zone == i + 1)  {
-	  					floor_3_data[i].push(d);
-	  				}
-	  				else if (d.zone === "ServerRoom") {
-	  					floor_3_data[6].push(d);
-	  				}
-	  			}
-	  		}
+        csv.forEach(function(d) {
+	  		var floor = +d.floor;
+            eval("general_floor_" + floor + ".push(d)");
+            var floorDataLength = eval("floor_" + floor + "_data.length");
+            for (var i = 0; i < floorDataLength; i++) {
+                if (d.zone === "ServerRoom") {
+                    floor_3_data[6].push(d);
+                } else if (+d.zone === i + 1) {
+                    eval("floor_" + floor + "_data[i].push(d)");
+                }
+            }
 	  	});
 
 
@@ -121,66 +100,13 @@ function dataMaker() {
 				// get date and time of detection
 			    var datetime = formatDate.parse(d.timestamp);
 
-			    // add frequency of detections at given timestamp
-			    if (datetime.getDate() < 4 || datetime.getDate() == 31) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1;
-			    }
+		    	var date = formatDate_2(datetime).split(':')[0];
+		    	tally[date] = (tally[date]||0) + 1;
+
 			});
 
-			//add data for 4 june, no detections
-			tally[formatDate_2(new Date("Sat Jun 04 2016 00:00:00")).split(':')[0]] = 0
-			tally[formatDate_2(new Date("Sat Jun 04 2016 23:59:59")).split(':')[0]] = 0
+            tally = makeMissingData(tally);
 
-			// add rest of data
-			floors[i].forEach(function(d) {
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    if (datetime.getDate() > 4) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1
-			    }
-			});
-
-            var tallyKeys = Object.keys(tally);
-            for (var j = 0; j < dataDays.length; j++) {
-                var day = dataDays[j];
-                for (var k = 0; k < dataHours.length; k++) {
-                    var hour = dataHours[k];
-                    if (day === 31) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
-                                tally["2016-05-" + day + " 0" + hour] = 0;
-                            }
-                        }
-                        else {
-                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
-                                tally["2016-05-" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else if (day < 10) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
-                                tally["2016-06-0" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
-                                tally["2016-06-0" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
-                                tally["2016-06-" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
-                                tally["2016-06-" + day + " " + hour] = 0;
-                            }
-                        }
-                    }
-                }
-            }
 			// temporary dataset for each floor
 			var floor_data = [];
 
@@ -190,7 +116,7 @@ function dataMaker() {
 			    floor_data.push({
 			    	date: sortedTallyKeys[j],
 			        frequency: tally[sortedTallyKeys[j]]
-			    })
+			    });
 			}
 
 			// convert data
@@ -213,65 +139,11 @@ function dataMaker() {
 			    var datetime = formatDate.parse(d.timestamp);
 
 			    // add frequency of detections at given timestamp
-			    if (datetime.getDate() < 4 || datetime.getDate() == 31) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1;
-			    }
+		    	var date = formatDate_2(datetime).split(':')[0];
+		    	tally[date] = (tally[date]||0) + 1;
 			});
 
-			//add data for 4 june, no detections
-			tally[formatDate_2(new Date("Sat Jun 04 2016 00:00:00")).split(':')[0]] = 0
-			tally[formatDate_2(new Date("Sat Jun 04 2016 23:59:59")).split(':')[0]] = 0
-
-			// add rest of data
-			floor_1_data[i].forEach(function(d) {
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    if (datetime.getDate() > 4) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1
-			    }
-			});
-
-            var tallyKeys = Object.keys(tally);
-            for (var j = 0; j < dataDays.length; j++) {
-                var day = dataDays[j];
-                for (var k = 0; k < dataHours.length; k++) {
-                    var hour = dataHours[k];
-                    if (day === 31) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
-                                tally["2016-05-" + day + " 0" + hour] = 0;
-                            }
-                        }
-                        else {
-                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
-                                tally["2016-05-" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else if (day < 10) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
-                                tally["2016-06-0" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
-                                tally["2016-06-0" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
-                                tally["2016-06-" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
-                                tally["2016-06-" + day + " " + hour] = 0;
-                            }
-                        }
-                    }
-                }
-            }
+            tally = makeMissingData(tally);
 
 			// temporary dataset for each zone
 			var zone_1_data = [];
@@ -282,14 +154,14 @@ function dataMaker() {
 			    zone_1_data.push({
 			    	date: sortedTallyKeys[j],
 			        frequency: tally[sortedTallyKeys[j]]
-			    })
+			    });
 			}
 
 			// convert data
 			zone_1_data.forEach(function(d){
 				d.date = formatDate_2.parse(d.date);
 				d.frequency = + d.frequency;
-			})
+			});
 
 			// puch separate floor data to one final dataset
 			floor_1[keys_floor_1[i]] = zone_1_data;
@@ -305,65 +177,11 @@ function dataMaker() {
 			    var datetime = formatDate.parse(d.timestamp);
 
 			    // add frequency of detections at given timestamp
-			    if (datetime.getDate() < 4 || datetime.getDate() == 31) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1;
-			    }
+		    	var date = formatDate_2(datetime).split(':')[0];
+		    	tally[date] = (tally[date]||0) + 1;
 			});
 
-			//add data for 4 june, no detections
-			tally[formatDate_2(new Date("Sat Jun 04 2016 00:00:00")).split(':')[0]] = 0
-			tally[formatDate_2(new Date("Sat Jun 04 2016 23:59:59")).split(':')[0]] = 0
-
-			// add rest of data
-			floor_2_data[i].forEach(function(d) {
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    if (datetime.getDate() > 4) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1
-			    }
-			});
-
-            var tallyKeys = Object.keys(tally);
-            for (var j = 0; j < dataDays.length; j++) {
-                var day = dataDays[j];
-                for (var k = 0; k < dataHours.length; k++) {
-                    var hour = dataHours[k];
-                    if (day === 31) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
-                                tally["2016-05-" + day + " 0" + hour] = 0;
-                            }
-                        }
-                        else {
-                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
-                                tally["2016-05-" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else if (day < 10) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
-                                tally["2016-06-0" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
-                                tally["2016-06-0" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
-                                tally["2016-06-" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
-                                tally["2016-06-" + day + " " + hour] = 0;
-                            }
-                        }
-                    }
-                }
-            }
+            tally = makeMissingData(tally);
 
 			// temporary dataset for each zone
 			var zone_2_data = [];
@@ -374,14 +192,14 @@ function dataMaker() {
 			    zone_2_data.push({
 			    	date: sortedTallyKeys[j],
 			        frequency: tally[sortedTallyKeys[j]]
-			    })
+			    });
 			}
 
 			// convert data
 			zone_2_data.forEach(function(d){
 				d.date = formatDate_2.parse(d.date);
 				d.frequency = + d.frequency;
-			})
+			});
 
 			// puch separate floor data to one final dataset
 			floor_2[keys_floor_2[i]] = zone_2_data;
@@ -397,65 +215,11 @@ function dataMaker() {
 			    var datetime = formatDate.parse(d.timestamp);
 
 			    // add frequency of detections at given timestamp
-			    if (datetime.getDate() < 4 || datetime.getDate() == 31) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1;
-			    }
+		    	var date = formatDate_2(datetime).split(':')[0];
+		    	tally[date] = (tally[date]||0) + 1;
 			});
 
-			//add data for 4 june, no detections
-			tally[formatDate_2(new Date("Sat Jun 04 2016 00:00:00")).split(':')[0]] = 0
-			tally[formatDate_2(new Date("Sat Jun 04 2016 23:59:59")).split(':')[0]] = 0
-
-			// add rest of data
-			floor_3_data[i].forEach(function(d) {
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    if (datetime.getDate() > 4) {
-			    	var date = formatDate_2(datetime).split(':')[0];
-			    	tally[date] = (tally[date]||0) + 1
-			    }
-			});
-
-            var tallyKeys = Object.keys(tally);
-            for (var j = 0; j < dataDays.length; j++) {
-                var day = dataDays[j];
-                for (var k = 0; k < dataHours.length; k++) {
-                    var hour = dataHours[k];
-                    if (day === 31) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-05-31 0" + hour) === -1) {
-                                tally["2016-05-" + day + " 0" + hour] = 0;
-                            }
-                        }
-                        else {
-                            if (tallyKeys.indexOf("2016-05-31 " + hour) === -1) {
-                                tally["2016-05-" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else if (day < 10) {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
-                                tally["2016-06-0" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
-                                tally["2016-06-0" + day + " " + hour] = 0;
-                            }
-                        }
-                    } else {
-                        if (hour < 10) {
-                            if (tallyKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
-                                tally["2016-06-" + day + " 0" + hour] = 0;
-                            }
-                        } else {
-                            if (tallyKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
-                                tally["2016-06-" + day + " " + hour] = 0;
-                            }
-                        }
-                    }
-                }
-            }
+            tally = makeMissingData(tally);
 
 			// temporary dataset for each zone
 			var zone_3_data = [];
@@ -473,7 +237,7 @@ function dataMaker() {
 			zone_3_data.forEach(function(d){
 				d.date = formatDate_2.parse(d.date);
 				d.frequency = + d.frequency;
-			})
+			});
 
 			// puch separate floor data to one final dataset
 			floor_3[keys_floor_3[i]] = zone_3_data;
@@ -481,17 +245,6 @@ function dataMaker() {
 
 		var data = {general:data_general, floor_1: floor_1, floor_2: floor_2, floor_3: floor_3};
 
-        // if (dataType === "general") {
-        //     proxGrapher(data.general, "prox-general");
-        // } else if (dataType === "f1") {
-        //     proxGrapher(data.floor_1, "prox-svg_1");
-        // } else if (dataType === "f2") {
-        //     proxGrapher(data.floor_2, "prox-svg_2");
-        // } else if (dataType === "f3") {
-        //     proxGrapher(data.floor_3, "prox-svg_3");
-        // } else {
-        //     console.log("ok");
-        // }
         proxGrapher(data.general, "prox-general");
         proxGrapher(data.floor_1, "prox-svg_1");
         proxGrapher(data.floor_2, "prox-svg_2");
@@ -500,3 +253,47 @@ function dataMaker() {
         bindProxEvents();
 	});
 };
+
+function makeMissingData(obj) {
+    var freq = obj;
+    var freqKeys = Object.keys(freq);
+    for (var j = 0; j < dataDays.length; j++) {
+        var day = dataDays[j];
+        for (var k = 0; k < dataHours.length; k++) {
+            var hour = dataHours[k];
+            if (day === 31) {
+                if (hour < 10) {
+                    if (freqKeys.indexOf("2016-05-31 0" + hour) === -1) {
+                        freq["2016-05-" + day + " 0" + hour] = 0;
+                    }
+                }
+                else {
+                    if (freqKeys.indexOf("2016-05-31 " + hour) === -1) {
+                        freq["2016-05-" + day + " " + hour] = 0;
+                    }
+                }
+            } else if (day < 10) {
+                if (hour < 10) {
+                    if (freqKeys.indexOf("2016-06-0" + day + " 0" + hour) === -1) {
+                        freq["2016-06-0" + day + " 0" + hour] = 0;
+                    }
+                } else {
+                    if (freqKeys.indexOf("2016-06-0" + day + " " + hour) === -1) {
+                        freq["2016-06-0" + day + " " + hour] = 0;
+                    }
+                }
+            } else {
+                if (hour < 10) {
+                    if (freqKeys.indexOf("2016-06-" + day + " 0" + hour) === -1) {
+                        freq["2016-06-" + day + " 0" + hour] = 0;
+                    }
+                } else {
+                    if (freqKeys.indexOf("2016-06-" + day + " " + hour) === -1) {
+                        freq["2016-06-" + day + " " + hour] = 0;
+                    }
+                }
+            }
+        }
+    }
+    return freq;
+}
