@@ -16,51 +16,28 @@ var floor_3 = {};
 
 var dataDays = [31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+var dataFloors = [1, 2, 3];
 
 function dataMaker() {
-	// variables for temporary storing data per floor
-	var general_floor_1 = [];
-	var general_floor_2 = [];
-	var general_floor_3 = [];
-
-	// variables for temporary storing data per floor per zone
-	var floor_1_zone_1= [];
-	var floor_1_zone_2= [];
-	var floor_1_zone_3= [];
-	var floor_1_zone_4= [];
-	var floor_1_zone_5= [];
-	var floor_1_zone_6= [];
-	var floor_1_zone_7= [];
-	var floor_1_zone_8= [];
-
-	var floor_1_data = [floor_1_zone_1, floor_1_zone_2, floor_1_zone_3, floor_1_zone_4, floor_1_zone_5, floor_1_zone_6, floor_1_zone_7, floor_1_zone_8];
-
-	var floor_2_zone_1= [];
-	var floor_2_zone_2= [];
-	var floor_2_zone_3= [];
-	var floor_2_zone_4= [];
-	var floor_2_zone_5= [];
-	var floor_2_zone_6= [];
-	var floor_2_zone_7= [];
-
-	var floor_2_data = [floor_2_zone_1, floor_2_zone_2, floor_2_zone_3, floor_2_zone_4, floor_2_zone_5, floor_2_zone_6, floor_2_zone_7];
-
-	var floor_3_zone_1= [];
-	var floor_3_zone_2= [];
-	var floor_3_zone_3= [];
-	var floor_3_zone_4= [];
-	var floor_3_zone_5= [];
-	var floor_3_zone_6= [];
-	var floor_3_zone_ServerRoom= [];
-
-	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom];
-
-
-	// keys for dataset
+    // keys for dataset
 	var keys_general = ["floor_1", "floor_2", "floor_3"];
 	var keys_floor_1 = ["zone_1", "zone_2", "zone_3", "zone_4", "zone_5", "zone_6", "zone_7", "zone_8"];
 	var keys_floor_2 = ["zone_1", "zone_2", "zone_3", "zone_4", "zone_5", "zone_6", "zone_7"];
 	var keys_floor_3 = ["zone_1", "zone_2", "zone_3", "zone_4", "zone_5", "zone_6", "zone_ServerRoom"];
+
+    for (var f = 0; f < keys_general.length; f++) {
+        var floorKey = keys_general[f];
+        eval("var general_" + floorKey + "= []");
+
+        var keysArray = eval("keys_" + floorKey);
+        for (var z = 0; z < keysArray.length; z++) {
+            eval("var " + floorKey + "_" + keysArray[z] + "= []");
+        }
+    }
+
+	var floor_1_data = [floor_1_zone_1, floor_1_zone_2, floor_1_zone_3, floor_1_zone_4, floor_1_zone_5, floor_1_zone_6, floor_1_zone_7, floor_1_zone_8];
+	var floor_2_data = [floor_2_zone_1, floor_2_zone_2, floor_2_zone_3, floor_2_zone_4, floor_2_zone_5, floor_2_zone_6, floor_2_zone_7];
+	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom];
 
 	// load in data
 	d3.csv("json/proxOut-MC2.csv", function(error, csv) {
@@ -74,12 +51,10 @@ function dataMaker() {
 	  		var floor = +d.floor;
             eval("general_floor_" + floor + ".push(d)");
             var floorDataLength = eval("floor_" + floor + "_data.length");
-            for (var i = 0; i < floorDataLength; i++) {
-                if (d.zone === "ServerRoom") {
-                    floor_3_data[6].push(d);
-                } else if (+d.zone === i + 1) {
-                    eval("floor_" + floor + "_data[i].push(d)");
-                }
+            if (d.zone === "ServerRoom") {
+                floor_3_data[6].push(d);
+            } else {
+                eval("floor_" + floor + "_data[" + (+d.zone - 1) + "].push(d)");
             }
 	  	});
 
@@ -129,119 +104,38 @@ function dataMaker() {
 			data_general[keys_general[i]] = floor_data;
 		};
 
-		// iterate over data for each floor
-		for (i = 0; i < floor_1_data.length; i++) {
-			var tally = {};
+        for (var f = 0; f < dataFloors.length; f++) {
+            var floor = dataFloors[f];
+            var floorData = eval("floor_" + floor + "_data");
+            for (var i = 0; i < floorData.length; i++) {
+                var tally = {};
 
-			 // add data till third of June
-			floor_1_data[i].forEach(function(d) {
-				// get date and time of detection
-			    var datetime = formatDate.parse(d.timestamp);
+                floorData[i].forEach(function(d) {
+                    var datetime = formatDate.parse(d.timestamp);
+                    var date = formatDate_2(datetime).split(":")[0];
+                    tally[date] = (tally[date] || 0) + 1;
+                });
 
-			    // add frequency of detections at given timestamp
-		    	var date = formatDate_2(datetime).split(':')[0];
-		    	tally[date] = (tally[date]||0) + 1;
-			});
+                tally = makeMissingData(tally);
 
-            tally = makeMissingData(tally);
+                var zone_data = [];
 
-			// temporary dataset for each zone
-			var zone_1_data = [];
+                var sortedTallyKeys = Object.keys(tally).sort();
+                for (var j = 0; j < sortedTallyKeys.length; j++) {
+                    zone_data.push({
+                        date: sortedTallyKeys[j],
+                        frequency: tally[sortedTallyKeys[j]]
+                    });
+                }
 
-            var sortedTallyKeys = Object.keys(tally).sort();
-			// create final dataset for each floor
-			for (j = 0; j < sortedTallyKeys.length; j++) {
-			    zone_1_data.push({
-			    	date: sortedTallyKeys[j],
-			        frequency: tally[sortedTallyKeys[j]]
-			    });
-			}
+                zone_data.forEach(function(d) {
+                    d.date = formatDate_2.parse(d.date);
+                    d.frequency = +d.frequency;
+                });
 
-			// convert data
-			zone_1_data.forEach(function(d){
-				d.date = formatDate_2.parse(d.date);
-				d.frequency = + d.frequency;
-			});
-
-			// puch separate floor data to one final dataset
-			floor_1[keys_floor_1[i]] = zone_1_data;
-		};
-
-		// iterate over data for each floor
-		for (i = 0; i < floor_2_data.length; i++) {
-			var tally = {};
-
-			 // add data till third of June
-			floor_2_data[i].forEach(function(d) {
-				// get date and time of detection
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    // add frequency of detections at given timestamp
-		    	var date = formatDate_2(datetime).split(':')[0];
-		    	tally[date] = (tally[date]||0) + 1;
-			});
-
-            tally = makeMissingData(tally);
-
-			// temporary dataset for each zone
-			var zone_2_data = [];
-
-            var sortedTallyKeys = Object.keys(tally).sort();
-			// create final dataset for each floor
-			for (j = 0; j < sortedTallyKeys.length; j++) {
-			    zone_2_data.push({
-			    	date: sortedTallyKeys[j],
-			        frequency: tally[sortedTallyKeys[j]]
-			    });
-			}
-
-			// convert data
-			zone_2_data.forEach(function(d){
-				d.date = formatDate_2.parse(d.date);
-				d.frequency = + d.frequency;
-			});
-
-			// puch separate floor data to one final dataset
-			floor_2[keys_floor_2[i]] = zone_2_data;
-		};
-
-		// iterate over data for each floor
-		for (i = 0; i < floor_3_data.length; i++) {
-			var tally = {};
-
-			 // add data till third of June
-			floor_3_data[i].forEach(function(d) {
-				// get date and time of detection
-			    var datetime = formatDate.parse(d.timestamp);
-
-			    // add frequency of detections at given timestamp
-		    	var date = formatDate_2(datetime).split(':')[0];
-		    	tally[date] = (tally[date]||0) + 1;
-			});
-
-            tally = makeMissingData(tally);
-
-			// temporary dataset for each zone
-			var zone_3_data = [];
-
-            var sortedTallyKeys = Object.keys(tally).sort();
-			// create final dataset for each floor
-			for (j = 0; j < sortedTallyKeys.length; j++) {
-			    zone_3_data.push({
-			    	date: sortedTallyKeys[j],
-			        frequency: tally[sortedTallyKeys[j]]
-			    })
-			}
-
-			// convert data
-			zone_3_data.forEach(function(d){
-				d.date = formatDate_2.parse(d.date);
-				d.frequency = + d.frequency;
-			});
-
-			// puch separate floor data to one final dataset
-			floor_3[keys_floor_3[i]] = zone_3_data;
-		};
+                eval("floor_" + floor + "[keys_floor_" + floor + "[i]] = zone_data");
+            }
+        }
 
 		var data = {general:data_general, floor_1: floor_1, floor_2: floor_2, floor_3: floor_3};
 
