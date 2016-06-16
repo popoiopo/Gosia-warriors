@@ -66,7 +66,8 @@ function changeF1Header() {
     // Update de header tekst adhv de dropdown
     d3.select("#f1-vis-info").text($("#f1-dropdown :selected").text());
     // Update de chart als de dropdown verandert
-    updateF1Chart(eval($("#f1-sensors").val()));
+    // updateF1Chart(eval($("#f1-sensors").val()));
+    updateChart.f1(eval($("#f1-sensors").val()));
 }
 
 // Laad de data in
@@ -249,369 +250,370 @@ d3.json("json/floor1-MC2.json", function(error, data) {
         }
     }
     // Initialiseer de chart adhv de ingeladen data en gekozen dropdown keuze
-    initF1Chart(eval($("#f1-sensors").val()));
+    // initF1Chart(eval($("#f1-sensors").val()));
+    initChart.f1(eval($("#f1-sensors").val()));
 });
 
-// Functie die de chart initialiseert
-function initF1Chart(dataVariable) {
-    if (isArray(dataVariable)) {
-        // Data betreft de gehele verdieping
-        // Bereken de ranges van de data
-        x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-        y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+// // Functie die de chart initialiseert
+// function initF1Chart(dataVariable) {
+//     if (isArray(dataVariable)) {
+//         // Data betreft de gehele verdieping
+//         // Bereken de ranges van de data
+//         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
+//         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+//
+//         // Bereken ook de domeinen van de brush
+//         brushX.f1.domain(x.f1.domain());
+//         brushY.f1.domain(y.f1.domain());
+//
+//         // Bepaal waar de lijnen mogen verschijnen op de linechart
+//         focus.f1.append("defs").append("clipPath")
+//         .attr("id", "clip-f1")
+//             .append("rect")
+//             .attr("width", width)
+//             .attr("height", height);
+//
+//         // Assen toevoegen
+//         focus.f1.append("g")
+//             .attr("id", "f1-x-axis")
+//             .attr("class", "x axis")
+//             .attr("transform", "translate(0," + height + ")")
+//             .call(xAxis.f1);
+//
+//         focus.f1.append("g")
+//             .attr("id", "f1-y-axis")
+//             .attr("class", "y axis")
+//             .call(yAxis.f1)
+//             // Een naam aan de y-as hangen
+//             .append("text")
+//                 .attr("id", "f1-y-label")
+//                 .attr("transform", "rotate(-90)")
+//                 .attr("y", 3)
+//                 .attr("dy", ".75em")
+//                 .style("text-anchor", "end")
+//                 // Maak de label tekst de geselecteerde data uit de dropdown
+//                 .text($("#f1-sensors :selected").text());
+//
+//         // De lijn tekenen van de geselecteerde data
+//         focus.f1.append("path")
+//             .datum(dataVariable)
+//             .attr("id", "f1-line")
+//             .attr("class", "lines-f1 f1-general")
+//             .attr("d", line.f1)
+//             .attr("clip-path", "url(#clip-f1)");
+//
+//         // Maak de brushlijnen in hun eigen plekje
+//         var contextLine = context.f1.append("path")
+//             .datum(dataVariable)
+//             .attr("id", "f1-brush-line")
+//             .attr("class", "lines-f1 f1-general")
+//             .attr("d", brushLine.f1);
+//
+//         // Geef de brush zijn eigen x as
+//         context.f1.append("g")
+//             .attr("id", "f1-context-x-axis")
+//             .attr("class", "x axis")
+//             .attr("transform", "translate(0," + brushHeight + ")")
+//             .call(brushXAxis.f1);
+//
+//         // Maak de brush zelf aan
+//         context.f1.append("g")
+//             .attr("class", "x brush")
+//             .call(brush.f1)
+//             .selectAll("rect")
+//                 .attr("y", -6)
+//                 .attr("height", brushHeight + 7);
+//
+//         for (var i = 0; i < f1zones.length; i++) {
+//             var zone = "zone" + f1zones[i];
+//             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
+//             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
+//
+//             // Bind de verdiepingsdata aan de zonelijnen, maar maak ze onzichtbaar
+//             focus.f1.append("path")
+//                 .datum(dataVariable)
+//                 .attr("id", "f1-zone" + f1zones[i] + "-line")
+//                 .attr("class", "lines-f1 f1-" + zone)
+//                 .attr("d", line.f1)
+//                 .attr("clip-path", "url(#clip-f1)")
+//                 .style("display", "none");
+//
+//             // En doe hetzelfde voor de brushlijnen
+//             context.f1.append("path")
+//                 .datum(dataVariable)
+//                 .attr("id", "f1-" + zone + "-brush")
+//                 .attr("class", "lines-f1 f1-" + zone)
+//                 .attr("d", brushLine.f1)
+//                 .style("display", "none");
+//         }
+//     } else {
+//         // Data betreft meerdere zones
+//         // Bereken de ranges van de data
+//         x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
+//         var yMax = 0;
+//         for (var zone in dataVariable) {
+//             if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
+//                 yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
+//             }
+//         }
+//         y.f1.domain([0, yMax]).nice();
+//
+//         // Bereken de domeinen van de brush
+//         brushX.f1.domain(x.f1.domain());
+//         brushY.f1.domain(y.f1.domain());
+//
+//         focus.f1.append("defs").append("clipPath")
+//         .attr("id", "clip-f1")
+//             .append("rect")
+//             .attr("width", width)
+//             .attr("height", height);
+//
+//         // Assen toevoegen
+//         focus.f1.append("g")
+//             .attr("id", "f1-x-axis")
+//             .attr("class", "x axis")
+//             .attr("transform", "translate(0," + height + ")")
+//             .call(xAxis.f1);
+//
+//         focus.f1.append("g")
+//             .attr("id", "f1-y-axis")
+//             .attr("class", "y axis")
+//             .call(yAxis.f1)
+//             // Een naam aan de y-as hangen
+//             .append("text")
+//                 .attr("id", "f1-y-label")
+//                 .attr("transform", "rotate(-90)")
+//                 .attr("y", 3)
+//                 .attr("dy", ".75em")
+//                 .style("text-anchor", "end")
+//                 // Maak de label tekst de geselecteerde data uit de dropdown
+//                 .text($("#f1-sensors :selected").text());
+//
+//         // De lijn tekenen van de geselecteerde data
+//         focus.f1.append("path")
+//             .datum(dataVariable.zone1)
+//             .attr("id", "f1-line")
+//             .attr("class", "lines-f1 f1-general")
+//             .attr("d", line.f1)
+//             .attr("clip-path", "url(#clip-f1)")
+//             .style("display", "none");
+//
+//         // Maak de brush lijn maar maak deze onzichtbaar
+//         var contextLine = context.f1.append("path")
+//             .datum(dataVariable.zone1)
+//             .attr("id", "f1-brush-line")
+//             .attr("class", "lines-f1 f1-general")
+//             .attr("d", brushLine.f1)
+//             .style("display", "none");
+//
+//         // x as van de brush
+//         context.f1.append("g")
+//             .attr("id", "f1-context-x-axis")
+//             .attr("class", "x axis")
+//             .attr("transform", "translate(0," + brushHeight + ")")
+//             .call(brushXAxis.f1);
+//
+//         // De brush zelf aanmaken
+//         context.f1.append("g")
+//             .attr("class", "x brush")
+//             .call(brush.f1)
+//             .selectAll("rect")
+//                 .attr("y", -6)
+//                 .attr("height", brushHeight + 7);
+//
+//         // Loop elke zone af
+//         for (var i = 0; i < f1zones.length; i++) {
+//             var zone = "zone" + f1zones[i];
+//             // Maak een lijn voor elke zone en bind data aan die lijnen
+//             focus.f1.append("path")
+//                 .datum(dataVariable[zone])
+//                 .attr("id", "f1-" + zone + "-line")
+//                 .attr("class", "lines-f1 f1-" + zone)
+//                 .attr("clip-path", "url(#clip-f1)")
+//                 .attr("d", line.f1);
+//
+//             // En doe hetzelfde voor de brush
+//             context.f1.append("path")
+//                 .datum(dataVariable[zone])
+//                 .attr("id", "f1-" + zone + "-brush")
+//                 .attr("class", "lines-f1 f1-" + zone)
+//                 .attr("d", brushLine.f1);
+//         }
+//     }
+//     // Breng een lijn naar voren als er over gehoverd wordt
+//     $(".lines-f1").mouseover(function() {
+//         $(".lines-f1").not(this).each(function() {
+//             $(this).css("opacity", "0.2");
+//         });
+//     });
+//
+//     $(".lines-f1").mouseout(function() {
+//         $(".lines-f1").each(function() {
+//             $(this).css("opacity", "1");
+//         });
+//     });
+// }
 
-        // Bereken ook de domeinen van de brush
-        brushX.f1.domain(x.f1.domain());
-        brushY.f1.domain(y.f1.domain());
-
-        // Bepaal waar de lijnen mogen verschijnen op de linechart
-        focus.f1.append("defs").append("clipPath")
-        .attr("id", "clip-f1")
-            .append("rect")
-            .attr("width", width)
-            .attr("height", height);
-
-        // Assen toevoegen
-        focus.f1.append("g")
-            .attr("id", "f1-x-axis")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f1);
-
-        focus.f1.append("g")
-            .attr("id", "f1-y-axis")
-            .attr("class", "y axis")
-            .call(yAxis.f1)
-            // Een naam aan de y-as hangen
-            .append("text")
-                .attr("id", "f1-y-label")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 3)
-                .attr("dy", ".75em")
-                .style("text-anchor", "end")
-                // Maak de label tekst de geselecteerde data uit de dropdown
-                .text($("#f1-sensors :selected").text());
-
-        // De lijn tekenen van de geselecteerde data
-        focus.f1.append("path")
-            .datum(dataVariable)
-            .attr("id", "f1-line")
-            .attr("class", "lines-f1 f1-general")
-            .attr("d", line.f1)
-            .attr("clip-path", "url(#clip-f1)");
-
-        // Maak de brushlijnen in hun eigen plekje
-        var contextLine = context.f1.append("path")
-            .datum(dataVariable)
-            .attr("id", "f1-brush-line")
-            .attr("class", "lines-f1 f1-general")
-            .attr("d", brushLine.f1);
-
-        // Geef de brush zijn eigen x as
-        context.f1.append("g")
-            .attr("id", "f1-context-x-axis")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + brushHeight + ")")
-            .call(brushXAxis.f1);
-
-        // Maak de brush zelf aan
-        context.f1.append("g")
-            .attr("class", "x brush")
-            .call(brush.f1)
-            .selectAll("rect")
-                .attr("y", -6)
-                .attr("height", brushHeight + 7);
-
-        for (var i = 0; i < f1zones.length; i++) {
-            var zone = "zone" + f1zones[i];
-            // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
-            eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
-
-            // Bind de verdiepingsdata aan de zonelijnen, maar maak ze onzichtbaar
-            focus.f1.append("path")
-                .datum(dataVariable)
-                .attr("id", "f1-zone" + f1zones[i] + "-line")
-                .attr("class", "lines-f1 f1-" + zone)
-                .attr("d", line.f1)
-                .attr("clip-path", "url(#clip-f1)")
-                .style("display", "none");
-
-            // En doe hetzelfde voor de brushlijnen
-            context.f1.append("path")
-                .datum(dataVariable)
-                .attr("id", "f1-" + zone + "-brush")
-                .attr("class", "lines-f1 f1-" + zone)
-                .attr("d", brushLine.f1)
-                .style("display", "none");
-        }
-    } else {
-        // Data betreft meerdere zones
-        // Bereken de ranges van de data
-        x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
-        var yMax = 0;
-        for (var zone in dataVariable) {
-            if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
-                yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
-            }
-        }
-        y.f1.domain([0, yMax]).nice();
-
-        // Bereken de domeinen van de brush
-        brushX.f1.domain(x.f1.domain());
-        brushY.f1.domain(y.f1.domain());
-
-        focus.f1.append("defs").append("clipPath")
-        .attr("id", "clip-f1")
-            .append("rect")
-            .attr("width", width)
-            .attr("height", height);
-
-        // Assen toevoegen
-        focus.f1.append("g")
-            .attr("id", "f1-x-axis")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis.f1);
-
-        focus.f1.append("g")
-            .attr("id", "f1-y-axis")
-            .attr("class", "y axis")
-            .call(yAxis.f1)
-            // Een naam aan de y-as hangen
-            .append("text")
-                .attr("id", "f1-y-label")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 3)
-                .attr("dy", ".75em")
-                .style("text-anchor", "end")
-                // Maak de label tekst de geselecteerde data uit de dropdown
-                .text($("#f1-sensors :selected").text());
-
-        // De lijn tekenen van de geselecteerde data
-        focus.f1.append("path")
-            .datum(dataVariable.zone1)
-            .attr("id", "f1-line")
-            .attr("class", "lines-f1 f1-general")
-            .attr("d", line.f1)
-            .attr("clip-path", "url(#clip-f1)")
-            .style("display", "none");
-
-        // Maak de brush lijn maar maak deze onzichtbaar
-        var contextLine = context.f1.append("path")
-            .datum(dataVariable.zone1)
-            .attr("id", "f1-brush-line")
-            .attr("class", "lines-f1 f1-general")
-            .attr("d", brushLine.f1)
-            .style("display", "none");
-
-        // x as van de brush
-        context.f1.append("g")
-            .attr("id", "f1-context-x-axis")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + brushHeight + ")")
-            .call(brushXAxis.f1);
-
-        // De brush zelf aanmaken
-        context.f1.append("g")
-            .attr("class", "x brush")
-            .call(brush.f1)
-            .selectAll("rect")
-                .attr("y", -6)
-                .attr("height", brushHeight + 7);
-
-        // Loop elke zone af
-        for (var i = 0; i < f1zones.length; i++) {
-            var zone = "zone" + f1zones[i];
-            // Maak een lijn voor elke zone en bind data aan die lijnen
-            focus.f1.append("path")
-                .datum(dataVariable[zone])
-                .attr("id", "f1-" + zone + "-line")
-                .attr("class", "lines-f1 f1-" + zone)
-                .attr("clip-path", "url(#clip-f1)")
-                .attr("d", line.f1);
-
-            // En doe hetzelfde voor de brush
-            context.f1.append("path")
-                .datum(dataVariable[zone])
-                .attr("id", "f1-" + zone + "-brush")
-                .attr("class", "lines-f1 f1-" + zone)
-                .attr("d", brushLine.f1);
-        }
-    }
-    // Breng een lijn naar voren als er over gehoverd wordt
-    $(".lines-f1").mouseover(function() {
-        $(".lines-f1").not(this).each(function() {
-            $(this).css("opacity", "0.2");
-        });
-    });
-
-    $(".lines-f1").mouseout(function() {
-        $(".lines-f1").each(function() {
-            $(this).css("opacity", "1");
-        });
-    });
-}
-
-// Functie om de chart te updaten als de dropdown verandert
-function updateF1Chart(dataVariable) {
-    if (isArray(dataVariable)) {
-        // Data betreft de gehele verdieping
-        // Bereken de nieuwe ranges van de data
-        x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-        y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
-
-        // Update de domeinen van de brushes
-        brushX.f1.domain(x.f1.domain());
-        brushY.f1.domain(y.f1.domain());
-
-        // Verander de assen adhv de nieuwe ranges
-        svg.f1.select("#f1-x-axis")
-            .transition()
-                .duration(1000)
-                .call(xAxis.f1);
-
-        svg.f1.select("#f1-y-axis")
-            .transition()
-                .duration(1000)
-                .call(yAxis.f1);
-
-        // Update de label adhv de gekozen data
-        svg.f1.select("#f1-y-label")
-            .transition()
-                .duration(1000)
-                .text($("#f1-sensors :selected").text());
-
-        // Maak de lijn die over de gehele verdieping gaat weer zichtbaar
-        svg.f1.select("#f1-line")
-            .datum(dataVariable)
-            .transition()
-                .duration(1000)
-                .attr("d", line.f1)
-                .style("display", "");
-
-        // Maak de brush lijn over de gehele verdieping weer zichtbaar
-        var contextLine = context.f1.select("#f1-brush-line")
-            .datum(dataVariable)
-            .transition()
-                .duration(1000)
-                .attr("d", brushLine.f1)
-                .style("display", "");
-
-        // Transitie op de x as
-        context.f1.select("#f1-context-x-axis")
-            .transition()
-            .duration(1000)
-                .call(brushXAxis.f1);
-
-        for (var i = 0; i < f1zones.length; i++) {
-            // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
-            eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
-
-            // Bind de verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
-            var zone = "zone" + f1zones[i];
-            svg.f1.select("#f1-" + zone + "-line")
-                .datum(dataVariable)
-                .transition()
-                    .duration(1000)
-                    .attr("d", line.f1)
-                    .style("display", "none");
-
-            // En doe hetzelfde voor de brushlijnen
-            context.f1.select("#f1-" + zone + "-brush")
-                .datum(dataVariable)
-                .transition()
-                    .duration(1000)
-                    .attr("d", brushLine.f1)
-                    .style("display", "none");
-        }
-    } else {
-        // Data betreft meerdere zones
-        // Bereken de nieuwe ranges
-        x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
-        var yMax = 0;
-        for (var zone in dataVariable) {
-            if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
-                yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
-            }
-        }
-        y.f1.domain([0, yMax]).nice();
-
-        // Update de brushdomeinen
-        brushX.f1.domain(x.f1.domain());
-        brushY.f1.domain(y.f1.domain());
-
-        // Update de assen adhv de nieuwe ranges
-        svg.f1.select("#f1-x-axis")
-            .transition()
-                .duration(1000)
-                .call(xAxis.f1);
-
-        svg.f1.select("#f1-y-axis")
-            .transition()
-                .duration(1000)
-                .call(yAxis.f1);
-
-        // Update de label adhv de nieuwe data
-        svg.f1.select("#f1-y-label")
-            .transition()
-                .duration(1000)
-                .text($("#f1-sensors :selected").text());
-
-        // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
-        svg.f1.select("#f1-line")
-            .datum(dataVariable.zone1)
-            .transition()
-                .duration(1000)
-                .attr("d", line.f1)
-                .style("display", "none");
-
-        // En doe hetzelfde voor de brushlijn
-        var contextLine = context.f1.select("#f1-brush-line")
-            .datum(dataVariable.zone1)
-            .transition()
-                .duration(1000)
-                .attr("d", brushLine.f1)
-                .style("display", "none");
-
-        // Transitie op de brush x as
-        context.f1.select("#f1-context-x-axis")
-            .transition()
-            .duration(1000)
-                .call(brushXAxis.f1);
-
-        for (var i = 0; i < f1zones.length; i++) {
-            // De checkboxes moeten weer werken als de data over meerdere zones
-            eval("f1Zone" + f1zones[i] + "Checkbox.disabled = false");
-
-            // Bind de zonedata aan de zonelijnen
-            var zone = "zone" + f1zones[i];
-            svg.f1.select("#f1-" + zone + "-line")
-                .datum(dataVariable[zone])
-                .transition()
-                    .duration(1000)
-                    .attr("d", line.f1)
-                    // Check of de checkboxes zijn aangevinkt om te kijken of de lijn zichtbaar moet worden
-                    .style("display", function() {
-                        if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
-                            return "";
-                        } else {
-                            return "none";
-                        }
-                    });
-
-            // En doe hetzelfde voor de brushlijnen
-            context.f1.select("#f1-" + zone + "-brush")
-                .datum(dataVariable[zone])
-                .transition()
-                    .duration(1000)
-                    .attr("d", brushLine.f1)
-                    .style("display", function() {
-                        if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
-                            return "";
-                        } else {
-                            return "none";
-                        }
-                    });
-        }
-    }
-}
+// // Functie om de chart te updaten als de dropdown verandert
+// function updateF1Chart(dataVariable) {
+//     if (isArray(dataVariable)) {
+//         // Data betreft de gehele verdieping
+//         // Bereken de nieuwe ranges van de data
+//         x.f1.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
+//         y.f1.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+//
+//         // Update de domeinen van de brushes
+//         brushX.f1.domain(x.f1.domain());
+//         brushY.f1.domain(y.f1.domain());
+//
+//         // Verander de assen adhv de nieuwe ranges
+//         svg.f1.select("#f1-x-axis")
+//             .transition()
+//                 .duration(1000)
+//                 .call(xAxis.f1);
+//
+//         svg.f1.select("#f1-y-axis")
+//             .transition()
+//                 .duration(1000)
+//                 .call(yAxis.f1);
+//
+//         // Update de label adhv de gekozen data
+//         svg.f1.select("#f1-y-label")
+//             .transition()
+//                 .duration(1000)
+//                 .text($("#f1-sensors :selected").text());
+//
+//         // Maak de lijn die over de gehele verdieping gaat weer zichtbaar
+//         svg.f1.select("#f1-line")
+//             .datum(dataVariable)
+//             .transition()
+//                 .duration(1000)
+//                 .attr("d", line.f1)
+//                 .style("display", "");
+//
+//         // Maak de brush lijn over de gehele verdieping weer zichtbaar
+//         var contextLine = context.f1.select("#f1-brush-line")
+//             .datum(dataVariable)
+//             .transition()
+//                 .duration(1000)
+//                 .attr("d", brushLine.f1)
+//                 .style("display", "");
+//
+//         // Transitie op de x as
+//         context.f1.select("#f1-context-x-axis")
+//             .transition()
+//             .duration(1000)
+//                 .call(brushXAxis.f1);
+//
+//         for (var i = 0; i < f1zones.length; i++) {
+//             // De checkboxes moeten niet werken als de data over de gehele verdieping gaat
+//             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = true");
+//
+//             // Bind de verdiepingsdata aan de zonelijnen maar maak deze onzichtbaar
+//             var zone = "zone" + f1zones[i];
+//             svg.f1.select("#f1-" + zone + "-line")
+//                 .datum(dataVariable)
+//                 .transition()
+//                     .duration(1000)
+//                     .attr("d", line.f1)
+//                     .style("display", "none");
+//
+//             // En doe hetzelfde voor de brushlijnen
+//             context.f1.select("#f1-" + zone + "-brush")
+//                 .datum(dataVariable)
+//                 .transition()
+//                     .duration(1000)
+//                     .attr("d", brushLine.f1)
+//                     .style("display", "none");
+//         }
+//     } else {
+//         // Data betreft meerdere zones
+//         // Bereken de nieuwe ranges
+//         x.f1.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
+//         var yMax = 0;
+//         for (var zone in dataVariable) {
+//             if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
+//                 yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
+//             }
+//         }
+//         y.f1.domain([0, yMax]).nice();
+//
+//         // Update de brushdomeinen
+//         brushX.f1.domain(x.f1.domain());
+//         brushY.f1.domain(y.f1.domain());
+//
+//         // Update de assen adhv de nieuwe ranges
+//         svg.f1.select("#f1-x-axis")
+//             .transition()
+//                 .duration(1000)
+//                 .call(xAxis.f1);
+//
+//         svg.f1.select("#f1-y-axis")
+//             .transition()
+//                 .duration(1000)
+//                 .call(yAxis.f1);
+//
+//         // Update de label adhv de nieuwe data
+//         svg.f1.select("#f1-y-label")
+//             .transition()
+//                 .duration(1000)
+//                 .text($("#f1-sensors :selected").text());
+//
+//         // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
+//         svg.f1.select("#f1-line")
+//             .datum(dataVariable.zone1)
+//             .transition()
+//                 .duration(1000)
+//                 .attr("d", line.f1)
+//                 .style("display", "none");
+//
+//         // En doe hetzelfde voor de brushlijn
+//         var contextLine = context.f1.select("#f1-brush-line")
+//             .datum(dataVariable.zone1)
+//             .transition()
+//                 .duration(1000)
+//                 .attr("d", brushLine.f1)
+//                 .style("display", "none");
+//
+//         // Transitie op de brush x as
+//         context.f1.select("#f1-context-x-axis")
+//             .transition()
+//             .duration(1000)
+//                 .call(brushXAxis.f1);
+//
+//         for (var i = 0; i < f1zones.length; i++) {
+//             // De checkboxes moeten weer werken als de data over meerdere zones
+//             eval("f1Zone" + f1zones[i] + "Checkbox.disabled = false");
+//
+//             // Bind de zonedata aan de zonelijnen
+//             var zone = "zone" + f1zones[i];
+//             svg.f1.select("#f1-" + zone + "-line")
+//                 .datum(dataVariable[zone])
+//                 .transition()
+//                     .duration(1000)
+//                     .attr("d", line.f1)
+//                     // Check of de checkboxes zijn aangevinkt om te kijken of de lijn zichtbaar moet worden
+//                     .style("display", function() {
+//                         if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
+//                             return "";
+//                         } else {
+//                             return "none";
+//                         }
+//                     });
+//
+//             // En doe hetzelfde voor de brushlijnen
+//             context.f1.select("#f1-" + zone + "-brush")
+//                 .datum(dataVariable[zone])
+//                 .transition()
+//                     .duration(1000)
+//                     .attr("d", brushLine.f1)
+//                     .style("display", function() {
+//                         if (eval("f1Zone" + f1zones[i] + "Checkbox.checked")) {
+//                             return "";
+//                         } else {
+//                             return "none";
+//                         }
+//                     });
+//         }
+//     }
+// }
