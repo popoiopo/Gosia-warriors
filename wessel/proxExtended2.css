@@ -24,3 +24,35 @@ svg {
 .checkboxes {
   display : none;
 }
+
+.color1-text {
+    color: #1F77B4;
+}
+
+.color2-text {
+    color: #FF7F0E;
+}
+
+.color3-text {
+    color: #2CA02C;
+}
+
+.color4-text {
+    color: #D62728;
+}
+
+.color5-text {
+    color: #9467BD;
+}
+
+.color6-text {
+    color: #8C564B;
+}
+
+.color7-text {
+    color: #E377C2;
+}
+
+.color8-text {
+    color: #7F7F7F;
+}

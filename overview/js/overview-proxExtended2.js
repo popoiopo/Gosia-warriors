@@ -9,12 +9,23 @@ Prox data
 */
 
 function proxGrapher(data, id) {
-	var margin = {top: 10, right: 10, bottom: 250, left: 40},
-	    margin2 = {top: 430, right: 10, bottom: 170, left: 40},
-		width = 960 - margin.left - margin.right,
-	    width2 = 960 - margin2.left - margin2.right,
+	var margin = {top: 10, right: 20, bottom: 250, left: 60},
+	    margin2 = {top: 430, right: 20, bottom: 170, left: 60},
+		width = 1100 - margin.left - margin.right,
+	    width2 = 1100 - margin2.left - margin2.right,
 	    height = 650 - margin.top - margin.bottom,
 	    height2 = 650- margin2.top - margin2.bottom;
+
+    var fixedProxSuffix;
+    if (id === "prox-general") {
+        fixedProxSuffix = "general";
+    } else if (id === "prox-svg_1") {
+        fixedProxSuffix = "floor-1";
+    } else if (id === "prox-svg_2") {
+        fixedProxSuffix = "floor-2";
+    } else {
+        fixedProxSuffix = "floor-3";
+    }
 
 	var parseDate = d3.time.format("%a %b %d %Y %H:%M:%S").parse;
 
@@ -45,10 +56,12 @@ function proxGrapher(data, id) {
 
 	var x = d3.time.scale()
 			.range([0, width])
-			.domain(xDomain),
+			.domain(xDomain)
+            .nice(),
 	    x2 = d3.time.scale()
 	    	.range([0, width2])
-	    	.domain(x2Domain);
+	    	.domain(x2Domain)
+            .nice();
 
 	var y = d3.scale.linear()
 			.range([height, 0])
@@ -83,10 +96,9 @@ function proxGrapher(data, id) {
 	    .x(function(d) { return x2(d.date); })
 	    .y(function(d) { return y2(d.frequency); });
 
-	var svg = d3.select("#linegraph").append("svg")
+	var svg = d3.select("#fixed-prox-div-" + fixedProxSuffix).append("svg")
 		.attr("id", id)
 		.attr("class", "svg")
-		.attr("display", "none")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom);
 
@@ -141,7 +153,7 @@ function proxGrapher(data, id) {
 	  .attr("class", "floor");
 
 	floor.append("path")
-	  .attr("class", "line")
+	  .attr("class", "prox-lines")
 	  .attr("id", function(d) { return id + "_" + d.floor; })
 	  .attr("clip-path", "url(#clip)")
 	  .attr("d", function(d) { return line(d.values); })
@@ -153,15 +165,14 @@ function proxGrapher(data, id) {
 	  .attr("class", "floor");
 
 	floor2.append("path")
-	  .attr("class", "line")
+	  .attr("class", "prox-lines")
 	  .attr("id", function(d) { return id + "_" + d.floor + "_slider"; })
 	  .attr("d", function(d) { return line2(d.values); })
 	  .style("stroke", function(d) { return color(d.floor); });
 
 	function brushed() {
 	  x.domain(brush.empty() ? x2.domain() : brush.extent());
-	  focus.selectAll("path.line").attr("d", function(d) { return line(d.values); });
+	  focus.selectAll("path.prox-lines").attr("d", function(d) { return line(d.values); });
 	  focus.select(".x.axis").call(xAxis);
 	};
-
 };
