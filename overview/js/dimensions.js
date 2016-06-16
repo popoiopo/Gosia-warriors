@@ -298,3 +298,437 @@ function bindProxEvents() {
         $("#prox-" + this.value + "_slider").toggle();
     });
 }
+
+var initChart = {
+    general: function(dataVariable) {
+        // Bereken de ranges van de data
+        x.general.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
+        y.general.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+
+        // Update ook de domeinen van de brushes
+        brushX.general.domain(x.general.domain());
+        brushY.general.domain(y.general.domain());
+
+        // Bepaal waar de lijnen mogen verschijnen
+        focus.general.append("defs").append("clipPath")
+        .attr("id", "clip-general")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Assen toevoegen
+        focus.general.append("g")
+            .attr("id", "general-x-axis")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis.general);
+
+        focus.general.append("g")
+            .attr("id", "general-y-axis")
+            .attr("class", "y axis")
+            .call(yAxis.general)
+            // Een naam aan de y-as hangen
+            .append("text")
+                .attr("id", "general-y-label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 3)
+                .attr("dy", ".75em")
+                .style("text-anchor", "end")
+                // Maak de label tekst de geselecteerde data uit de dropdown
+                .text($("#general-dropdown :selected").text());
+
+        // De lijn tekenen van de geselecteerde data
+        focus.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-line")
+            .attr("class", "lines-general")
+            .attr("d", line.general)
+            .attr("clip-path", "url(#clip-general)");
+
+        // Dit zijn de lijnen voor de hazium data maar zet ze eerst op onzichtbaar
+        focus.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-line-1")
+            .attr("class", "lines-general")
+            .attr("d", line.general)
+            .attr("clip-path", "url(#clip-general)")
+            .style("display", "none");
+
+        focus.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-line-2")
+            .attr("class", "lines-general")
+            .attr("d", line.general)
+            .attr("clip-path", "url(#clip-general)")
+            .style("display", "none");
+
+        focus.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-line-3")
+            .attr("class", "lines-general")
+            .attr("d", line.general)
+            .attr("clip-path", "url(#clip-general)")
+            .style("display", "none");
+
+        focus.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-line-4")
+            .attr("class", "lines-general")
+            .attr("d", line.general)
+            .attr("clip-path", "url(#clip-general)")
+            .style("display", "none");
+
+        // Plak de brush lijn in zijn eigen plekje
+        var contextLine = context.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-brush-line")
+            .attr("class", "lines-general")
+            .attr("d", brushLine.general);
+
+        // Brushlijnen voor de hazium data maar maak ze eerst onzichtbaar
+        context.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-brush-line-1")
+            .attr("class", "lines-general")
+            .attr("d", brushLine.general)
+            .style("display", "none");
+
+        context.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-brush-line-2")
+            .attr("class", "lines-general")
+            .attr("d", brushLine.general)
+            .style("display", "none");
+
+        context.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-brush-line-3")
+            .attr("class", "lines-general")
+            .attr("d", brushLine.general)
+            .style("display", "none");
+
+        context.general.append("path")
+            .datum(dataVariable)
+            .attr("id", "general-brush-line-4")
+            .attr("class", "lines-general")
+            .attr("d", brushLine.general)
+            .style("display", "none");
+
+        // x as voor de brush slider
+        context.general.append("g")
+            .attr("id", "general-context-x-axis")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + brushHeight + ")")
+            .call(brushXAxis.general);
+
+        // Maak het oppervlak van de brush
+        context.general.append("g")
+            .attr("class", "x brush")
+            .call(brush.general)
+            .selectAll("rect")
+                .attr("y", -6)
+                .attr("height", brushHeight + 7);
+
+        $(".lines-general").mouseover(function() {
+            $(".lines-general").not(this).each(function() {
+                $(this).css("opacity", "0.2");
+            });
+        });
+
+        $(".lines-general").mouseout(function() {
+            $(".lines-general").each(function() {
+                $(this).css("opacity", "1");
+            });
+        });
+    },
+    f1: function() {
+
+    },
+    f2: function() {
+
+    },
+    f3: function() {
+
+    }
+};
+
+var updateChart = {
+    general: function(dataVariable) {
+        if (isArray(dataVariable)) {
+            // Bereken de nieuwe ranges van de data
+            x.general.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
+            y.general.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+
+            // Update ook de domeinen van de brush
+            brushX.general.domain(x.general.domain());
+            brushY.general.domain(y.general.domain());
+
+            // Pas de assen aan adhv de nieuwe ranges
+            svg.general.select("#general-x-axis")
+                .transition()
+                    .duration(1000)
+                    .call(xAxis.general);
+
+            svg.general.select("#general-y-axis")
+                .transition()
+                    .duration(1000)
+                    .call(yAxis.general);
+
+            // Verander de labeltekst adhv de nieuwe data
+            svg.general.select("#general-y-label")
+                .transition()
+                    .duration(1000)
+                    .text($("#general-dropdown :selected").text());
+
+            // Verander de gebonden data aan de lijn
+            svg.general.select("#general-line")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "");
+
+            // Maak de hazium lijnen onzichtbaar
+            svg.general.select("#general-line-1")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "none");
+
+            svg.general.select("#general-line-2")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "none");
+
+            svg.general.select("#general-line-3")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "none");
+
+            svg.general.select("#general-line-4")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "none");
+
+            // Pas de brush analoog aan de linechart aan
+            var contextLine = context.general.select("#general-brush-line")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "");
+
+            // Maak de hazium brush lijnen onzichtbaar
+            context.general.select("#general-brush-line-1")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "none");
+
+            context.general.select("#general-brush-line-2")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "none");
+
+            context.general.select("#general-brush-line-3")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "none");
+
+            context.general.select("#general-brush-line-4")
+                .datum(dataVariable)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "none");
+
+            // Transition op de brush x as
+            context.general.select("#general-context-x-axis")
+                .transition()
+                .duration(1000)
+                    .call(brushXAxis.general);
+        } else {
+            // Het betreft de hazium concentraties
+            var dataVariable = dataVariable;
+            // Bepaal de nieuwe ranges
+            x.general.domain(d3.extent(dataVariable.F_1_Z_8A, function(d) {return d.timestamp;})).nice();
+            var yMax = 0;
+            for (var zone in dataVariable) {
+                if(d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
+                    yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
+                }
+            }
+            y.general.domain([0, yMax]).nice();
+
+            // Update de brushdomeinen
+            brushX.general.domain(x.general.domain());
+            brushY.general.domain(y.general.domain());
+
+            // Pas de assen aan adhv de nieuwe ranges
+            svg.general.select("#general-x-axis")
+                .transition()
+                    .duration(1000)
+                    .call(xAxis.general);
+
+            svg.general.select("#general-y-axis")
+                .transition()
+                    .duration(1000)
+                    .call(yAxis.general);
+
+            // Verander de labeltekst adhv de nieuwe data
+            svg.general.select("#general-y-label")
+                .transition()
+                    .duration(1000)
+                    .text($("#general-dropdown :selected").text());
+
+            // Verander de gebonden data aan de lijn en maak deze onzichtbaar
+            svg.general.select("#general-line")
+                .datum(dataVariable.F_1_Z_8A)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", "none");
+
+            // Maak de haziumlijnen zichtbaar adhv de aangevinkte checkboxes
+            svg.general.select("#general-line-1")
+                .datum(dataVariable.F_1_Z_8A)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", function() {
+                        if (checkboxLine1.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            svg.general.select("#general-line-2")
+                .datum(dataVariable.F_2_Z_2)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", function() {
+                        if (checkboxLine2.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            svg.general.select("#general-line-3")
+                .datum(dataVariable.F_2_Z_4)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", function() {
+                        if (checkboxLine3.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            svg.general.select("#general-line-4")
+                .datum(dataVariable.F_3_Z_1)
+                .transition()
+                    .duration(1000)
+                    .attr("d", line.general)
+                    .style("display", function() {
+                        if (checkboxLine4.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            // Pas de brush analoog aan de linechart aan en maak deze onzichtbaar
+            var contextLine = context.general.select("#general-brush-line")
+                .datum(dataVariable.F_1_Z_8A)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", "none");
+
+            // Maak de haziumbrushlijnen zichtbaar adhv de aangevinkte checkboxes
+            context.general.select("#general-brush-line-1")
+                .datum(dataVariable.F_1_Z_8A)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", function() {
+                        if (checkboxLine1.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            context.general.select("#general-brush-line-2")
+                .datum(dataVariable.F_2_Z_2)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", function() {
+                        if (checkboxLine2.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            context.general.select("#general-brush-line-3")
+                .datum(dataVariable.F_2_Z_4)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", function() {
+                        if (checkboxLine3.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            context.general.select("#general-brush-line-4")
+                .datum(dataVariable.F_3_Z_1)
+                .transition()
+                    .duration(1000)
+                    .attr("d", brushLine.general)
+                    .style("display", function() {
+                        if (checkboxLine4.checked) {
+                            return "";
+                        } else {
+                            return "none";
+                        }
+                    });
+
+            // Transition op de brush x as
+            context.general.select("#general-context-x-axis")
+                .transition()
+                .duration(1000)
+                    .call(brushXAxis.general);
+        }
+    },
+    f1: function() {
+
+    },
+    f2: function() {
+
+    },
+    f3: function() {
+
+    }
+};
