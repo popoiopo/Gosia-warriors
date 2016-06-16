@@ -20,7 +20,7 @@ var dataHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1
 var dataFloors = [1, 2, 3];
 
 // Functie die de data inlaadt en in een goed format gooit
-function dataMaker() {
+(function dataMaker() {
     // Keys voor dataset
 	var keys_general = ["floor_1", "floor_2", "floor_3"];
 	var keys_floor_1 = ["zone_1", "zone_2", "zone_3", "zone_4", "zone_5", "zone_6", "zone_7", "zone_8"];
@@ -158,7 +158,7 @@ function dataMaker() {
         // Bind de mouseover/mouseout en click events voor de fixed prox linegraphs
         bindProxEvents();
 	});
-};
+})();
 
 /* Functie om 0 waarden in te vullen bij data die mist
 * Getallen met 1 karakterplek moeten zero-padded zijn.
