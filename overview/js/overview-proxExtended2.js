@@ -76,10 +76,12 @@ function proxGrapher(data, id) {
     // Y schalen definieren
 	var y = d3.scale.linear()
 			.range([height, 0])
-			.domain(yDomain),
+			.domain(yDomain)
+            .nice(),
 	    y2 = d3.scale.linear()
 	    	.range([height2, 0])
-	    	.domain(y2Domain);
+	    	.domain(y2Domain)
+            .nice();
 
     // X as voor de linegraphs
 	var xAxis = d3.svg.axis()
