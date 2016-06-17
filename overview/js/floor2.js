@@ -248,7 +248,7 @@
             // Data betreft de gehele verdieping
             // Bereken de ranges van de data
             x.f2.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-            y.f2.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+            y.f2.domain([d3.min(dataVariable, function(d) {return d.val;}) - 0.1, d3.max(dataVariable, function(d) {return d.val;}) + 0.1]).nice();
 
             // Bereken de brushdomeinen
             brushX.f2.domain(x.f2.domain());
@@ -339,13 +339,17 @@
             // Data betreft meerdere zones
             // Bereken de ranges van de data
             x.f2.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
+            var yMin = 1000000;
             var yMax = 0;
             for (var zone in dataVariable) {
                 if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
                     yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
                 }
+                if (d3.min(dataVariable[zone], function(d) {return d.val;}) < yMin) {
+                    yMin = d3.min(dataVariable[zone], function(d) {return d.val;});
+                }
             }
-            y.f2.domain([0, yMax]).nice();
+            y.f2.domain([yMin - 0.1, yMax + 0.1]).nice();
 
             // Bereken de brushdomeinen
             brushX.f2.domain(x.f2.domain());
@@ -450,7 +454,7 @@
             // Data betreft de gehele verdieping
             // Bereken de nieuwe ranges
             x.f2.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-            y.f2.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+            y.f2.domain([d3.min(dataVariable, function(d) {return d.val;}) - 0.1, d3.max(dataVariable, function(d) {return d.val;}) + 0.1]).nice();
 
             // Update de brushdomeinen
             brushX.f2.domain(x.f2.domain());
@@ -520,13 +524,17 @@
             // Data betreft meerdere zones
             // Bereken de nieuwe ranges
             x.f2.domain(d3.extent(dataVariable.zone1, function(d) {return d.timestamp;})).nice();
+            var yMin = 1000000;
             var yMax = 0;
             for (var zone in dataVariable) {
                 if (d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
                     yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
                 }
+                if (d3.min(dataVariable[zone], function(d) {return d.val;}) < yMin) {
+                    yMin = d3.min(dataVariable[zone], function(d) {return d.val;});
+                }
             }
-            y.f2.domain([0, yMax]).nice();
+            y.f2.domain([yMin - 0.1, yMax + 0.1]).nice();
 
             // Update de brushdomeinen
             brushX.f2.domain(x.f2.domain());

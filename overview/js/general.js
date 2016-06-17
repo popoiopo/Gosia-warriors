@@ -203,7 +203,7 @@
     function initGeneralChart(dataVariable) {
         // Bereken de ranges van de data
         x.general.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-        y.general.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+        y.general.domain([d3.min(dataVariable, function(d) {return d.val;}) - 0.1, d3.max(dataVariable, function(d) {return d.val;}) + 0.1]).nice();
 
         // Update ook de domeinen van de brushes
         brushX.general.domain(x.general.domain());
@@ -346,7 +346,7 @@
         if (isArray(dataVariable)) {
             // Bereken de nieuwe ranges van de data
             x.general.domain(d3.extent(dataVariable, function(d) {return d.timestamp;})).nice();
-            y.general.domain([0, d3.max(dataVariable, function(d) {return d.val;})]).nice();
+            y.general.domain([d3.min(dataVariable, function(d) {return d.val;}) - 0.1, d3.max(dataVariable, function(d) {return d.val;}) + 0.1]).nice();
 
             // Update ook de domeinen van de brush
             brushX.general.domain(x.general.domain());
@@ -453,13 +453,17 @@
             var dataVariable = dataVariable;
             // Bepaal de nieuwe ranges
             x.general.domain(d3.extent(dataVariable.F_1_Z_8A, function(d) {return d.timestamp;})).nice();
+            var yMin = 1000000;
             var yMax = 0;
             for (var zone in dataVariable) {
                 if(d3.max(dataVariable[zone], function(d) {return d.val;}) > yMax) {
                     yMax = d3.max(dataVariable[zone], function(d) {return d.val;});
                 }
+                if(d3.min(dataVariable[zone], function(d) {return d.val;}) < yMin) {
+                    yMin = d3.min(dataVariable[zone], function(d) {return d.val;});
+                }
             }
-            y.general.domain([0, yMax]).nice();
+            y.general.domain([yMin - 0.1, yMax + 0.1]).nice();
 
             // Update de brushdomeinen
             brushX.general.domain(x.general.domain());
