@@ -124,7 +124,7 @@ function proxGrapher(data, id) {
 
     // Clip path zodat de lijnen niet langs de assen komen
 	svg.append("defs").append("clipPath")
-	    .attr("id", "clip-" + fixedProxSuffix)
+	    .attr("id", "clip-fixed-prox-" + fixedProxSuffix)
         .append("rect")
     	    .attr("width", width)
     	    .attr("height", height);
@@ -180,7 +180,7 @@ function proxGrapher(data, id) {
 	floor.append("path")
         .attr("class", "prox-lines")
         .attr("id", function(d) { return id + "_" + d.floor; })
-        .attr("clip-path", "url(#clip-" + fixedProxSuffix + ")")
+        .attr("clip-path", "url(#clip-fixed-prox" + fixedProxSuffix + ")")
         .attr("d", function(d) { return line(d.values); })
         .style("stroke", function(d) { return color(d.floor); });
 
