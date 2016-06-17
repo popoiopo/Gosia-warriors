@@ -235,7 +235,7 @@
                 .attr("dy", ".75em")
                 .style("text-anchor", "end")
                 // Maak de label tekst de geselecteerde data uit de dropdown
-                .text($("#general-dropdown :selected").text());
+                .text($("#general-dropdown :selected").text() + " (" + $("#general-dropdown :selected").attr("unit") + ")");
 
         // De lijn tekenen van de geselecteerde data
         focus.general.append("path")
@@ -367,7 +367,7 @@
             svg.general.select("#general-y-label")
                 .transition()
                     .duration(1000)
-                    .text($("#general-dropdown :selected").text());
+                    .text($("#general-dropdown :selected").text() + " (" + $("#general-dropdown :selected").attr("unit") + ")");
 
             // Verander de gebonden data aan de lijn
             svg.general.select("#general-line")
@@ -484,7 +484,7 @@
             svg.general.select("#general-y-label")
                 .transition()
                     .duration(1000)
-                    .text($("#general-dropdown :selected").text());
+                    .text($("#general-dropdown :selected").text() + " (" + $("#general-dropdown :selected").attr("unit") + ")");
 
             // Verander de gebonden data aan de lijn en maak deze onzichtbaar
             svg.general.select("#general-line")

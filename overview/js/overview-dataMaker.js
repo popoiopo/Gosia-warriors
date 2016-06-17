@@ -157,6 +157,7 @@ var dataFloors = [1, 2, 3];
 
         // Bind de mouseover/mouseout en click events voor de fixed prox linegraphs
         bindProxEvents();
+        hideLoadingIcon();
 	});
 })();
 

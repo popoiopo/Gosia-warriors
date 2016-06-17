@@ -11,8 +11,8 @@ Prox data
 // Functie die de linegraphs van de fixed prox data tekent
 function proxGrapher(data, id) {
     // Afmetingen definieren
-	var margin = {top: 10, right: 20, bottom: 250, left: 60},
-	    margin2 = {top: 430, right: 20, bottom: 170, left: 60},
+	var margin = {top: 10, right: 30, bottom: 250, left: 60},
+	    margin2 = {top: 430, right: 30, bottom: 170, left: 60},
 		width = 1100 - margin.left - margin.right,
 	    width2 = 1100 - margin2.left - margin2.right,
 	    height = 650 - margin.top - margin.bottom,
@@ -49,8 +49,8 @@ function proxGrapher(data, id) {
 
     // Domein voor de x as bepalen
 	var xDomain = [
-		d3.min(floors, function(a) { return d3.min(a.values, function(b) {return b.date}); }),
-		d3.max(floors, function(a) { return d3.max(a.values, function(b) {return b.date}); })
+		d3.min(floors, function(a) { return d3.min(a.values, function(b) {return b.date;}); }),
+		d3.max(floors, function(a) { return d3.max(a.values, function(b) {return b.date;}); })
 	];
 
 	var x2Domain = xDomain;
@@ -86,12 +86,14 @@ function proxGrapher(data, id) {
     // X as voor de linegraphs
 	var xAxis = d3.svg.axis()
 	    .scale(x)
-	    .orient("bottom");
+	    .orient("bottom")
+        .tickFormat(d3.time.format("%a %d %b"));
 
     // X as voor de brush
 	var xAxis2 = d3.svg.axis()
 	    .scale(x2)
-	    .orient("bottom");
+	    .orient("bottom")
+        .tickFormat(d3.time.format("%a %d %b"));
 
     //Y as voor de linegraphs
 	var yAxis = d3.svg.axis()
@@ -202,5 +204,5 @@ function proxGrapher(data, id) {
         x.domain(brush.empty() ? x2.domain() : brush.extent());
         focus.selectAll("path.prox-lines").attr("d", function(d) { return line(d.values); });
         focus.select(".x.axis").call(xAxis);
-	};
-};
+	}
+}

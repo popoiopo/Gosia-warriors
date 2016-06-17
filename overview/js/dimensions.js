@@ -27,11 +27,11 @@ $(".floor-button").click(function() {
 });
 
 // Afmetingen van de svg op de pagina
-var margin = {top: 10, bottom: 175, left: 60, right: 20};
+var margin = {top: 10, bottom: 175, left: 60, right: 30};
 var width = 1100 - margin.left - margin.right;
 var height = 550 - margin.top - margin.bottom;
 
-var brushMargin = {top: 430, right: 20, bottom: 50, left: 60};
+var brushMargin = {top: 430, right: 30, bottom: 50, left: 60};
 var brushHeight = 550 - brushMargin.top - brushMargin.bottom;
 
 // Functie om de datum van de JSON om te zetten naar javascript Date
@@ -115,19 +115,23 @@ var xAxis = {
     general: d3.svg.axis()
                 .scale(x.general)
                 .orient("bottom")
-                .ticks(14),
+                .ticks(14)
+                .tickFormat(d3.time.format("%a %d %b")),
     f1: d3.svg.axis()
             .scale(x.f1)
             .orient("bottom")
-            .ticks(14),
+            .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b")),
     f2: d3.svg.axis()
             .scale(x.f2)
             .orient("bottom")
-            .ticks(14),
+            .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b")),
     f3: d3.svg.axis()
             .scale(x.f3)
             .orient("bottom")
             .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b"))
 };
 
 // x as voor de brush op elke pagina
@@ -135,19 +139,23 @@ var brushXAxis = {
     general: d3.svg.axis()
                 .scale(brushX.general)
                 .orient("bottom")
-                .ticks(14),
+                .ticks(14)
+                .tickFormat(d3.time.format("%a %d %b")),
     f1: d3.svg.axis()
             .scale(brushX.f1)
             .orient("bottom")
-            .ticks(14),
+            .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b")),
     f2: d3.svg.axis()
             .scale(brushX.f2)
             .orient("bottom")
-            .ticks(14),
+            .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b")),
     f3: d3.svg.axis()
             .scale(brushX.f3)
             .orient("bottom")
             .ticks(14)
+            .tickFormat(d3.time.format("%a %d %b"))
 };
 
 // y assen voor elk van de vier pagina's
@@ -297,4 +305,8 @@ function bindProxEvents() {
         $("#prox-" + this.value).toggle();
         $("#prox-" + this.value + "_slider").toggle();
     });
+}
+
+function hideLoadingIcon() {
+    d3.select("#loading-icon").style("display", "none");
 }

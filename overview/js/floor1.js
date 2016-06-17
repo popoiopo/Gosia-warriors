@@ -290,7 +290,7 @@
                     .attr("dy", ".75em")
                     .style("text-anchor", "end")
                     // Maak de label tekst de geselecteerde data uit de dropdown
-                    .text($("#f1-sensors :selected").text());
+                    .text($("#f1-sensors :selected").text() + " (" + $("#f1-sensors :selected").attr("unit") + ")");
 
             // De lijn tekenen van de geselecteerde data
             focus.f1.append("path")
@@ -389,7 +389,7 @@
                     .attr("dy", ".75em")
                     .style("text-anchor", "end")
                     // Maak de label tekst de geselecteerde data uit de dropdown
-                    .text($("#f1-sensors :selected").text());
+                    .text($("#f1-sensors :selected").text() + " (" + $("#f1-sensors :selected").attr("unit") + ")");
 
             // De lijn tekenen van de geselecteerde data
             focus.f1.append("path")
@@ -482,7 +482,7 @@
             svg.f1.select("#f1-y-label")
                 .transition()
                     .duration(1000)
-                    .text($("#f1-sensors :selected").text());
+                    .text($("#f1-sensors :selected").text() + " (" + $("#f1-sensors :selected").attr("unit") + ")");
 
             // Maak de lijn die over de gehele verdieping gaat weer zichtbaar
             svg.f1.select("#f1-line")
@@ -562,7 +562,7 @@
             svg.f1.select("#f1-y-label")
                 .transition()
                     .duration(1000)
-                    .text($("#f1-sensors :selected").text());
+                    .text($("#f1-sensors :selected").text() + " (" + $("#f1-sensors :selected").attr("unit") + ")");
 
             // Bind zone1 data (willekeurig) aan de verdiepingslijn maar maak deze onzichtbaar
             svg.f1.select("#f1-line")
