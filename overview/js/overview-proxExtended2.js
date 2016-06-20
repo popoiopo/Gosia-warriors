@@ -84,16 +84,17 @@ function proxGrapher(data, id) {
             .nice();
 
     // X as voor de linegraphs
+    // De tickformats zorgen ervoor dat de dag en de maand ook weergegeven worden, maar dan worden de uren niet weergegeven als er wordt ingezoomd met de brush
 	var xAxis = d3.svg.axis()
 	    .scale(x)
-	    .orient("bottom")
-        .tickFormat(d3.time.format("%a %d %b"));
+	    .orient("bottom");
+        // .tickFormat(d3.time.format("%a %d %b"));
 
     // X as voor de brush
 	var xAxis2 = d3.svg.axis()
 	    .scale(x2)
-	    .orient("bottom")
-        .tickFormat(d3.time.format("%a %d %b"));
+	    .orient("bottom");
+        // .tickFormat(d3.time.format("%a %d %b"));
 
     //Y as voor de linegraphs
 	var yAxis = d3.svg.axis()

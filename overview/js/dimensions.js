@@ -111,51 +111,53 @@ var brushY = {
 };
 
 // x assen voor elk van de vier pagina's
+// De tickformats zorgen ervoor dat de dag en de maand ook weergegeven worden, maar dan worden de uren niet weergegeven als er wordt ingezoomd met de brush
 var xAxis = {
     general: d3.svg.axis()
                 .scale(x.general)
                 .orient("bottom")
-                .ticks(14)
-                .tickFormat(d3.time.format("%a %d %b")),
+                .ticks(14),
+                // .tickFormat(d3.time.format("%a %d %b")),
     f1: d3.svg.axis()
             .scale(x.f1)
             .orient("bottom")
-            .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b")),
+            .ticks(14),
+            // .tickFormat(d3.time.format("%a %d %b")),
     f2: d3.svg.axis()
             .scale(x.f2)
             .orient("bottom")
-            .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b")),
+            .ticks(14),
+            // .tickFormat(d3.time.format("%a %d %b")),
     f3: d3.svg.axis()
             .scale(x.f3)
             .orient("bottom")
             .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b"))
+            // .tickFormat(d3.time.format("%a %d %b"))
 };
 
 // x as voor de brush op elke pagina
+// De tickformats zorgen ervoor dat de dag en de maand ook weergegeven worden, maar dan worden de uren niet weergegeven als er wordt ingezoomd met de brush
 var brushXAxis = {
     general: d3.svg.axis()
                 .scale(brushX.general)
                 .orient("bottom")
-                .ticks(14)
-                .tickFormat(d3.time.format("%a %d %b")),
+                .ticks(14),
+                // .tickFormat(d3.time.format("%a %d %b")),
     f1: d3.svg.axis()
             .scale(brushX.f1)
             .orient("bottom")
-            .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b")),
+            .ticks(14),
+            // .tickFormat(d3.time.format("%a %d %b")),
     f2: d3.svg.axis()
             .scale(brushX.f2)
             .orient("bottom")
-            .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b")),
+            .ticks(14),
+            // .tickFormat(d3.time.format("%a %d %b")),
     f3: d3.svg.axis()
             .scale(brushX.f3)
             .orient("bottom")
             .ticks(14)
-            .tickFormat(d3.time.format("%a %d %b"))
+            // .tickFormat(d3.time.format("%a %d %b"))
 };
 
 // y assen voor elk van de vier pagina's
