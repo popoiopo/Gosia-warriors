@@ -241,6 +241,13 @@
         }
         // Initialiseer de chart met de ingeladen data en de dropdown
         initF2Chart(eval($("#f2-sensors").val()));
+
+        $(".f2-vis").click(function() {
+            if ($(this).parent("div#floor-graphs-floor-2").length) {
+                $($("#floor-graphs-floor-2-focus").contents()).appendTo("#floor-graphs-floor-2");
+                $(this).appendTo("#floor-graphs-floor-2-focus");
+            }
+        });
     });
 
     function initF2Chart(dataVariable) {

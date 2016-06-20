@@ -251,6 +251,13 @@
         }
         // Initialiseer de chart adhv de ingeladen data en gekozen dropdown keuze
         initF1Chart(eval($("#f1-sensors").val()));
+
+        $(".f1-vis").click(function() {
+            if ($(this).parent("div#floor-graphs-floor-1").length) {
+                $($("#floor-graphs-floor-1-focus").contents()).appendTo("#floor-graphs-floor-1");
+                $(this).appendTo("#floor-graphs-floor-1-focus");
+            }
+        });
     });
 
     function initF1Chart(dataVariable) {
