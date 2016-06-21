@@ -34,15 +34,19 @@ body {
 .wrapper {
     overflow: scroll;
     min-width: 1700px;
+    max-height: 900px;
     display: -webkit-flex;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+
 }
 
 .wrapper-content {
     display: inline-block;
     float: left;
     text-align: center !important;
+    margin: auto 5px;
+    vertical-align: top;
 }
 
 .wrapper-focus {

@@ -244,7 +244,14 @@
 
         $(".f2-vis").click(function() {
             if ($(this).parent("div#floor-graphs-floor-2").length) {
-                $($("#floor-graphs-floor-2-focus").contents()).appendTo("#floor-graphs-floor-2");
+                var clickedDivId = $($("#floor-graphs-floor-2-focus")).contents().attr("id");
+                if (clickedDivId === "f2-div") {
+                    $($("#floor-graphs-floor-2-focus").contents()).prependTo("#floor-graphs-floor-2");
+                } else if (clickedDivId === "fixed-prox-div-floor-2") {
+                    $($("#floor-graphs-floor-2-focus").contents()).insertAfter($("#f2-div"));
+                } else {
+                    $($("#floor-graphs-floor-2-focus").contents()).appendTo("#floor-graphs-floor-2");
+                }
                 $(this).appendTo("#floor-graphs-floor-2-focus");
             }
         });
