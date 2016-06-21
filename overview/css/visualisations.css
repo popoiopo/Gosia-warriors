@@ -31,8 +31,39 @@ body {
     background-color: red;
 }
 
+.wrapper {
+    overflow: scroll;
+    min-width: 1700px;
+    /*width: 100%;*/
+    display: -webkit-flex;
+    display: flex;
+    /*justify-content: flex-start;*/
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.wrapper-content {
+    display: inline-block;
+    float: left;
+    text-align: center !important;
+}
+
+.wrapper-focus {
+    flex: 3;
+}
+
+.wrapper-minis {
+    -webkit-transform: scale(0.4);
+    transform: scale(0.4);
+    flex: 1 1 0;
+    margin-right: 5%;
+    text-align: center;
+}
+
 .vis {
     text-align: center;
+    min-width: 1100px;
 }
 
 .lines-general {

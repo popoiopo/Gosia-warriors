@@ -197,6 +197,13 @@
                 }
                 // Initialiseer de chart
                 initGeneralChart(eval($("#general-dropdown").val()));
+                
+                $(".general-vis").click(function() {
+                    if ($(this).parent("div#floor-graphs-general").length) {
+                        $($("#floor-graphs-general-focus").contents()).appendTo("#floor-graphs-general");
+                        $(this).appendTo("#floor-graphs-general-focus");
+                    }
+                });
             });
     });
 

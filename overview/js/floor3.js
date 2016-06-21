@@ -242,6 +242,13 @@
         // Initialiseer de chart
         // initChart.f3(eval($("#f3-sensors").val()));
         initF3Chart(eval($("#f3-sensors").val()));
+
+        $(".f3-vis").click(function() {
+            if ($(this).parent("div#floor-graphs-floor-3").length) {
+                $($("#floor-graphs-floor-3-focus").contents()).appendTo("#floor-graphs-floor-3");
+                $(this).appendTo("#floor-graphs-floor-3-focus");
+            }
+        });
     });
 
     function initF3Chart(dataVariable) {
