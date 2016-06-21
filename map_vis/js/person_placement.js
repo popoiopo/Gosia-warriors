@@ -25,13 +25,12 @@ d3.csv("json_csv/proxMobileOut-MC2.csv", function(error, data) {
     var height = 50 - margin.top - margin.bottom;
 
     var x = d3.scale.linear()
-        .domain([new Date(2016, 4, 31), new Date(2016, 5, 14) - 1])
+        .domain([0, 24])
         .rangeRound([0, width])
         .clamp(true);
 
     var brush = d3.svg.brush()
         .x(x)
-        .extent([new Date(2016, 4, 31), new Date(2016, 4, 31)])
         .on("brush", brushed)
         .on("brushend", brushend);
 
@@ -80,13 +79,11 @@ d3.csv("json_csv/proxMobileOut-MC2.csv", function(error, data) {
     }
 
     function brushend() {
-        value = new Date(x.invert(d3.mouse(this)[0]))
-        value.setMilliseconds(0);
-        value.setSeconds(0);
-        value.setMinutes(0);                
-        d3.select("#slider-value").text(new Date(x.invert(d3.mouse(this)[0])));
-        placePerson1(correct_floor_data, value);
-        placePerson2(correct_floor_data, value);
+        value = Math.floor(x.invert(d3.mouse(this)[0]))
+        var day_dropdown = $('#day_dropdown').val();
+        var value = new Date(day_dropdown + " " + value + ":00:00");
+        d3.select("#slider-value").text(value);
+        placePerson(correct_floor_data, value);
         inbetweenFunction(value);
         heat_prox(value);
     }

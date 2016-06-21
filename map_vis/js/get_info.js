@@ -20,12 +20,47 @@ function wildcardCompare(str, rule) {
     return new RegExp("^" + rule.split("*").join(".*") + "$").test(str);
 }
 
+function drawLegendprox(paletteScale) {
+    d3.select("#Layer_1").select(".proxlegendLinear").remove();
+
+    var svg = d3.select("#Layer_1");
+
+    svg.append("g")
+        .attr("class", "proxlegendLinear")
+        .attr("transform", "translate(1700,100)");
+
+    var legendLinear = d3.legend.color()
+        .shapeWidth(30)
+        .scale(paletteScale);
+
+    svg.select(".proxlegendLinear")
+        .call(legendLinear);
+}
+
+function drawlegendHVAC(paletteScale) {
+
+    var svg = d3.select("#Layer_1");
+
+    svg.append("g")
+        .attr("class", "legendLinear")
+        .attr("transform", "translate(700,100)");
+
+    var legendLinear = d3.legend.color()
+        .shapeWidth(30)
+        .scale(paletteScale);
+
+    svg.select(".legendLinear")
+        .call(legendLinear);
+}
+
 function initMap() {
 
     d3.xml("svg/svg_floor" + floor + ".svg", "image/svg+xml", function(error, xml) {
       if (error) throw error;
       document.body.appendChild(xml.documentElement)
 
+        var HVAC_legendx = parseInt(d3.select("#HVAC_legend").attr("x"));
+        var HVAC_legendy = parseInt(d3.select("#HVAC_legend").attr("y"));
         var data_zones1 = ["zone1", "zone2", "zone3", "zone4", "zone5", "zone7", "zone8a", "zone8b"]
         var svg_zones1 = ["#zone1_4_", "#zone2", "#zone3_4_", "#zone4", "#zone5", "#zone7", "#zone8a", "#zone8b_4_"]
         var data_zones2 = ["zone1", "zone2", "zone3", "zone4", "zone5", "zone6", "zone7", "zone8", "zone9", "zone10", "zone11", "zone12a", "zone12b", "zone12c", "zone14", "zone15", "zone16"]
@@ -51,6 +86,7 @@ function initMap() {
         for (var e = correct_svg.length - 1; e >= 0; e--) {
             d3.select(correct_svg[e]).style("fill", paletteScale(values[e])).style("opacity", 0.6);
         };
+        drawlegendHVAC(paletteScale);
     });
 };
 
@@ -95,8 +131,12 @@ function updateMap(chosen_var, timestamp) {
     for (var e = correct_svg.length - 1; e >= 0; e--) {
         d3.select(correct_svg[e]).style("fill", paletteScale(values[e])).style("opacity", 0.6);
     };
-}
 
+    d3.select("#Layer_1").select(".legendLinear").remove();
+
+    drawlegendHVAC(paletteScale);
+}
+/*
 function placePerson1(data, timestamp) {
     //canvas info
     var floor_width = parseInt(d3.select("#canvas").attr("width"));
@@ -129,8 +169,8 @@ function placePerson1(data, timestamp) {
         };
     };
 }
-
-function placePerson2(data, timestamp) {
+*/
+function placePerson(data, timestamp) {
     //canvas info
     var floor_width = parseInt(d3.select("#canvas_1_").attr("width"));
     var floor_height = parseInt(d3.select("#canvas_1_").attr("height"));
@@ -164,7 +204,7 @@ function placePerson2(data, timestamp) {
 }
 
 function removePersons() {
-    d3.select(".person").remove();
+    d3.select("#Layer_1").selectAll(".person").remove();
 }
 
 function dataMaker(callback) {
@@ -242,6 +282,7 @@ function heat_prox(date) {
                 values.push(data[floor][date][correct_zone[i]].length);      
             };
         }
+
         catch(err) {
             for (var e = correct_svg.length - 1; e >= 0; e--) {
                 d3.select(correct_svg[e]).style("fill", "none").style("opacity", 0.6);
@@ -254,8 +295,11 @@ function heat_prox(date) {
            .domain([minValue, maxValue])
            .range(['#edf8fb', '#005824']);
 
+        drawLegendprox(paletteScale);
+
         for (var e = correct_svg.length - 1; e >= 0; e--) {
             d3.select(correct_svg[e]).style("fill", paletteScale(values[e])).style("opacity", 0.6);
         };
+
     });
 };    
