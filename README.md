@@ -7,11 +7,11 @@ Het doel van deze visualisatie is om patronen en gekkigheden te herkennen in de 
 De HVAC sensoren loggen elke 5 minuten hun waarde. Deze waarde betreft óf het gehele gebouw, óf een gehele verdieping óf een zone op en verdieping. De fixed-prox sensoren loggen niet om een vaste tijd, maar slechts als deze een nieuwe prox card in de zone detecteert. De mobiele prox sensor scant elke seconde op prox cards, maar aggregeert deze over een minuut.
 
 ## Functionaliteit
-De visualisatie bestaat uit 3 pagina's: een introductiepagina waarop het probleem kort staat uitgelegd met bronnen en een dankwoord, een visualisatiepagina waar alle visualisaties van de data op staan en een resultatenpagina waar de resultaten zoals patronen en gekkigheden kort op staan beschreven. De visualisatiepagina is de interessantste pagina, omdat je daar vrij bent om zo diep in de data te duiken als je wilt. Het laden van de pagina duurt aan het begin eventjes maar als het eenmaal geladen is, dan zit er vrijwel geen lag meer in de visualisatie -- behalve als er zo'n 18 lijnen een transition krijgen. De visualisaties hebben als uitgangspunt het overzicht van het gebouw over de periode van twee weken. Een gebruiker kan, als hij dat wil, inzoomen op een kleinere periode met sliders en brushes om gekkigheden te highlighten.
+De visualisatie bestaat uit 4 pagina's: een introductiepagina waarop het probleem kort staat uitgelegd met bronnen en een dankwoord, een graphspagina waar alle visualisaties rondom lijnen van de data op staan, een heatmappagina, die onderverdeeld is per verdieping in meerdere pagina's en een resultatenpagina waar de resultaten zoals patronen en gekkigheden kort op staan beschreven. De visualisatiepagina is de interessantste pagina, omdat je daar vrij bent om zo diep in de data te duiken als je wilt. Het laden van de pagina duurt aan het begin eventjes maar als het eenmaal geladen is, dan zit er vrijwel geen lag meer in de visualisatie -- behalve als er zo'n 18 lijnen een transition krijgen. De visualisaties hebben als uitgangspunt het overzicht van het gebouw over de periode van twee weken. Een gebruiker kan, als hij dat wil, inzoomen op een kleinere periode met sliders en brushes om gekkigheden te highlighten.
 
 ## Bronnen
 Data (.csv en .json): [VACommunity](http://vacommunity.org/2016+VAST+Challenge%3A+MC2)  
-Libraries: [D3js](https://d3js.org), [jQuery](https://jquery.com), [D3 Queue](https://github.com/d3/d3-queue)
+Libraries: [D3js](https://d3js.org), [jQuery](https://jquery.com), [D3 Queue](https://github.com/d3/d3-queue), [D3 Legend](https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js)
 
 ## Copyright
 <p xmlns:dct="http://purl.org/dc/terms/">
