@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/heatmaps-floor3.css">
+        <script src="js/d3.min.js"></script>
+        <script src="js/d3-queue.min.js"></script>
+        <script src="js/jquery-2.2.2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js"></script>
+        <title>VAC MC2 - Heatmap Floor 3</title>
+    </head>
+    <body>
+        <header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+                <div id="navigation-buttons">
+                    <button id="button-index" class="button" type="button" value="index.html">Index</button>
+                    <button id="button-graphs" class="button" type="button" value="graphs.html">Graphs</button>
+                    <button id="button-heatmaps" class="button" type="button" value="heatmaps.html">Heatmaps</button>
+                    <button id="button-findings" class="button" type="button" value="findings.html">Findings</button>
+                </div>
+                <br/>
+                <div id="floor-graphs-buttons">
+                    <button id="floor-button-floor-1" class="heatmap-button" type="button" value="floor-1" number="1" page="heatmaps-floor1.html">Floor 1</button>
+                    <button id="floor-button-floor-2" class="heatmap-button" type="button" value="floor-2" number="2" page="heatmaps-floor2.html">Floor 2</button>
+                    <button id="floor-button-floor-3" class="heatmap-button" type="button" value="floor-3" number="3" page="heatmaps-floor3.html">Floor 3</button>
+                </div>
+                <p id="current-visible-floor" class="always-invisible">3</p>
+            </center>
+        </header>
+        <main>
+            <center>
+                <div id="f3-div" class="vis">
+                    <h2>Floor 3 readings</h2>
+                    <div id="f3-dropdown">
+                        <select id="f3-sensors" name="sensors">
+                            <option value="lightsPower" selected>Lights Power</option><!-- niet zone 6-->
+                            <option value="equipmentPower">Equipment Power</option><!-- niet zone 6-->
+                            <option value="thermostatTemp">Thermostat Temp</option><!-- niet zone 6-->
+                            <option value="thermostatHeatingSetpoint">Thermostat Heating Setpoint</option><!-- niet zone 6-->
+                            <option value="thermostatCoolingSetpoint">Thermostat Cooling Setpoint</option><!-- niet zone 6-->
+                            <option value="vavAvailabilityManagerNightCycleControlStatus">VAV Availability Manager Night Cycle Control Status</option><!-- no zone-->
+                            <option value="vavSysSupplyFanFanPower">VAV_SYS SUPPLY FAN:Fan Power</option><!-- no zone-->
+                            <option value="bathExhaustFanPower">BATH_EXHAUST:Fan Power</option><!-- no zone-->
+                            <option value="vavReheatDamperPosition">VAV REHEAT Damper Position</option><!-- niet zone 6-->
+                            <option value="reheatCoilPower">REHEAT COIL Power</option><!-- niet zone 6-->
+                            <option value="vavSysHeatingCoilPower">VAV_SYS HEATING COIL Power</option><!-- no zone-->
+                            <option value="vavSysOutdoorAirFlowFraction">VAV_SYS Outdoor Air Flow Fraction</option><!-- no zone-->
+                            <option value="vavSysOutdoorAirMassFlowRate">VAV_SYS Outdoor Air Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysCoolingCoilPower">VAV_SYS COOLING COIL Power</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletTemperature">VAV_SYS AIR LOOP INLET Temperature</option><!-- no zone-->
+                            <option value="vavSysAirLoopInletMassFlowRate">VAV_SYS AIR LOOP INLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletTemperature">VAV_SYS SUPPLY FAN OUTLET Temperature</option><!-- no zone-->
+                            <option value="vavSysSupplyFanOutletMassFlowRate">VAV_SYS SUPPLY FAN OUTLET Mass Flow Rate</option><!-- no zone-->
+                            <option value="returnOutletCo2Concentration">RETURN OUTLET CO2 Concentration</option><!-- niet zone 6-->
+                            <option value="supplyInletTemperature">SUPPLY INLET Temperature</option><!-- niet zone 6-->
+                            <option value="supplyInletMassFlowRate">SUPPLY INLET Mass Flow Rate</option><!-- niet zone 6-->
+                            <option value="mechanicalVentilationMassFlowRate">Mechanical Ventilation Mass Flow Rate</option><!-- alleen zone 1-->
+                        </select>
+                    </div>
+                    <br>
+                    <h3 id="f3-vis-info"></h3>
+                </div>
+                <div>
+                    <select id="day_dropdown">
+                        <option value="2016-05-31">31 may 2016</option>
+                        <option value="2016-06-01">01 june 2016</option>
+                        <option value="2016-06-02">02 june 2016</option>
+                        <option value="2016-06-03">03 june 2016</option>
+                        <option value="2016-06-04">04 june 2016</option>
+                        <option value="2016-06-05">05 june 2016</option>
+                        <option value="2016-06-06">06 june 2016</option>
+                        <option value="2016-06-07">07 june 2016</option>
+                        <option value="2016-06-08">08 june 2016</option>
+                        <option value="2016-06-09">09 june 2016</option>
+                        <option value="2016-06-10">10 june 2016</option>
+                        <option value="2016-06-11">11 june 2016</option>
+                        <option value="2016-06-12">12 june 2016</option>
+                    </select>
+                </div>
+                <div id="slider-div">
+                    <h3 id="slider-value"></h3>
+                </div>
+                <img id="loading-icon" src="img/loading.gif" alt="Loading..."></img>
+            </center>
+        </main>
+        <script src="js/heatmaps-functions.js" defer></script>
+        <script src="js/heatmaps-floor3.js" defer></script>
+        <script src="js/heatmaps-personplacement.js" defer></script>
+    </body>
+</html>

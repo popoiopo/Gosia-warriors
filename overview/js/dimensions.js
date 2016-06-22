@@ -8,6 +8,10 @@ $(".button").click(function() {
     window.location = this.value;
 });
 
+$(".heatmap-button").click(function() {
+    window.location = $(this).attr("page");
+});
+
 // Maak eerst alle divs onzichtbaar, want
 $(".wrapper").css("display", "none");
 
