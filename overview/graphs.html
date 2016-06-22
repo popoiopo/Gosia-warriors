@@ -2,11 +2,11 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" href="css/visualisations.css">
+        <link rel="stylesheet" type="text/css" href="css/graphs.css">
         <script src="js/d3.min.js"></script>
         <script src="js/d3-queue.min.js"></script>
         <script src="js/jquery-2.2.2.min.js"></script>
-        <title>VAC MC2 - Visualisations</title>
+        <title>VAC MC2 - Graphs</title>
     </head>
     <body>
         <header>
@@ -14,7 +14,7 @@
                 <h1>Mini Challenge 2</h1>
                 <div id="navigation-buttons">
                     <button id="button-index" class="button" type="button" value="index.html">Index</button>
-                    <button id="button-visualisations" class="button" type="button" value="visualisations.html">Visualisations</button>
+                    <button id="button-graphs" class="button" type="button" value="graphs.html">Graphs</button>
                     <button id="button-findings" class="button" type="button" value="findings.html">Findings</button>
                 </div>
                 <br/>
@@ -131,8 +131,6 @@
                 			    <label for="zone8"><input type="checkbox" id="f1-prox-zone8" class="prox-checkbox" value = "svg_1_zone_8" name = "svg_1_zone_8_slider" checked/> <span id="f1-prox-zone8-text" class="color8-text">Zone 8</span></label>
                 			</div>
                         </div>
-                        <div id="heatmaps-floor-1" class="f1-vis vis">
-                        </div>
                     </div>
                 </div>
                 <div id="wrapper-floor-2" class="wrapper">
@@ -200,7 +198,6 @@
                 			    <label for="zone7"><input type="checkbox" id="f2-zone7" class="prox-checkbox" value = "svg_2_zone_7" name = "svg_2_zone_7_slider" checked/> <span id="f2-prox-zone7-text" class="color7-text">Zone 7</span></label>
                 			</div>
                         </div>
-                        <div id="heatmaps-floor-2" class="f2-vis vis"></div>
                     </div>
                 </div>
                 <div id="wrapper-floor-3" class="wrapper">
@@ -267,7 +264,6 @@
                 			    <label for="ServerRoom"><input type="checkbox" id="f3-ServerRoom" class="prox-checkbox" value = "svg_3_zone_ServerRoom" name = "svg_3_zone_ServerRoom_slider" checked/> <span id="f3-prox-ServerRoom-text" class="color7-text">Zone ServerRoom</span></label>
                 			</div>
                         </div>
-                        <div id="heatmaps-floor-3" class="f3-vis vis"></div>
                     </div>
                 </div>
             </center>
@@ -277,7 +273,6 @@
         <script src="js/floor1.js" defer></script>
         <script src="js/floor2.js" defer></script>
         <script src="js/floor3.js" defer></script>
-        <script src="js/appendsvgs.js" defer></script>
         <script src="js/overview-proxExtended2.js" defer></script>
         <script src="js/overview-dataMaker.js" defer></script>
     </body>
