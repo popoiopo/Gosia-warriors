@@ -1,5 +1,5 @@
 # Mini Challenge 2 - Gosia's warriors, the trilogy
-## voor de VACommunity
+## VACommunity
 ### Bas Châtel, Leslie Dao, Wessel de Jong
 
 ## Achtergrond & Doel
