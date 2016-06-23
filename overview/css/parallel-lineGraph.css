@@ -20,7 +20,3 @@ svg {
   fill: none;
   clip-path: url(#clip);
 }
-
-.checkboxes {
-  display : none;
-}
