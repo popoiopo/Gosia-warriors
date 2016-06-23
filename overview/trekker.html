@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/parallel-lineGraph.css">
+        <link rel="stylesheet" type="text/css" href="css/parallelcoordinates.css">
+        <script src="js/d3.min.js"></script>
+        <script src="js/d3-queue.min.js"></script>
+        <script src="js/jquery-2.2.2.min.js"></script>
+        <title>VAC MC2 - Trekker</title>
+    </head>
+    <body>
+        <header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+                <div id="navigation-buttons">
+                    <button id="button-index" class="button" type="button" value="index.html">Index</button>
+                    <button id="button-graphs" class="button" type="button" value="graphs.html">Graphs</button>
+                    <button id="button-heatmaps" class="button" type="button" value="heatmaps.html">Heatmaps</button>
+                    <button id="button-trekker" class="button" type="button" value="trekker.html">Trekker</button>
+                    <button id="button-findings" class="button" type="button" value="findings.html">Findings</button>
+                </div>
+                <br/>
+    			<h2 id = "parallel_title"> Number of detections per person</h2>
+    			<button id="button_parallel_1" class="floor-button" type="button" >Floor 1</button>
+                <button id="button_parallel_2" class="floor-button" type="button" >Floor 2</button>
+                <button id="button_parallel_3" class="floor-button" type="button" >Floor 3</button>
+            </center>
+        </header>
+        <main>
+    		<div id="wrapper">
+    			<div id="first">
+    				<svg id = "parallel_1"></svg>
+    				<svg id = "parallel_2"></svg>
+    				<svg id = "parallel_3"></svg>
+    			</div>
+    			<div id="second">
+    				<div id="table">
+    					<div id="box">
+    						<p>Floor: <span id = "floortext" class = "info"></span></p>
+    						<p>Proxid: <span id = "proxidtext" class = "info"></span></p>
+    						<p>Mean detections per day: <span id = "detectionstext" class = "info"></span></p>
+    					</div>
+    				</div>
+    				<div id="heatie"></div>
+    			</div>
+    		</div>
+        </main>
+        <script src="js/dimensions.js" defer></script>
+        <script src="js/parallel-dataMaker.js" defer></script>
+        <script src="js/parallel-lineGraph.js" defer></script>
+		<script src="js/parallel-parallelData.js" defer></script>
+		<script src="js/parallel-parallellCoordinates.js" defer></script>
+		<script src="js/parallel-buttons.js" defer></script>
+		<script src="js/parallel-parallelButtons.js" defer></script>
+    </body>
+</html>
