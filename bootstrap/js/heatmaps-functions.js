@@ -36,7 +36,7 @@ function drawLegendprox(paletteScale) {
 
     svg.append("g")
         .attr("class", "proxlegendLinear")
-        .attr("transform", "translate(1700,100)");
+        .attr("transform", "translate(1380,175)");
 
     var legendLinear = d3.legend.color()
         .shapeWidth(30)
@@ -52,7 +52,7 @@ function drawlegendHVAC(paletteScale) {
 
     svg.append("g")
         .attr("class", "legendLinear")
-        .attr("transform", "translate(800,200)");
+        .attr("transform", "translate(760,175)");
 
     var legendLinear = d3.legend.color()
         .shapeWidth(30)
@@ -174,7 +174,7 @@ function placePerson(data, timestamp) {
                 .attr("cx", person_canvas_loc_x)
                 .attr("cy", person_canvas_loc_y)
                 .attr("r", 3)
-                .style("fill", "purple")
+                .style("fill", "steelblue")
         };
     };
 }
@@ -192,7 +192,7 @@ d3.csv("json/proxOut-MC2.csv", function(error, csv) {
     }
 
     // format for parsing date data
-    var formatDate_2 = d3.time.format("%Y-%m-%d%X");
+    var formatDate_2 = d3.time.format("%Y-%m-%d %X");
 
     var floor_1 = {};
     var floor_2 = {};
@@ -269,7 +269,7 @@ function heat_prox(date) {
         var maxValue = Math.max.apply(null, values);
         var paletteScale = d3.scale.linear()
            .domain([minValue, maxValue])
-           .range(['#edf8fb', '#005824']);
+           .range(['#fcbba1', '#99000d']);
 
         drawLegendprox(paletteScale);
 

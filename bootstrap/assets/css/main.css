@@ -2584,3 +2584,14 @@
 	#wewantyou {
 		max-width: 100%;
 	}
+
+	.header_info {
+		font-size: 0.5em;
+		line-height: 30px;
+		margin-left: 25px;
+	    margin-right: 25px;
+	}
+
+	#graph_graph {
+		text-align: justify;
+	}

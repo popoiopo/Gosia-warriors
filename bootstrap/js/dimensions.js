@@ -8,32 +8,25 @@ $(".button").click(function() {
     window.location = this.value;
 });
 
-$(".heatmap-button").click(function() {
-    window.location = $(this).attr("page");
-});
-
 // Maak eerst alle divs onzichtbaar, want
-$(".wrapper").css("display", "none");
+$(".floor-graphs-div").css("display", "none");
 
 // maak ze alleen zichtbaar bij een druk op een van de floor knoppen
 $(".floor-button").click(function() {
-    $("#wewantyou").css("display", "none");
-
     // Geef aan welke knop is aangeklikt
     $(".floor-button").not(this).each(function() {
         $(this).css("background-color", "blue");
     });
     $(this).css("background-color", "red");
 
-    $(".wrapper").css("display", "none");
-    $("#wrapper-" + this.value).css("display", "");
+    $(".floor-graphs-div").css("display", "none");
+    $("#floor-graphs-" + this.value).css("display", "");
 
-    if ($("#floor-graphs-" + this.value + "-focus").contents().length === 0) {
-        $("#floor-graphs-" + this.value + " div:first-child").appendTo("#floor-graphs-" + this.value + "-focus");
-    }
+    d3.selectAll(".active").style("stroke", "steelblue");
+    d3.selectAll(".foreground").select(".active").classed("active", false);
 
     // Houd bij in een onzichtbare paragraph welke verdieping geshowd wordt
-    $("#current-visible-floor").html($(this).attr("number"));
+    // $("#current-visible-floor").html($(this).attr("number"));
 });
 
 // Afmetingen van de svg op de pagina
@@ -321,5 +314,5 @@ function bindProxEvents() {
 
 function hideLoadingIcon() {
     d3.select("#loading-icon").style("display", "none");
-    d3.select("#wewantyou").style("display", "")
+    $(".foxy_hidden").removeClass("foxy_hidden");
 }

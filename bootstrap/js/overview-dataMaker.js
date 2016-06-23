@@ -44,7 +44,7 @@ var dataFloors = [1, 2, 3];
 	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom];
 
 	// Fixed prox data inladen
-	d3.csv("json/proxOut-MC2.csv", function(error, csv) {
+	d3.csv("json/parallel-proxOut-MC2.csv", function(error, csv) {
 	  	if (error) throw error;
 
 	  	// Maak voor elke verdieping een aparte dataset
@@ -154,6 +154,10 @@ var dataFloors = [1, 2, 3];
         proxGrapher(data.floor_1, "prox-svg_1");
         proxGrapher(data.floor_2, "prox-svg_2");
         proxGrapher(data.floor_3, "prox-svg_3");
+
+        // parallellCoordinator(data, "floor1", "#parallel_1")
+        // parallellCoordinator(data, "floor2", "#parallel_2")
+        // parallellCoordinator(data, "floor3", "#parallel_3")
 
         // Bind de mouseover/mouseout en click events voor de fixed prox linegraphs
         bindProxEvents();
