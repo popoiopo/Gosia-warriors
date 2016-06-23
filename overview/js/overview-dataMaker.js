@@ -155,6 +155,10 @@ var dataFloors = [1, 2, 3];
         proxGrapher(data.floor_2, "prox-svg_2");
         proxGrapher(data.floor_3, "prox-svg_3");
 
+        // parallellCoordinator(data, "floor1", "#parallel_1")
+        // parallellCoordinator(data, "floor2", "#parallel_2")
+        // parallellCoordinator(data, "floor3", "#parallel_3")
+
         // Bind de mouseover/mouseout en click events voor de fixed prox linegraphs
         bindProxEvents();
         hideLoadingIcon();

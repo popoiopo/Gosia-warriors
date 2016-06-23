@@ -22,8 +22,11 @@ $(".floor-button").click(function() {
     $(".floor-graphs-div").css("display", "none");
     $("#floor-graphs-" + this.value).css("display", "");
 
+    d3.selectAll(".active").style("stroke", "steelblue");
+    d3.selectAll(".foreground").select(".active").classed("active", false);
+
     // Houd bij in een onzichtbare paragraph welke verdieping geshowd wordt
-    $("#current-visible-floor").html($(this).attr("number"));
+    // $("#current-visible-floor").html($(this).attr("number"));
 });
 
 // Afmetingen van de svg op de pagina

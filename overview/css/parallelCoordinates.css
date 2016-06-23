@@ -23,25 +23,22 @@ body {
     background-color: orange;
 }
 
-#button-trekker {
-    background-color: red;
-}
-
-#wrapper {
+.wrapper {
     width: 100%;
     display:flex;
     overflow:scroll;
     min-width: 1200px;
+    max-width: 1200px
 }
 
-#first {
+.first {
     width: 300px;
     float:left; /* add this */
     flex: 3;
     margin-right: 10px;
 }
 
-#second {
+.second {
     flex:2;
     margin-right: auto;
     position:relative;
@@ -49,12 +46,12 @@ body {
     clear:both;
 }
 
-#heatie {
+.heatie {
   position:absolute;
   bottom:0px;
 }
 
-#table {
+.table {
   position:absolute;
   border: 1px black;
   padding-top: 90px;
@@ -62,7 +59,7 @@ body {
   display: none;
 }
 
-#box {
+.box {
     outline: 2px solid black;
     padding: 5px;
 }

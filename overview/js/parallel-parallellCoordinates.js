@@ -12,6 +12,15 @@ var dateformat = d3.time.format("%Y-%m-%d").parse;
 var dateformat_2 = d3.time.format("%a %d %b")
 
 function parallellCoordinator(data, floor, id) {
+    var floorDivSuffix;
+    if (floor === "floor1") {
+        floorDivSuffix = "floor-1";
+    } else if (floor === "floor2") {
+        floorDivSuffix = "floor-2";
+    } else {
+        floorDivSuffix = "floor-3";
+    }
+
 
 	var parallel = data["parallelData"];
 	var heat = data["heatData"];
@@ -39,10 +48,10 @@ function parallellCoordinator(data, floor, id) {
 		background,
 		foreground;
 
-	var svg = d3.select("#wrapper").select("#first").select(id)
+	var svg = d3.select("#wrapper-" + floorDivSuffix).select("#first-" + floorDivSuffix).select(id)
 		  .attr("width", width + margin.left + margin.right)
 		  .attr("height", height + margin.top + margin.bottom)
-		  .attr("display", "none")
+		//   .attr("display", "none")
 		  .attr("class", "parallels")
 		.append("g")
 		  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -113,26 +122,6 @@ function parallellCoordinator(data, floor, id) {
 			d3.select(this).moveToFront()
 		    	.style({'stroke-width' : '2.5'})
 		    	.style("stroke", "red")
-
-
-			// d3.select(this).transition().duration(100)
-			//     .style({'stroke' : '#F00'});
-
-			// tooltip.html( function(){
-			// 	var sum = 0,
-			// 		length = 0;
-
-			// 	for (day in n){
-			// 		if (day != "name") {
-			// 			sum += n[day];
-			// 			length++;
-			// 		};
-			// 	parseInt(sum/length)
-
-			// 	}
-			// 	return "<b>Prox-id: " + n.name + "</br>" + "Mean detections per day: " + parseInt(sum/length) + "</b>";
-			// })
-			// return tooltip.style("visibility", "visible");
 	    })
 
 	    .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
@@ -253,6 +242,14 @@ function dataConverter(data, floor) {
 };
 
 function tableMaker (data, floor) {
+    var floorDivSuffix;
+    if (floor === "floor1") {
+        floorDivSuffix = "floor-1";
+    } else if (floor === "floor2") {
+        floorDivSuffix = "floor-2";
+    } else {
+        floorDivSuffix = "floor-3";
+    }
 
 	var sum = 0,
 		length = 0;
@@ -266,24 +263,32 @@ function tableMaker (data, floor) {
 
 	var mean = parseInt(sum/length)
 
-	document.getElementById("table").style.display = "block";
+	document.getElementById("table-" + floorDivSuffix).style.display = "block";
 
-	document.getElementById("floortext").innerHTML = floor[floor.length - 1];
-	document.getElementById("floortext").style.fontWeight = 'bold';
+	document.getElementById("floortext-" + floorDivSuffix).innerHTML = floor[floor.length - 1];
+	document.getElementById("floortext-" + floorDivSuffix).style.fontWeight = 'bold';
 
-	document.getElementById("proxidtext").innerHTML = data["name"];
-	document.getElementById("proxidtext").style.fontWeight = 'bold';
+	document.getElementById("proxidtext-" + floorDivSuffix).innerHTML = data["name"];
+	document.getElementById("proxidtext-" + floorDivSuffix).style.fontWeight = 'bold';
 
-	document.getElementById("detectionstext").innerHTML = mean;
-	document.getElementById("detectionstext").style.fontWeight = 'bold';
+	document.getElementById("detectionstext-" + floorDivSuffix).innerHTML = mean;
+	document.getElementById("detectionstext-" + floorDivSuffix).style.fontWeight = 'bold';
 
 };
 
 function heatmapper(data, floor) {
+    var floorDivSuffix;
+    if (floor === "floor1") {
+        floorDivSuffix = "floor-1";
+    } else if (floor === "floor2") {
+        floorDivSuffix = "floor-2";
+    } else {
+        floorDivSuffix = "floor-3";
+    }
 
-	document.getElementById("heatie").style.display = "block";
+	document.getElementById("heatie-" + floorDivSuffix).style.display = "block";
 
-	d3.select("#wrapper").select("#second").select("#heater").remove()
+	d3.select("#wrapper-" + floorDivSuffix).select("#second-" + floorDivSuffix).select("#heater-" + floorDivSuffix).remove()
 
 	var zones = {
 		"floor1": ["zone1", "zone2", "zone3", "zone4", "zone5", "zone6", "zone7", "zone8"],
@@ -300,18 +305,10 @@ function heatmapper(data, floor) {
 		colors = ["#ffffd3","#c7e9b4","#41b6c4","#225ea8","#081d58"],
 		days = ["Tue 31 May", "Wed 01 Jun", "Thu 02 Jun", "Fri 03 Jun", "Sat 04 Jun", "Sun 05 Jun", "Mon 06 Jun", "Tue 07 Jun", "Wed 08 Jun", "Thu 09 Jun", "Fri 10 Jun", "Sat 11 Jun", "Sun 12 Jun", "Mon 13 Jun"];
 
-	var tooltip_heat = d3.select("body")
-	    .append("div")
-	    .style("position", "absolute")
-	    .style("z-index", "10")
-	    .style("visibility", "hidden")
-	    .html("")
-	    .attr("id","tooltip");
-
-	var svg = d3.select("#wrapper").select("#second").select("#heatie").append("svg")
+	var svg = d3.select("#wrapper-" + floorDivSuffix).select("#second-" + floorDivSuffix).select("#heatie-" + floorDivSuffix).append("svg")
 	  .attr("width", width_heat + margin_heat.left + margin_heat.right)
 	  .attr("height", height_heat + margin_heat.top + margin_heat.bottom)
-	  .attr("id", "heater")
+	  .attr("id", "heater-" + floorDivSuffix)
 	  .append("g")
 	  .attr("transform", "translate(" + margin_heat.left + "," + margin_heat.top + ")");
 

@@ -3,6 +3,8 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="css/graphs.css">
+        <link rel="stylesheet" type="text/css" href="css/parallelCoordinates.css">
+        <link rel="stylesheet" type="text/css" href="css/parallel-lineGraph.css">
         <script src="js/d3.min.js"></script>
         <script src="js/d3-queue.min.js"></script>
         <script src="js/jquery-2.2.2.min.js"></script>
@@ -128,6 +130,24 @@
             			    <label for="zone8"><input type="checkbox" id="f1-prox-zone8" class="prox-checkbox" value = "svg_1_zone_8" name = "svg_1_zone_8_slider" checked/> <span id="f1-prox-zone8-text" class="color8-text">Zone 8</span></label>
             			</div>
                     </div>
+                    <div id="parallel-coordinates-floor-1">
+                        <h3>Number of detections per person</h3>
+                        <div id="wrapper-floor-1" class="wrapper">
+                			<div id="first-floor-1" class="first">
+                				<svg id = "parallel_1"></svg>
+                			</div>
+                			<div id="second-floor-1" class="second">
+                				<div id="table-floor-1" class="table">
+                					<div id="box-floor-1" class="box">
+                						<p>Floor: <span id="floortext-floor-1" class="info"></span></p>
+                						<p>Proxid: <span id="proxidtext-floor-1" class="info"></span></p>
+                						<p>Mean detections per day: <span id="detectionstext-floor-1" class="info"></span></p>
+                					</div>
+                				</div>
+                				<div id="heatie-floor-1" class="heatie"></div>
+                			</div>
+                		</div>
+                    </div>
                 </div>
                 <div id="floor-graphs-floor-2" class="floor-graphs-div">
                     <div id="f2-div" class="vis">
@@ -192,6 +212,24 @@
             			    <label for="zone7"><input type="checkbox" id="f2-zone7" class="prox-checkbox" value = "svg_2_zone_7" name = "svg_2_zone_7_slider" checked/> <span id="f2-prox-zone7-text" class="color7-text">Zone 7</span></label>
             			</div>
                     </div>
+                    <div id="parallel-coordinates-floor-2">
+                        <h3>Number of detections per person</h3>
+                        <div id="wrapper-floor-2" class="wrapper">
+                			<div id="first-floor-2" class="first">
+                				<svg id = "parallel_2"></svg>
+                			</div>
+                			<div id="second-floor-2" class="second">
+                				<div id="table-floor-2" class="table">
+                					<div id="box-floor-2" class="box">
+                						<p>Floor: <span id="floortext-floor-2" class="info"></span></p>
+                						<p>Proxid: <span id="proxidtext-floor-2" class="info"></span></p>
+                						<p>Mean detections per day: <span id="detectionstext-floor-2" class="info"></span></p>
+                					</div>
+                				</div>
+                				<div id="heatie-floor-2" class="heatie"></div>
+                			</div>
+                		</div>
+                    </div>
                 </div>
                 <div id="floor-graphs-floor-3" class="floor-graphs-div">
                     <div id="f3-div" class="vis">
@@ -255,6 +293,24 @@
             			    <label for="ServerRoom"><input type="checkbox" id="f3-ServerRoom" class="prox-checkbox" value = "svg_3_zone_ServerRoom" name = "svg_3_zone_ServerRoom_slider" checked/> <span id="f3-prox-ServerRoom-text" class="color7-text">Zone ServerRoom</span></label>
             			</div>
                     </div>
+                    <div id="parallel-coordinates-floor-3">
+                        <h3>Number of detections per person</h3>
+                        <div id="wrapper-floor-3" class="wrapper">
+                			<div id="first-floor-3" class="first">
+                				<svg id = "parallel_3"></svg>
+                			</div>
+                			<div id="second-floor-3" class="second">
+                				<div id="table-floor-3" class="table">
+                					<div id="box-floor-3" class="box">
+                						<p>Floor: <span id="floortext-floor-3" class="info"></span></p>
+                						<p>Proxid: <span id="proxidtext-floor-3" class="info"></span></p>
+                						<p>Mean detections per day: <span id="detectionstext-floor-3" class="info"></span></p>
+                					</div>
+                				</div>
+                				<div id="heatie-floor-3" class="heatie"></div>
+                			</div>
+                		</div>
+                    </div>
                 </div>
             </center>
         </main>
@@ -265,5 +321,8 @@
         <script src="js/floor3.js" defer></script>
         <script src="js/overview-proxExtended2.js" defer></script>
         <script src="js/overview-dataMaker.js" defer></script>
+        <script src="js/parallel-parallellCoordinates.js" defer></script>
+        <script src="js/parallel-parallelData.js" defer></script>
+        <script src="js/parallel-parallelButtons.js" defer></script>
     </body>
 </html>
