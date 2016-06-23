@@ -1,0 +1,136 @@
+<!--
+prox.html
+
+Wessel de Jong
+10206620
+
+Programmeerproject
+Prox data 
+-->
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title id = "title">Prox data</title>
+		<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="https://rawgit.com/gka/d3-jetpack/master/d3-jetpack.js"></script>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    	<script src="http://d3js.org/queue.v1.min.js"></script>
+		<link rel="stylesheet" href="lineGraph.css"/>
+		<link rel="stylesheet" href="parallellCoordinates.css"/>
+	</head>
+	<body>
+		<header>
+            <center>
+                <h1>Mini Challenge 2</h1>
+                <div id="navigation-buttons">
+                    <button id="button_general" class="button" type="button">General</button>
+                    <button id="button_1" class="button" type="button" >Floor 1</button>
+                    <button id="button_2" class="button" type="button" >Floor 2</button>
+                    <button id="button_3" class="button" type="button" >Floor 3</button>
+                </div>
+            </center>
+        </header>
+        <center>
+	    	<div id="general-checkboxes" class="checkboxes">
+			    <label for="floor1"><input type="checkbox" id="f1" class="checkbox" value = "general_floor_1" name = "general_floor_1_slider" checked/> <span id="f1-text">Floor 1</span></label>
+			    <label for="floor2"><input type="checkbox" id="f2" class="checkbox" value = "general_floor_2" name = "general_floor_2_slider" checked/> <span id="f1-text">Floor 2</span></label>
+			    <label for="floor3"><input type="checkbox" id="f3" class="checkbox" value = "general_floor_3" name = "general_floor_3_slider" checked/> <span id="f1-text">Floor 3</span></label>
+			</div>
+		</center>
+        <center>
+	    	<div id="f1-checkboxes" class="checkboxes">
+			    <label for="zone1"><input type="checkbox" id="f1-zone1" class="checkbox" value = "svg_1_zone_1" name = "svg_1_zone_1_slider" checked/> <span id="f1-zone1-text">Zone 1</span></label>
+			    <label for="zone2"><input type="checkbox" id="f1-zone2" class="checkbox" value = "svg_1_zone_2" name = "svg_1_zone_2_slider" checked/> <span id="f1-zone2-text">Zone 2</span></label>
+			    <label for="zone3"><input type="checkbox" id="f1-zone3" class="checkbox" value = "svg_1_zone_3" name = "svg_1_zone_3_slider" checked/> <span id="f1-zone3-text">Zone 3</span></label>
+			    <label for="zone4"><input type="checkbox" id="f1-zone4" class="checkbox" value = "svg_1_zone_4" name = "svg_1_zone_4_slider" checked/> <span id="f1-zone4-text">Zone 4</span></label>
+			    <label for="zone5"><input type="checkbox" id="f1-zone5" class="checkbox" value = "svg_1_zone_5" name = "svg_1_zone_5_slider" checked/> <span id="f1-zone5-text">Zone 5</span></label>
+			    <label for="zone6"><input type="checkbox" id="f1-zone6" class="checkbox" value = "svg_1_zone_6" name = "svg_1_zone_6_slider" checked/> <span id="f1-zone6-text">Zone 6</span></label>
+			    <label for="zone7"><input type="checkbox" id="f1-zone7" class="checkbox" value = "svg_1_zone_7" name = "svg_1_zone_7_slider" checked/> <span id="f1-zone7-text">Zone 7</span></label>
+			    <label for="zone8"><input type="checkbox" id="f1-zone8" class="checkbox" value = "svg_1_zone_8" name = "svg_1_zone_8_slider" checked/> <span id="f1-zone8-text">Zone 8</span></label>
+			</div>
+		</center>
+		<center>
+	    	<div id="f2-checkboxes" class="checkboxes">
+			    <label for="zone1"><input type="checkbox" id="f2-zone1" class="checkbox" value = "svg_2_zone_1" name = "svg_2_zone_1_slider" checked/> <span id="f2-zone1-text">Zone 1</span></label>
+			    <label for="zone2"><input type="checkbox" id="f2-zone2" class="checkbox" value = "svg_2_zone_2" name = "svg_2_zone_2_slider" checked/> <span id="f2-zone2-text">Zone 2</span></label>
+			    <label for="zone3"><input type="checkbox" id="f2-zone3" class="checkbox" value = "svg_2_zone_3" name = "svg_2_zone_3_slider" checked/> <span id="f2-zone3-text">Zone 3</span></label>
+			    <label for="zone4"><input type="checkbox" id="f2-zone4" class="checkbox" value = "svg_2_zone_4" name = "svg_2_zone_4_slider" checked/> <span id="f2-zone4-text">Zone 4</span></label>
+			    <label for="zone5"><input type="checkbox" id="f2-zone5" class="checkbox" value = "svg_2_zone_5" name = "svg_2_zone_5_slider" checked/> <span id="f2-zone5-text">Zone 5</span></label>
+			    <label for="zone6"><input type="checkbox" id="f2-zone6" class="checkbox" value = "svg_2_zone_6" name = "svg_2_zone_6_slider" checked/> <span id="f2-zone6-text">Zone 6</span></label>
+			    <label for="zone7"><input type="checkbox" id="f2-zone7" class="checkbox" value = "svg_2_zone_7" name = "svg_2_zone_7_slider" checked/> <span id="f2-zone7-text">Zone 7</span></label>
+			</div>
+		</center>
+		<center>
+	    	<div id="f3-checkboxes" class="checkboxes">
+			    <label for="zone1"><input type="checkbox" id="f3-zone1" class="checkbox" value = "svg_3_zone_1" name = "svg_3_zone_1_slider" checked/> <span id="f3-zone1-text">Zone 1</span></label>
+			    <label for="zone2"><input type="checkbox" id="f3-zone2" class="checkbox" value = "svg_3_zone_2" name = "svg_3_zone_2_slider" checked/> <span id="f3-zone2-text">Zone 2</span></label>
+			    <label for="zone3"><input type="checkbox" id="f3-zone3" class="checkbox" value = "svg_3_zone_3" name = "svg_3_zone_3_slider" checked/> <span id="f3-zone3-text">Zone 3</span></label>
+			    <label for="zone4"><input type="checkbox" id="f3-zone4" class="checkbox" value = "svg_3_zone_4" name = "svg_3_zone_4_slider" checked/> <span id="f3-zone4-text">Zone 4</span></label>
+			    <label for="zone5"><input type="checkbox" id="f3-zone5" class="checkbox" value = "svg_3_zone_5" name = "svg_3_zone_5_slider" checked/> <span id="f3-zone5-text">Zone 5</span></label>
+			    <label for="zone6"><input type="checkbox" id="f3-zone6" class="checkbox" value = "svg_3_zone_6" name = "svg_3_zone_6_slider" checked/> <span id="f3-zone6-text">Zone 6</span></label>
+			    <label for="ServerRoom"><input type="checkbox" id="f3-ServerRoom" class="checkbox" value = "svg_3_zone_ServerRoom" name = "svg_3_zone_ServerRoom_slider" checked/> <span id="f3-ServerRoom-text">Zone ServerRoom</span></label>
+			</div>
+		</center>
+		</br>
+		<center>
+			<div id = "linegraph"></div>
+		</center>
+		<center>
+			<h2 id = "parallel_title"> Number of detections per person</h2>
+			<button id="button_parallel_1" class="button" type="button" >Floor 1</button>
+            <button id="button_parallel_2" class="button" type="button" >Floor 2</button>
+            <button id="button_parallel_3" class="button" type="button" >Floor 3</button>
+        </center>
+		<div id="wrapper">
+			<div id="first">
+				<svg id = "parallel_1"></svg>
+				<svg id = "parallel_2"></svg>
+				<svg id = "parallel_3"></svg>
+			</div>
+			<div id="second">
+				<div id="table">
+					<div id="box">
+						<p>Floor: <span id = "floortext" class = "info"></span></p>
+						<p>Proxid: <span id = "proxidtext" class = "info"></span></p>
+						<p>Mean detections per day: <span id = "detectionstext" class = "info"></span></p>
+					</div>
+				</div>
+				<div id="heatie"></div>
+			</div>
+		</div>
+		<!-- <center>
+                <div id="dropdown-div" class="vis">
+                    <select id="dropdown" name="sensors">
+                    	<option selected disabled>Personnel</option>
+                        <option value="">Mat Bramar</option>
+                        <option value="">Lise Carrara</option>
+                        <option value="">Nicolai Celio</option>
+                    </select>
+                </div>
+        </center> -->
+		<!-- <p> First detection: <span id = "first"></span></p>
+		<p> Last detection: <span id = "last"></span></p> -->
+		<script src="dataMaker.js"></script>
+		<script src="parallelData.js"></script>
+		<script src="lineGraph.js"></script>
+		<script src="parallellCoordinates.js"></script>
+		<script src="buttons.js"></script>
+		<script src="parallelButtons.js"></script>
+		<!-- <script src="dataBas.js"></script> -->
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
