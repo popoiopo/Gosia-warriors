@@ -11,7 +11,7 @@ De visualisatie bestaat uit 4 pagina's: een introductiepagina waarop het problee
 
 ## Bronnen
 Data (.csv en .json): [VACommunity](http://vacommunity.org/2016+VAST+Challenge%3A+MC2)  
-Libraries: [D3js](https://d3js.org), [jQuery](https://jquery.com), [D3 Queue](https://github.com/d3/d3-queue), [D3 Legend](https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js)
+Libraries: [D3js](https://d3js.org), [jQuery](https://jquery.com), [D3 Queue](https://github.com/d3/d3-queue), [D3 Legend](https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.10.0/d3-legend.js), [Bootstrap](http://getbootstrap.com)
 
 ## Copyright
 <p xmlns:dct="http://purl.org/dc/terms/">
