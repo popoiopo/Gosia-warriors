@@ -27,8 +27,8 @@ body {
     width: 100%;
     display:flex;
     overflow:scroll;
-    min-width: 1200px;
-    max-width: 1200px
+    min-width: 1300px;
+    max-width: 1300px;
 }
 
 .first {
