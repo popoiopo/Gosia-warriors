@@ -13,11 +13,13 @@ De functionaliteit voor de verschillende graphs is opgesplitst in meerdere files
 De HVAC data is onder andere gevisualiseerd in linegraphs, die de data over de gehele periode van 2 weken plot. Er kan op de graphs ingezoomd worden met een brush, zodat anomalies uitgelicht kunnen worden. Er zijn dropdowns voor de soort meting. Voor de verdiepingen zijn de metingen vaak ook per zone gesplitst: daarom hebben deze linegraphs ook bijbehorende checkboxes waarmee de lijnen per zone getoggled kunnen worden. Bij het hoveren over een lijn vervagen de andere lijnen: zo kan gefocust worden op één specifieke lijn als de grafiek bijvoorbeeld een warboel is. In sommige gevallen moeten sommige checkboxes ook uit worden gezet om het overzichtelijk te maken omdat enkele kleuren erg donker zijn en dus door kunnen bloeden ookal staat hun doorzichtigheid vrij hoog.
 
 ### HVAC - Heatmap
+De heatmap voor de HVAC data kleurt de HVAC zones in adhv de gekozen sensordata en de timestamp die gekozen kan worden met een dropdown (dag) en slider (tijd). Dit maakt de data minder ruw dan de data in de linegraphs, want nu kunnen de zones beter vergeleken worden. De heatmap wordt alleen aangepast als de brush losgelaten wordt. Dat is zo gedaan omdat een on brush event constant triggert als de slider zelfs alleen vastgehouden wordt, en dat maakt alles heel traag.
 
 ### Prox data - Linegraphs
 De fixed-prox data zijn ook gevisualiseerd in linegraphs. Deze zijn opgesplitst in data over het gehele gebouw, waarbij de lijnen over de verdiepingen apart gaan, en per verdieping, waarbij de lijnen over de (prox) zones apart gaan. Deze linegraphs hebben dezelfde functionaliteit als de linegraphs voor de HVAC data: er zijn dropdowns, checkboxes en hoveren over een lijn vervaagt de anderen. De fixed-prox data is geaggregeerd per uur, omdat de prox sensoren niet na een vast aantal minuten een meting loggen, zoals de HVAC sensoren dat wel doen. De prox sensoren loggen namelijk meteen een meting als deze een prox card detecteren maar dat gebeurt niet na een vast aantal minuten. Voor uren waarin geen prox card gedetecteerd is, wordt de waarde 0 toegekend, zodat de linegraphs niet interpoleren over uren waar er niks is gelogd.
 
 ### Prox data - Heatmap
+De prox data heeft ook een bijbehorende heatmap. Voor de fixed prox data worden de zones ingekleurd aan de hand van het aantal detecties die er waren in een uur in die zone. Voor de mobile prox data worden paarse stipjes getekend in de heatmap, omdat de mobile prox data niet de zone meegeeft, maar de exacte x- en y-coordinaten, zodat mensen precies geplaatst kunnen worden.
 
 ### Prox data - Parallel coordinates & Tabel heatmap
 
