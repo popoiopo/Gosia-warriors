@@ -51,59 +51,59 @@ MC2 Challenge
 * Morgen visualisatie verder uitbreiden met data per zone. Aparte visualisaties voor elke verdieping. Lijn voor totaal aantal prox metingen van alle verdiepingen verwijderen uit eerdere visualisatie en drie nieuwe visualisaties maken met specificaties per verdieping
 * Uiteindelijk kijken of robot data (mobiele prox sensor) nog kan worden toegevoegd.
 
-# day 7 (08-06-2016)
+# day 8 (08-06-2016)
 * Datascript aangepast zodat onderscheid wordt gemaakt tussen de verschillende verdiepingen om visualisatie per verdieping mogelijk te maken.
 * Drie visualisaties per verdieping gemaakt. Aan elke visualisatie een brush toegevoegd om in te kunnen zoomen op een bepaald uur. 
 * Knoppen geïmplementeerd voor switchen tussen verdiepingen.
 
-# day 8 (09-06-2016)
+# day 9 (09-06-2016)
 * Aan elke visualisatie van prox data checkboxes toegevoegd om de verschillende lijnen in de visualisatie te kunnen doen laten verdwijnen. Uiteindelijk ook implementeren dat hoveren over lijn zorgt voor het naar de achtergrond treden van de andere lijnen.
 * Kleine css veranderingen aan visualisatie, eindproduct van deze visualisatie vormen
 * Begonnen met script schrijven om data per persoon (op het niveau van het individu) op juiste wijze in te kunnen laden. 
 
-# day 9 (10-06-2016)
+# day 10 (10-06-2016)
 * presentaties
 
-# day 10 (13-06-2016)
+# day 11 (13-06-2016)
 * Data script voor parallel coordinates afgeschreven. Data genest zodat deze per persoon kan worden opgeroepen. Hierbij ook proxid's gekoppeld aan daadwerkelijke namen personeel. Gebleken dat aantal personeelsleden niet aanwezig zijn in de prox data (vaste sensoren). Nog controleren of deze wel voorkomen in mobiele prox data.
 * Overleg met Gosia en team
 * Nagedacht over representatie individuele data. Welke variabele kunnen gebruikt worden bij analyseren data. Aantal metingen per dag per persoon? Of wellicht gemeten locatie? 
 
-# day 11 (14-06-2016)
+# day 12 (14-06-2016)
 * Datascript voor parallel coordinates herschreven om de data anders te nesten en zo geschikter te maken voor het maken van de parallel coordinates.
 * Eerste versie parallel coordinates gemaakt voor alle data op alle verdiepingen.
 
-# day 12 (15-06-2016)
+# day 13 (15-06-2016)
 * Datascript parallel coordinates aangepast om data per verdieping te verkrijgen.
 * Parallelcoordinates visualisatie onderverdeeld per verdieping.
 * Knoppen toegevoegd om tussen verdiepingen te springen.
 * Begonnen met interactief maken parallel coordinates visualisatie. Mogelijkheid tot brushen van een schaal en verschuiven van schalen initieel al geimplementeerd. Groter en rood worden van lijnen wanneer daar overheen gehoverd wordt toegevoegd.
 * Nieuw idee (in samenwerking met Gosia): Om nog dieper in de data te kunnen duiken moet de mogelijkheid gecreeerd worden te kunnen klikken op een lijn in parallel coordinates waarna een heatmap zal verschijnen waarin gevisualiseerd wordt hoe vaak de specifieke proxcard gekoppeld aan de lijn is gemeten in alle verschillende zones van de al gespecificeerde verdieping. Men kan dan dus traceren waar iemand op elke dag precies is geweest.
 
-# day 13 (16-06-2016)
+# day 14 (16-06-2016)
 * Verder onderzoek naar heatmap
 * Veel problemen tegengekomen bij het omschrijven van het datascript om ervoor te zorgen dat data geschikt is voor heatmap.
 
-# day 14 (17-06-2016)
+# day 15 (17-06-2016)
 * presentaties
 
-# day 15 (20-06-2016)
+# day 16 (20-06-2016)
 * Overleg team
 * Datascript afgeschreven voor heatmap.
 * Eerste simpele versie heatmap geimplementeerd. Assen ontbreken, legenda ontbreekt, toegevoegde <rect>'s nog niet gekleurd naar data en nog niet juist gepositioneerd.
 
-# day 16 (21-06-2016)
+# day 17 (21-06-2016)
 * Heatmap verbeterd; op juiste positie geplaatst en <rect>'s gekleurd op basis van data.
 * Textbox toegevoegd waarin wordt weergegeven bij welke proxid en verdieping de weergegeven heatmap hoort en het gemiddeld aantal detecties per dag van de gespecificeerde proxcard.
 * Juiste as-titels toegevoegd aan parallel coordinates.
 
-# day 17 (22-06-2016)
+# day 18 (22-06-2016)
 * Legenda toegevoegd aan heatmap. Na veel gedoe (en hulp Leslie) titels aan 'y-as' heatmap kunnen toevoegen.
 * Heatmap en textbox juist gepositioneerd ten opzichte van parallel coordinates.
 * Geimplementeerd dat een geselecteerde lijn rood bljft wanneer deze is aangeklikt en de gehoverde lijn ook nog steeds rood wordt.
 * Knopfunctionaliteit verbeterd, bij het drukken van een knop verdwijnen de heatmap en textbox en wordt de parallel coordinates 'gereset', ook wanneer op de knop van dezelfde verdieping wordt gedrukt. 
 
-# day 18 (23-06-2016)
+# day 19 (23-06-2016)
 * Visualisaties samengevoegd op één pagina.
 * Laatste kleine css veranderingen aan visualisatie, zoals toevoegen border aan textbox en de text hiervan juist plaatsen.
 * Eindversie verslag geschreven door door kladversie te lopen en deze te verbeteren en herschrijven waar nodig. 
