@@ -1,4 +1,4 @@
-# Mini Challenge 2
+# Mini Challenge 2 - Gosia's warriors, the trilogy
 ## voor de VACommunity
 ### Bas Châtel, Leslie Dao, Wessel de Jong
 
@@ -20,5 +20,5 @@ Libraries: [D3js](https://d3js.org), [jQuery](https://jquery.com), [D3 Queue](ht
      style="border-style: none;" alt="Public Domain Mark" />
 </a>
 <br />
-This work (<span property="dct:title">[WORK NAME]</span>, by <a href="[GITHUB REPO]" rel="dct:creator"><span property="dct:title">[AUTHOR NAME]</span></a>), identified by <a href="[INDIVIDUAL URL]" rel="dct:publisher"><span property="dct:title">[INDIVIDUAL NAME]</span></a>, is free of known copyright restrictions.
+This work (<span property="dct:title">Gosia's warriors, the trilogy</span>, by <a href="https://github.com/popoiopo/Gosia-warriors/" rel="dct:creator"><span property="dct:title">Bas Châtel, Leslie Dao, Wessel de Jong</span></a>), identified by <span property="dct:title">Gosia Migut</span>, is free of known copyright restrictions.
 </p>
