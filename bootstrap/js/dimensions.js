@@ -17,9 +17,9 @@ $(".floor-button").click(function() {
     $("#wewantyou").css("display", "none");
     // Geef aan welke knop is aangeklikt
     $(".floor-button").not(this).each(function() {
-        $(this).css("background-color", "blue");
+        $(this).css("background-color", "#779ECB");
     });
-    $(this).css("background-color", "red");
+    $(this).css("background-color", "#C23B22");
 
     $(".floor-graphs-div").css("display", "none");
     $("#floor-graphs-" + this.value).css("display", "");

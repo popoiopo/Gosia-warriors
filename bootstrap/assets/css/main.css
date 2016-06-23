@@ -2595,3 +2595,8 @@
 	#graph_graph {
 		text-align: justify;
 	}
+
+    .floor-button,
+    .heatmap-button {
+        background-color: #779ECB;
+    }

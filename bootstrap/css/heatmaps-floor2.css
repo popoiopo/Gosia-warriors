@@ -16,7 +16,7 @@
 }
 
 .heatmap-button {
-    background-color: blue;
+    background-color: #779ECB;
     border: none;
     color: white;
     padding: 5px 20px;
@@ -24,11 +24,11 @@
 }
 
 #button-heatmaps {
-    background-color: red;
+    background-color: #C23B22;
 }
 
 #floor-button-floor-2 {
-    background-color: red;
+    background-color: #C23B22;
 }
 
 .vis {
