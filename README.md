@@ -1,6 +1,6 @@
 # Mini Challenge 2
 ## voor de VACommunity
-### Auteurs
+### Bas Châtel, Leslie Dao, Wessel de Jong
 
 ## Achtergrond & Doel
 Het doel van deze visualisatie is om patronen en gekkigheden te herkennen in de data en daar verbanden tussen te leggen. Voor dit project is data gebruikt die beschikbaar is gesteld door de [VACommunity](http://vacommunity.org/2016+VAST+Challenge%3A+MC2). Deze data is fictief. Het betreft het bedrijf GAStech, wat verhuisd is naar een nieuw gebouw. Het bedrijf heeft sensoren geplaatst om HVAC te meten. Het bedrijft vermoedt ook dat de gevaarlijke stof Hazium in het gebouw hangt. Om de concentraties daarvan te meten heeft het gebouw sensoren geplaatst in vier zones. Om het gedrag van zijn werknemers te bekijken, zijn alle werknemers verplicht om prox cards bij zich te dragen. Met behulp van prox sensoren, zowel vaste als een mobiele, kan bijgehouden worden wanneer werknemers van de ene zone naar de andere zone gaan. Echter zijn niet alle werknemers even voorzichtig met hun prox cards: als zij deze zijn vergeten kunnen ze hem weer bij de security desk ophalen.  
