@@ -8,12 +8,8 @@ $(".button").click(function() {
     window.location = this.value;
 });
 
-$(".heatmap-button").click(function() {
-    window.location = $(this).attr("page");
-});
-
 // Maak eerst alle divs onzichtbaar, want
-$(".wrapper").css("display", "none");
+$(".floor-graphs-div").css("display", "none");
 
 // maak ze alleen zichtbaar bij een druk op een van de floor knoppen
 $(".floor-button").click(function() {
@@ -23,12 +19,8 @@ $(".floor-button").click(function() {
     });
     $(this).css("background-color", "red");
 
-    $(".wrapper").css("display", "none");
-    $("#wrapper-" + this.value).css("display", "");
-
-    if ($("#floor-graphs-" + this.value + "-focus").contents().length === 0) {
-        $("#floor-graphs-" + this.value + " div:first-child").appendTo("#floor-graphs-" + this.value + "-focus");
-    }
+    $(".floor-graphs-div").css("display", "none");
+    $("#floor-graphs-" + this.value).css("display", "");
 
     // Houd bij in een onzichtbare paragraph welke verdieping geshowd wordt
     $("#current-visible-floor").html($(this).attr("number"));

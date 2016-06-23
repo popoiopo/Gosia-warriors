@@ -44,7 +44,7 @@ var dataFloors = [1, 2, 3];
 	var floor_3_data = [floor_3_zone_1, floor_3_zone_2, floor_3_zone_3, floor_3_zone_4, floor_3_zone_5, floor_3_zone_6, floor_3_zone_ServerRoom];
 
 	// Fixed prox data inladen
-	d3.csv("json/proxOut-MC2.csv", function(error, csv) {
+	d3.csv("json/parallel-proxOut-MC2.csv", function(error, csv) {
 	  	if (error) throw error;
 
 	  	// Maak voor elke verdieping een aparte dataset
