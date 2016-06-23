@@ -31,36 +31,6 @@ body {
     background-color: red;
 }
 
-.wrapper {
-    overflow: scroll;
-    min-width: 1700px;
-    max-height: 900px;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: flex-start;
-
-}
-
-.wrapper-content {
-    display: inline-block;
-    float: left;
-    text-align: center !important;
-    margin: auto 5px;
-    vertical-align: top;
-}
-
-.wrapper-focus {
-    flex: 3;
-}
-
-.wrapper-minis {
-    -webkit-transform: scale(0.4);
-    transform: scale(0.4);
-    flex: 1 1 0;
-    margin-right: 5%;
-    text-align: center;
-}
-
 .vis {
     text-align: center;
     min-width: 1100px;
