@@ -17,6 +17,8 @@ $(".wrapper").css("display", "none");
 
 // maak ze alleen zichtbaar bij een druk op een van de floor knoppen
 $(".floor-button").click(function() {
+    $("#wewantyou").css("display", "none");
+
     // Geef aan welke knop is aangeklikt
     $(".floor-button").not(this).each(function() {
         $(this).css("background-color", "blue");
@@ -319,4 +321,5 @@ function bindProxEvents() {
 
 function hideLoadingIcon() {
     d3.select("#loading-icon").style("display", "none");
+    d3.select("#wewantyou").style("display", "")
 }

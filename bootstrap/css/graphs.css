@@ -33,7 +33,7 @@ body {
 
 .wrapper {
     overflow: scroll;
-    min-width: 1700px;
+    min-width: 1000px;
     max-height: 900px;
     display: -webkit-flex;
     display: flex;

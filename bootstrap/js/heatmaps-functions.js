@@ -52,7 +52,7 @@ function drawlegendHVAC(paletteScale) {
 
     svg.append("g")
         .attr("class", "legendLinear")
-        .attr("transform", "translate(700,100)");
+        .attr("transform", "translate(800,200)");
 
     var legendLinear = d3.legend.color()
         .shapeWidth(30)
@@ -145,40 +145,7 @@ function updateMap(chosen_var, timestamp) {
 
     drawlegendHVAC(paletteScale);
 }
-/*
-function placePerson1(data, timestamp) {
-    //canvas info
-    var floor_width = parseInt(d3.select("#canvas").attr("width"));
-    var floor_height = parseInt(d3.select("#canvas").attr("height"));
-    var floor_x = parseInt(d3.select("#canvas").attr("x"));
-    var floor_y = parseInt(d3.select("#canvas").attr("y"));
-    var floor_max_x = 189;
-    var floor_max_y = 111;
 
-    removePersons();
-    timestamp.setMilliseconds(0);
-    timestamp.setSeconds(0);
-    timestamp.setMinutes(0);
-    for (var i = data.length - 1; i >= 0; i--) {
-        data_timestamp = new Date(data[i]["timestamp"]);
-        data_timestamp.setMilliseconds(0);
-        data_timestamp.setSeconds(0);
-        data_timestamp.setMinutes(0);
-        if (data_timestamp.getTime() === timestamp.getTime()) {
-            person_x = parseInt(data[i]["x"]);
-            person_y = parseInt(data[i]["y"]);
-            person_canvas_loc_x = floor_x + ((floor_width / floor_max_x) * person_x);
-            person_canvas_loc_y = (floor_y + floor_height) - ((floor_height / floor_max_y) * person_y);
-            d3.select("#Layer_1").append("circle")
-                .attr("class", "person")
-                .attr("cx", person_canvas_loc_x)
-                .attr("cy", person_canvas_loc_y)
-                .attr("r", 5)
-                .style("fill", "purple")
-        };
-    };
-}
-*/
 function placePerson(data, timestamp) {
     //canvas info
     var floor_width = parseInt(d3.select("#canvas_1_").attr("width"));
@@ -206,7 +173,7 @@ function placePerson(data, timestamp) {
                 .attr("class", "person")
                 .attr("cx", person_canvas_loc_x)
                 .attr("cy", person_canvas_loc_y)
-                .attr("r", 5)
+                .attr("r", 3)
                 .style("fill", "purple")
         };
     };
