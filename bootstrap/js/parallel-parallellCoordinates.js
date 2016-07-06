@@ -351,7 +351,14 @@ function heatmapper(data, floor) {
 		.style("fill", colors[0]);
 
 	cards.transition().duration(1000)
-		.style("fill", function(d) { return colorScale(d.value); })
+		.style("fill", function(d) { 
+				if (d.value == 0){
+					return '#ffffff'
+				}
+				else {
+					return colorScale(d.value); 
+				}
+			});
 
 	cards.select("title").text(function(d) { return d.value; });
 
@@ -372,7 +379,7 @@ function heatmapper(data, floor) {
 
 	legend.append("text")
 		.attr("class", "mono")
-		.text(function(d) { return "≥ " + Math.round(d); })
+		.text(function(d) { return "> " + Math.round(d); })
 		.attr("x", function(d, i) { return (legendElementWidth + 13) * i + 110; })
 		.attr("y", height_heat - 10);
 
